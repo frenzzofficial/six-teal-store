@@ -1,0 +1,516 @@
+{
+  "version": "1.2",
+  "lastUpdated": "21-08-2025",
+  "productsList": [
+    {
+      "uid": 1,
+      "Category": ["men", "apparel"],
+      "isTrending": true,
+      "productName": "Classic White Shirt",
+      "description": "Premium cotton, slim fit, perfect for office or casual wear.",
+      "currentPrice": 29.99,
+      "sellerPrice": 40.0,
+      "currentRating": 3.5,
+      "totalRating": 5,
+      "totalReview": 50,
+      "availableQuantity": 0,
+      "color": "gray",
+      "images": [
+        {
+          "uid": 1,
+          "src": "/images/productImagesFromAI/Classic-White-Shirt01.jpg",
+          "alt": ""
+        }
+      ],
+      "details": {
+        "sizes": ["S", "M", "L", "XL"],
+        "colors": ["White"],
+        "material": "100% Cotton",
+        "features": []
+      }
+    },
+    {
+      "uid": 2,
+      "Category": ["men", "apparel"],
+      "isTrending": false,
+      "productName": "Blue Denim Jeans",
+      "description": "Stretchable, regular fit, durable denim for everyday use.",
+      "currentPrice": 49.99,
+      "sellerPrice": 40.0,
+      "currentRating": 4.7,
+      "totalRating": 5,
+      "totalReview": 50,
+      "availableQuantity": 20,
+      "color": "white",
+      "images": [
+        {
+          "uid": 1,
+          "src": "/images/productImagesFromAI/Blue-Denim-Jeans01.jpg",
+          "alt": ""
+        }
+      ],
+      "details": {
+        "sizes": ["30", "32", "34", "36"],
+        "colors": ["Blue"],
+        "material": "Denim",
+        "features": []
+      }
+    },
+    {
+      "uid": 3,
+      "Category": ["women", "apparel"],
+      "isTrending": true,
+      "productName": "Floral Summer Dress",
+      "description": "Lightweight, breathable fabric, perfect for summer outings.",
+      "currentPrice": 39.99,
+      "sellerPrice": 50,
+      "currentRating": 2.8,
+      "totalRating": 5,
+      "totalReview": 50,
+      "availableQuantity": 16,
+      "color": "pink",
+      "images": [
+        {
+          "uid": 1,
+          "src": "/images/productImagesFromAI/Floral-Summer-Dress01.jpg",
+          "alt": ""
+        }
+      ],
+      "details": {
+        "sizes": ["XS", "S", "M", "L"],
+        "colors": ["Pink", "Yellow"],
+        "material": "Rayon",
+        "features": []
+      }
+    },
+    {
+      "uid": 4,
+      "Category": ["women", "apparel"],
+      "isTrending": false,
+      "productName": "Black Leggings",
+      "description": "High-waisted, stretchable, suitable for gym and casual wear.",
+      "currentPrice": 19.99,
+      "sellerPrice": 50,
+      "currentRating": 3.5,
+      "totalRating": 5,
+      "totalReview": 50,
+      "availableQuantity": 14,
+      "color": "gray",
+      "images": [
+        {
+          "uid": 1,
+          "src": "/images/productImagesFromAI/Black-Leggings01.jpg",
+          "alt": "Black Leggings"
+        }
+      ],
+      "details": {
+        "sizes": ["S", "M", "L", "XL"],
+        "colors": ["Black"],
+        "material": ["Polyester, Spandex"]
+      }
+    },
+    {
+      "uid": 5,
+      "Category": ["kids", "apparel"],
+      "isTrending": false,
+      "productName": "Boys' Graphic T-Shirt",
+      "description": "Fun prints, soft cotton, available in multiple colors.",
+      "currentPrice": 14.99,
+      "sellerPrice": 100,
+      "currentRating": 4.3,
+      "totalRating": 5,
+      "totalReview": 50,
+      "color": "cyan",
+      "images": [
+        {
+          "uid": 1,
+          "src": "/images/productImagesFromAI/Boys-Graphic-TShirt01.jpg",
+          "alt": "Boys' Graphic T-Shirt"
+        }
+      ],
+      "details": {
+        "sizes": ["2-3Y", "4-5Y", "6-7Y"],
+        "colors": ["Red", "Blue", "Green"],
+        "material": ["Cotton"],
+        "features": []
+      }
+    },
+    {
+      "uid": 6,
+      "Category": ["kids", "apparel"],
+      "isTrending": false,
+      "productName": "Girls' Denim Skirt",
+      "description": "Trendy, comfortable, easy to pair with any top.",
+      "currentPrice": 17.99,
+      "sellerPrice": 50,
+      "currentRating": 4.4,
+      "totalRating": 5,
+      "totalReview": 50,
+      "availableQuantity": 4,
+      "color": "white",
+      "images": [
+        {
+          "uid": 1,
+          "src": "/images/productImagesFromAI/Girls-Denim-Skirt01.jpg",
+          "alt": "Girls' Denim Skirt"
+        }
+      ],
+      "details": {
+        "sizes": ["2-3Y", "4-5Y", "6-7Y"],
+        "colors": ["Red", "Blue", "Green"],
+        "material": ["Cotton"],
+        "features": []
+      }
+    },
+    {
+      "uid": 7,
+      "Category": ["men", "apparel"],
+      "isTrending": false,
+      "productName": "Slim Fit T-Shirt",
+      "description": "Soft cotton fabric, ideal for casual wear and layering.",
+      "currentPrice": 12.99,
+      "sellerPrice": 50,
+      "currentRating": 4.2,
+      "totalRating": 5,
+      "totalReview": 50,
+      "availableQuantity": 8,
+      "color": "gray",
+      "images": [
+        {
+          "uid": 1,
+          "src": "/images/productImagesFromAI/Slim-Fit-TShirt01.jpg",
+          "alt": "Slim Fit T-Shirt"
+        }
+      ],
+      "details": {
+        "sizes": ["S", "M", "L", "XL", "XXL"],
+        "colors": ["Black", "White", "Gray", "Navy"],
+        "material": ["Cotton"],
+        "features": []
+      }
+    },
+    {
+      "uid": 8,
+      "Category": ["women", "apparel"],
+      "isTrending": false,
+      "productName": "Casual Maxi Dress",
+      "description": "Flowy and elegant, perfect for summer outings and evening wear.",
+      "currentPrice": 29.99,
+      "sellerPrice": 50,
+      "currentRating": 4.7,
+      "totalRating": 5,
+      "totalReview": 50,
+      "color": "brown",
+      "images": [
+        {
+          "uid": 1,
+          "src": "/images/productImagesFromAI/Casual-Maxi-Dress01.jpg",
+          "alt": "Casual Maxi Dress"
+        }
+      ],
+      "details": {
+        "sizes": ["XS", "S", "M", "L", "XL"],
+        "colors": ["Red", "Blue", "Green", "Black", "Purple"],
+        "material": ["Polyester"],
+        "features": []
+      }
+    },
+    {
+      "uid": 9,
+      "Category": ["kids", "apparel"],
+      "isTrending": false,
+      "productName": "Graphic Hoodie",
+      "description": "Comfortable hoodie with fun prints, suitable for all seasons.",
+      "currentPrice": 19.99,
+      "sellerPrice": 50,
+      "currentRating": 4.5,
+      "totalRating": 5,
+      "totalReview": 50,
+      "availableQuantity": 10,
+      "color": "gray",
+      "images": [
+        {
+          "uid": 1,
+          "src": "/images/productImagesFromAI/Graphic-Hoodie01.jpg",
+          "alt": "Graphic Hoodie"
+        }
+      ],
+      "details": {
+        "sizes": ["2-3Y", "4-5Y", "6-7Y", "8-9Y", "10-12Y"],
+        "colors": ["Yellow", "Blue", "Pink", "Green"],
+        "material": ["Fleece"],
+        "features": []
+      }
+    },
+    {
+      "uid": 10,
+      "Category": ["accessories"],
+      "isTrending": false,
+      "productName": "Leather Wallet",
+      "description": "Compact and stylish wallet with multiple compartments and RFID protection.",
+      "currentPrice": 15.99,
+      "sellerPrice": 30,
+      "currentRating": 4.3,
+      "totalRating": 5,
+      "totalReview": 50,
+      "color": "brown",
+      "images": [
+        {
+          "uid": 1,
+          "src": "/images/productImagesFromAI/Leather-Wallet01.jpg",
+          "alt": "Leather Wallet"
+        }
+      ],
+      "details": {
+        "sizes": ["Standard"],
+        "colors": ["Brown", "Black", "Tan", "Dark Green"],
+        "material": ["Genuine Leather"],
+        "features": []
+      }
+    },
+    {
+      "uid": 11,
+      "Category": ["footwear"],
+      "isTrending": true,
+      "productName": "Running Shoes",
+      "description": "Lightweight and breathable sports shoes with high grip soles.",
+      "currentPrice": 49.99,
+      "sellerPrice": 100,
+      "currentRating": 4.6,
+      "totalRating": 5,
+      "totalReview": 50,
+      "color": "white",
+      "images": [
+        {
+          "uid": 1,
+          "src": "/images/productImagesFromAI/Running-Shoes01.jpg",
+          "alt": "Running Shoes"
+        }
+      ],
+      "details": {
+        "sizes": ["6", "7", "8", "9", "10", "11"],
+        "colors": ["White", "Black", "Gray", "Blue"],
+        "material": ["Mesh and Synthetic"],
+        "features": []
+      }
+    },
+    {
+      "uid": 12,
+      "Category": ["home & kitchen"],
+      "isTrending": false,
+      "productName": "Non-Stick Frying Pan",
+      "description": "Durable and heat-resistant frying pan with an ergonomic handle.",
+      "currentPrice": 24.99,
+      "sellerPrice": 50,
+      "currentRating": 4.5,
+      "totalRating": 5,
+      "totalReview": 50,
+      "color": "gray",
+      "images": [
+        {
+          "uid": 1,
+          "src": "/images/productImagesFromAI/Non-Stick-Frying-Pan01.jpg",
+          "alt": "Non-Stick Frying Pan"
+        }
+      ],
+      "details": {
+        "sizes": ["8-inch", "10-inch", "12-inch"],
+        "colors": ["Black", "Gray"],
+        "material": ["Aluminum with Non-Stick Coating"],
+        "features": []
+      }
+    },
+    {
+      "uid": 13,
+      "Category": ["electronics"],
+      "isTrending": false,
+      "productName": "Wireless Bluetooth Earbuds",
+      "description": "Noise-cancelling earbuds with long battery life and deep bass.",
+      "currentPrice": 59.99,
+      "sellerPrice": 80,
+      "currentRating": 4.8,
+      "totalRating": 5,
+      "totalReview": 50,
+      "color": "gray",
+      "images": [
+        {
+          "uid": 1,
+          "src": "/images/productImagesFromAI/Wireless-Bluetooth-Earbuds01.jpg",
+          "alt": "Wireless Bluetooth Earbuds"
+        }
+      ],
+      "details": {
+        "colors": ["Black", "White", "Blue"],
+        "battery_life": "Up to 24 hours",
+        "connectivity": ["Bluetooth 5.1"],
+        "features": []
+      }
+    },
+    {
+      "uid": 14,
+      "Category": ["beauty & personal care"],
+      "isTrending": true,
+      "productName": "Vitamin C Face Serum",
+      "description": "Hydrating and brightening serum with natural extracts.",
+      "currentPrice": 19.99,
+      "sellerPrice": 30,
+      "currentRating": 4.6,
+      "totalRating": 5,
+      "totalReview": 50,
+      "color": "pink",
+      "images": [
+        {
+          "uid": 1,
+          "src": "/images/productImagesFromAI/Vitamin-CFace-Serum01.jpg",
+          "alt": "Vitamin C Face Serum"
+        }
+      ],
+      "details": {
+        "sizes": ["30ml", "50ml"],
+        "ingredients": ["Vitamin C", "Hyaluronic Acid", "Green Tea Extract"],
+        "skin_type": ["All skin types"],
+        "features": []
+      }
+    },
+    {
+      "uid": 15,
+      "Category": ["books"],
+      "isTrending": false,
+      "productName": "Fantasy Adventure Novel",
+      "description": "An epic story filled with magic, mythical creatures, and heroic journeys.",
+      "currentPrice": 14.99,
+      "sellerPrice": 20,
+      "currentRating": 4.7,
+      "totalRating": 5,
+      "totalReview": 50,
+      "color": "white",
+      "images": [
+        {
+          "uid": 1,
+          "src": "/images/productImagesFromAI/Fantasy-Adventure-Novel01.jpg",
+          "alt": "Fantasy Adventure Novel"
+        }
+      ],
+      "details": {
+        "formats": ["Paperback", "Hardcover", "Kindle"],
+        "pages": 350,
+        "author": ["John Doe"]
+      }
+    },
+    {
+      "uid": 16,
+      "Category": ["sports & outdoors", "wellness"],
+      "isTrending": true,
+      "productName": "Adjustable Dumbbell Set",
+      "description": "Space-saving and adjustable weights for home workouts.",
+      "currentPrice": 79.99,
+      "sellerPrice": 90,
+      "currentRating": 4.5,
+      "totalRating": 5,
+      "totalReview": 50,
+      "availableQuantity": 12,
+      "color": "gray",
+      "images": [
+        {
+          "uid": 1,
+          "src": "/images/productImagesFromAI/Adjustable-Dumbbell-Set01.jpg",
+          "alt": "Adjustable Dumbbell Set"
+        }
+      ]
+    },
+    {
+      "uid": 17,
+      "Category": ["books"],
+      "isTrending": true,
+      "productName": "AI Programming Guide",
+      "description": "Unlock the future with AI! This exciting book is your guide to understanding the world of Artificial Intelligence, from how it works to how it's shaping our lives. Learn the basics of AI programming, explore fun hands-on projects, and discover how AI is changing everything from games to how we learn. Get ready to build the future, one line of code at a time!",
+      "currentPrice": 79.99,
+      "sellerPrice": 300,
+      "currentRating": 3.5,
+      "totalRating": 5,
+      "totalReview": 100,
+      "availableQuantity": 12,
+      "color": "white",
+      "images": [
+        {
+          "uid": 1,
+          "src": "/images/productImagesFromAI/AI-Programming-Guide01.jpg",
+          "alt": "AI Programming Guide"
+        }
+      ],
+      "details": {
+        "formats": ["Paperback", "Hardcover", "Kindle"],
+        "pages": 40,
+        "author": ["John Doe"]
+      }
+    },
+    {
+      "uid": 18,
+      "Category": ["electronics"],
+      "isTrending": true,
+      "productName": "Wireless Gaming Headset",
+      "description": "High fidelity audio and spatial sound reproduction enhance the gaming experience. Lightweight designs and comfortable earcups Blocks out distracting background noise.",
+      "currentPrice": 29,
+      "sellerPrice": 50,
+      "currentRating": 3.8,
+      "totalRating": 5,
+      "totalReview": 120,
+      "availableQuantity": 5,
+      "color": "gray",
+      "images": [
+        {
+          "uid": 1,
+          "src": "/images/productImagesFromAI/Wireless-Gaming-Headset01.jpg",
+          "alt": "Wireless Gaming Headset"
+        }
+      ]
+    },
+    {
+      "uid": 19,
+      "Category": ["electronics"],
+      "isTrending": true,
+      "productName": "Smart Watch Pro",
+      "description": "Health and Fitness Tracking: Monitor your heart rate, track your workouts, assess your sleep patterns, and more, empowering you to live a healthier lifestyle. Receive calls, texts, and notifications directly on your wrist, keeping you in touch without constantly checking your phone.",
+      "currentPrice": 100,
+      "sellerPrice": 110,
+      "currentRating": 3.2,
+      "totalRating": 5,
+      "totalReview": 27,
+      "availableQuantity": 5,
+      "color": "gray",
+      "images": [
+        {
+          "uid": 1,
+          "src": "/images/productImagesFromAI/Smart-Watch-Pro01.jpg",
+          "alt": "Smart Watch Pro"
+        }
+      ]
+    },
+    {
+      "uid": 20,
+      "Category": ["books"],
+      "isTrending": false,
+      "productName": "Web Development",
+      "description": "Learn the building blocks of web pages, creating structure and style. Add dynamic behavior and interactivity to your websites. Build real-world websites and applications with step-by-step guidance. Explore responsive design techniques and best practices.",
+      "currentPrice": 20,
+      "sellerPrice": 20,
+      "currentRating": 3.5,
+      "totalRating": 5,
+      "totalReview": 100,
+      "availableQuantity": 50,
+      "color": "white",
+      "images": [
+        {
+          "uid": 1,
+          "src": "/images/productImagesFromAI/Web-Development01.jpg",
+          "alt": "Web Development"
+        }
+      ],
+      "details": {
+        "formats": ["Paperback", "Hardcover", "Kindle"],
+        "pages": 200,
+        "author": ["John Doe"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "layout": {
+    "header": {
+      "logo": {
+        "id": "logo",
+        "src": "/logo.png",
+        "alt": "Logo",
+        "href": "/"
+      },
+      "navLinks": [
+        {
+          "id": "nav-home",
+          "label": "Home",
+          "href": "/",
+          "icon": "House"
+        },
+        {
+          "id": "nav-services",
+          "label": "Services",
+          "href": "#services",
+          "icon": "Package",
+          "subLinks": [
+            {
+              "id": "sub-web-dev",
+              "label": "Web Development",
+              "href": "/web-development",
+              "icon": "Code"
+            },
+            {
+              "id": "sub-game-dev",
+              "label": "Game Development",
+              "href": "/game-development",
+              "icon": "Gamepad"
+            },
+            {
+              "id": "sub-content-writing",
+              "label": "Content Writing",
+              "href": "/content-writing",
+              "icon": "FileText"
+            }
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "messages": {
+        "heading": "Sixteal",
+        "subscribe": "Subscribe to get special offers and updates",
+        "description": "Your futuristic shopping destination for the latest in tech, fashion, and knowledge.",
+        "copyright": "Copyright © 2025 Sixteal.inc All Rights Reserved."
+      },
+
+      "logo": {
+        "id": "footer-logo",
+        "src": "",
+        "alt": "Footer Logo"
+      },
+      "sections": ["quickLinks", "Services", "Stay Updated"],
+
+      "quickLinks": [
+        {
+          "id": "quickLinks-apparel",
+          "label": "apparel",
+          "href": "/apparel",
+          "icon": "Bag"
+        },
+        {
+          "id": "quickLinks-accessories",
+          "label": "accessories",
+          "href": "/accessories",
+          "icon": "Bag"
+        },
+        {
+          "id": "quickLinks-home",
+          "label": "fragrance",
+          "href": "/fragrance",
+          "icon": "Egg"
+        }
+      ],
+      "serviceLinks": [
+        {
+          "id": "serviceLinks-Contact-Us",
+          "label": "Contact Us",
+          "href": "/contactus",
+          "icon": "Mail"
+        },
+        {
+          "id": "serviceLinks-Reviews",
+          "label": "Reviews",
+          "href": "/reviews",
+          "icon": "ArrowLeftRight"
+        }
+      ],
+      "socialLinks": [
+        {
+          "id": "socialLinks-Facebook",
+          "label": "Facebook",
+          "href": "/",
+          "icon": "Facebook"
+        },
+        {
+          "id": "socialLinks-Instagram",
+          "label": "Instagram",
+          "href": "/",
+          "icon": "Instagram"
+        },
+        {
+          "id": "socialLinks-Twitter",
+          "label": "Twitter",
+          "href": "/",
+          "icon": "Twitter"
+        }
+      ],
+      "featureLinks": [
+        {
+          "id": "features-privacy",
+          "label": "Privacy Policy",
+          "href": "/privacy",
+          "icon": "Lock"
+        },
+        {
+          "id": "features-terms",
+          "label": "Terms of Service",
+          "href": "/terms",
+          "icon": "Package"
+        },
+        {
+          "id": "features-cookie",
+          "label": "Cookie Policy",
+          "href": "/cookie",
+          "icon": "Cookie"
+        }
+      ]
+    }
+  }
+}

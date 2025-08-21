@@ -1,0 +1,38 @@
+{
+  "name": "six-teal-store",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
+    "start": "next start",
+    "lint": "eslint",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,md}\""
+  },
+  "dependencies": {
+    "@gsap/react": "^2.1.2",
+    "@reduxjs/toolkit": "^2.8.2",
+    "clsx": "^2.1.1",
+    "gsap": "^3.13.0",
+    "lucide-react": "^0.540.0",
+    "next": "15.5.0",
+    "next-themes": "^0.4.6",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-redux": "^9.2.0",
+    "swiper": "^11.2.10",
+    "zod": "^4.0.17"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.0",
+    "prettier": "^3.6.2",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
