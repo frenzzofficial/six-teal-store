@@ -8,6 +8,7 @@ import Footer from "../layouts/Footer";
 import FontsProvider from "./FontsProvider";
 import StoreProvider from "./StoreProvider";
 import ThemesProvider from "./ThemesProvider";
+import { Toaster } from "../ui/shadcn/sonner";
 import { HamburgerMenuProvider } from "./HamburgerProvider";
 import { useBreakpoint } from "@/libs/hooks/use-breakpoints";
 import Animate_header from "../ui/animations/Animate_header";
@@ -57,6 +58,7 @@ const LayoutProvider = ({
                 {children}
               </HamburgerMenuProvider>
             </main>
+            <Toaster />
           </StoreProvider>
           <Animate_header refObject={headerRef} />
           {footerActive && footer && <Footer footerConfig={footer} />}
