@@ -1,3 +1,4 @@
+import { ImageProps } from "./app";
 export interface ProductDetails {
   uid: number;
   Category: Array<productCategories>;

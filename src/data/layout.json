@@ -15,30 +15,36 @@
           "icon": "House"
         },
         {
-          "id": "nav-services",
-          "label": "Services",
-          "href": "#services",
+          "id": "nav-Customization",
+          "label": "Explore",
+          "href": "#",
           "icon": "Package",
           "subLinks": [
             {
-              "id": "sub-web-dev",
-              "label": "Web Development",
-              "href": "/web-development",
-              "icon": "Code"
+              "id": "sub-apparel",
+              "label": "apparel",
+              "href": "/apparel",
+              "icon": "Bag"
             },
             {
-              "id": "sub-game-dev",
-              "label": "Game Development",
-              "href": "/game-development",
-              "icon": "Gamepad"
+              "id": "sub-accessories",
+              "label": "accessories",
+              "href": "/accessories",
+              "icon": "Bag"
             },
             {
-              "id": "sub-content-writing",
-              "label": "Content Writing",
-              "href": "/content-writing",
-              "icon": "FileText"
+              "id": "sub-fragrance",
+              "label": "fragrance",
+              "href": "/fragrance",
+              "icon": "Bag"
             }
           ]
+        },
+        {
+          "id": "nav-Trending",
+          "label": "Trends",
+          "href": "/trending",
+          "icon": "Fire"
         }
       ]
     },

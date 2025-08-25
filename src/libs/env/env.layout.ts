@@ -5,6 +5,10 @@ import { z } from "zod";
 // ✅ Define schema with defaults and transformations
 const envConfigSchema = z.object({
   ROOT_LAYOUT_API: z.url().trim().default("http://localhost:3000/api/layout"),
+  HOMEPAGE_PRODUCTS_API: z
+    .url()
+    .trim()
+    .default("http://localhost:3000/api/products"),
 });
 
 // ✅ Validate process.env safely

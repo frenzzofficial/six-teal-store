@@ -2,6 +2,7 @@
 
 import { configureStore, Middleware } from "@reduxjs/toolkit";
 import cartReducer from "./features/cartSlice";
+import productReducer from "./features/productsSlice";
 
 // Optional: Add custom middleware here
 const customMiddleware: Middleware[] = [];
@@ -10,6 +11,7 @@ export const makeStore = () =>
   configureStore({
     reducer: {
       cart: cartReducer,
+      products: productReducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({

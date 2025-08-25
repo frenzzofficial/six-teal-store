@@ -60,3 +60,21 @@ export interface RootLayoutData {
 export interface RootLayoutResponse {
   layout: RootLayoutData;
 }
+
+export type InputType =
+  | "text"
+  | "textarea"
+  | "email"
+  | "password"
+  | "number"
+  | "decimal"
+  | "date"
+  | "tel"
+  | "url"
+  | "select"
+  | "multiselect"
+  | "radio"
+  | "checkbox"
+  | "file"
+  | "range"
+  | "color";

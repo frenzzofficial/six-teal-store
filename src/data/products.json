@@ -1,6 +1,6 @@
 {
-  "version": "1.2",
-  "lastUpdated": "21-08-2025",
+  "version": "1.3",
+  "lastUpdated": "25-08-2025",
   "productsList": [
     {
       "uid": 1,
@@ -490,7 +490,7 @@
       "uid": 20,
       "Category": ["books"],
       "isTrending": false,
-      "productName": "Web Development",
+      "productName": "Web Development guide",
       "description": "Learn the building blocks of web pages, creating structure and style. Add dynamic behavior and interactivity to your websites. Build real-world websites and applications with step-by-step guidance. Explore responsive design techniques and best practices.",
       "currentPrice": 20,
       "sellerPrice": 20,
@@ -510,6 +510,32 @@
         "formats": ["Paperback", "Hardcover", "Kindle"],
         "pages": 200,
         "author": ["John Doe"]
+      }
+    },
+    {
+      "uid": 21,
+      "Category": ["fragrance", "perfumes"],
+      "isTrending": false,
+      "productName": "Six Teal Signature Scent",
+      "description": "A luxurious fragrance that exudes a sense of elegance and sophistication.",
+      "currentPrice": 49.99,
+      "sellerPrice": 100,
+      "currentRating": 4.5,
+      "totalRating": 5,
+      "totalReview": 50,
+      "color": "teal",
+      "images": [
+        {
+          "uid": 1,
+          "src": "/images/productImagesFromAI/fragrance-Perfume01.jpg",
+          "alt": "Perfume"
+        }
+      ],
+      "details": {
+        "sizes": ["S", "M", "L", "XL"],
+        "colors": ["Pink", "Yellow", "Red", "Blue"],
+        "material": ["Natural", "Synthetic"],
+        "features": []
       }
     }
   ]

@@ -2,6 +2,7 @@
 
 import { RootLayoutData } from "@/types/app";
 import { envAppConfig } from "../env/env.app";
+import { ProductDetails } from "@/types/products";
 import { envRootLayoutConfig } from "../env/env.layout";
 
 /**
@@ -50,3 +51,11 @@ export const getRootLayoutData = async (): Promise<RootLayoutData | null> => {
   );
   return result?.layout ?? null;
 };
+
+export const getHomePageLayoutData =
+  async (): Promise<ProductDetails | null> => {
+    const result = await fetchFromAPI<{ productsList: ProductDetails }>(
+      envRootLayoutConfig.HOMEPAGE_PRODUCTS_API + "/getallproducts"
+    );
+    return result?.productsList ?? null;
+  };

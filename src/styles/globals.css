@@ -201,14 +201,19 @@ p {
   }
 }
 
+
 h1,
 h2,
 h3,
 h4,
 h5,
 h6,
-.heading {
-  @apply font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+.heading,
+.heading>span,
+.heading>div {
+  background: -webkit-linear-gradient(var(--primary), var(--foreground));
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
 }
 
 input[type="text"],
