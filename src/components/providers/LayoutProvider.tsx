@@ -5,17 +5,18 @@ import React, { useEffect, useRef } from "react";
 
 import Header from "../layouts/Header";
 import Footer from "../layouts/Footer";
-import { useDispatch } from "react-redux";
 import FontsProvider from "./FontsProvider";
 import ThemesProvider from "./ThemesProvider";
 import { Toaster } from "../ui/shadcn/sonner";
-import { AppDispatch } from "@/libs/store/store";
 import { ProductDetails } from "@/types/products";
 import AuthformProvider from "./AuthformProvider";
+import { useDispatch, useSelector } from "react-redux";
 import { AnimationProvider } from "./AnimationProvider";
+import { AppDispatch, RootState } from "@/libs/store/store";
 import { HamburgerMenuProvider } from "./HamburgerProvider";
 import { useBreakpoint } from "@/libs/hooks/use-breakpoints";
 import Animate_header from "../ui/animations/Animate_header";
+import { useSessionValidator } from "@/libs/hooks/use-session";
 import { setHomepageProductsData } from "@/libs/store/features/productsSlice";
 
 interface LayoutProviderProps {
@@ -33,11 +34,13 @@ const LayoutProvider = ({
   footerActive = true,
   HomePageLayoutData,
 }: LayoutProviderProps) => {
+  const authState = useSelector((state: RootState) => state.auth);
   const { isMobile, isTablet, isDesktop } = useBreakpoint();
   const headerRef = useRef<HTMLDivElement>(null);
   const { header, footer } = RootLayoutData ?? {};
   const height = headerRef.current?.offsetHeight;
 
+  useSessionValidator();
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -68,7 +71,7 @@ const LayoutProvider = ({
                       isDesktop={isDesktop}
                       refObject={headerRef}
                       headerConfig={header}
-                      isAuthenticated={false}
+                      isAuthenticated={authState.isAuthenticated}
                     />
                   )}
                   {children}

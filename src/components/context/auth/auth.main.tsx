@@ -1,8 +1,11 @@
 "use client";
 import z from "zod";
-import { Button } from "@/components/ui/shadcn/button";
-import { Card } from "@/components/ui/shadcn/card";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { loginAPI, registerAPI } from "@/libs/api/api.auth";
 import AuthForm from "@/libs/forms/form.auth";
+import { Card } from "@/components/ui/shadcn/card";
+import { Button } from "@/components/ui/shadcn/button";
 import { FormTemplate, InstanceUseAuthForm } from "./auth.form";
 
 import {
@@ -14,6 +17,9 @@ import {
   forgetPasswordSchema,
   updatePasswordSchema,
 } from "@/libs/schemas/schema.auth";
+import { useAuthformContext } from "@/components/providers/AuthformProvider";
+import { useDispatch } from "react-redux";
+import { login } from "@/libs/store/features/authSlice";
 
 // 🔐 Schema Map
 export const schemaMap = {
@@ -39,9 +45,27 @@ export const LoginForm = () => {
   } = InstanceUseAuthForm("login");
 
   // const referTo = AuthForm.signin.referTo;
+  const router = useRouter();
+  const dispatch = useDispatch();
 
-  const onSubmit = (data: SchemaType<SchemaKey>): void => {
-    console.log("Login submitted:", data);
+  const onSubmit = async (data: SchemaType<SchemaKey>): Promise<void> => {
+    // console.log("Login submitted:", data);
+    try {
+      const newData = data as SchemaType<"login">;
+      const response = await loginAPI(newData);
+      if (response?.status === "success") {
+        // Optionally redirect to login page and send a toaster message
+        if (response?.data) {
+          dispatch(login(response.data));
+          router.push("/");
+          toast.success(response.message);
+        }
+      }
+    } catch (error) {
+      const errMsg =
+        error instanceof Error ? error.message : "Unexpected error occurred";
+      console.error("❌ API error:", errMsg);
+    }
   };
 
   return (
@@ -78,9 +102,28 @@ export const RegisterForm = () => {
     control,
     formState: { errors, isSubmitting },
   } = InstanceUseAuthForm("register");
+  const { setFormType } = useAuthformContext();
 
-  const onSubmit = (data: SchemaType<SchemaKey>) => {
-    console.log("Register submitted:", data);
+  const onSubmit = async (data: SchemaType<SchemaKey>) => {
+    // console.log("Register submitted:", data);
+    try {
+      // Remove confirmPassword before sending to backend
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { confirmPassword: _confirmPassword, ...payload } =
+        data as SchemaType<"register">;
+      const response = await registerAPI(payload);
+      if (response?.status === "success") {
+        // Optionally redirect to login page and send a toaster message
+        if (response?.data) {
+          setFormType("login");
+        }
+        toast.success(response.message);
+      }
+    } catch (error: unknown) {
+      const errMsg =
+        error instanceof Error ? error.message : "Unexpected error occurred";
+      console.error("❌ API error:", errMsg);
+    }
   };
 
   return (

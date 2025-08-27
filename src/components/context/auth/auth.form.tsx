@@ -32,12 +32,12 @@ import {
 
 // 🧠 Default Values
 const defaultAuthValues: Record<string, string | boolean> = {
-  fullname: "Full Name",
-  email: "user@gmail.com",
-  password: "Password#123",
-  confirmPassword: "Password#123",
-  remember: false,
-  agreeToTerms: false,
+  // fullname: "Full Name",
+  // email: "user@gmail.com",
+  // password: "Password#123",
+  // confirmPassword: "Password#123",
+  // remember: false,
+  // agreeToTerms: false,
 };
 
 const initialValues = (formList: FormListType) =>

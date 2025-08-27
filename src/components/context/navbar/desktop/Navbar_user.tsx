@@ -1,5 +1,7 @@
 import React from "react";
 import Navbar_link from "../Navbar_link";
+import LogoutButton from "../../auth/auth.user";
+
 import {
   Avatar,
   AvatarFallback,
@@ -20,6 +22,7 @@ const Navbar_user = () => {
           <Navbar_link
             link={{ id: "profile", label: "Profile", href: "/profile" }}
           />
+          <LogoutButton />
         </ul>
       </div>
     </div>

@@ -1,17 +1,21 @@
 "use client";
 
+import { persistStore } from "redux-persist";
 import { configureStore, Middleware } from "@reduxjs/toolkit";
+
 import cartReducer from "./features/cartSlice";
 import productReducer from "./features/productsSlice";
+import { persistedAuthReducer } from "./session/session.auth";
 
-// Optional: Add custom middleware here
+// Optional: Add custom middleware (e.g. logging, analytics)
 const customMiddleware: Middleware[] = [];
 
-export const makeStore = () =>
-  configureStore({
+export const makeStore = () => {
+  return configureStore({
     reducer: {
-      cart: cartReducer,
-      products: productReducer,
+      auth: persistedAuthReducer, // persisted with AES encryption
+      cart: cartReducer, // volatile
+      products: productReducer, // volatile
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
@@ -20,8 +24,13 @@ export const makeStore = () =>
       }).concat(customMiddleware),
     devTools: process.env.NODE_ENV !== "production",
   });
+};
 
-// Types for global usage
-export type AppStore = ReturnType<typeof makeStore>;
+// Create store and persistor instances
+export const store = makeStore();
+export const persistor = persistStore(store);
+
+// Global types
+export type AppStore = typeof store;
 export type RootState = ReturnType<AppStore["getState"]>;
 export type AppDispatch = AppStore["dispatch"];
