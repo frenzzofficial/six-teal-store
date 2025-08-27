@@ -46,9 +46,8 @@ export const fetchFromAPI = async <T = unknown>(
  * @returns RootLayoutData object or null
  */
 export const getRootLayoutData = async (): Promise<RootLayoutData | null> => {
-  const result = await fetchFromAPI<{ layout: RootLayoutData }>(
-    envRootLayoutConfig.ROOT_LAYOUT_API
-  );
+  const URL = process.env.NEXT_PUBLIC_ROOT_LAYOUT_API || envRootLayoutConfig.HOMEPAGE_PRODUCTS_API
+  const result = await fetchFromAPI<{ layout: RootLayoutData }>(URL);
   return result?.layout ?? null;
 };
 
