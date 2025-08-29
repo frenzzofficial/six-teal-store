@@ -9,6 +9,7 @@ import { Metadata } from "next";
 import SEO from "@/libs/seo/seo.homepage";
 import { ProductDetails } from "@/types/products";
 import StoreProvider from "@/components/providers/StoreProvider";
+import { AuthProvider } from "@/components/providers/AuthProvider";
 
 export const metadata: Metadata = SEO;
 
@@ -30,12 +31,14 @@ export default async function RootLayout({
         className={`${roboto.variable} ${poppins.variable} antialiased relative scroll-smooth`}
       >
         <StoreProvider>
-          <LayoutProvider
-            RootLayoutData={rootLayoutData}
-            HomePageLayoutData={homePageLayoutData}
-          >
-            {children}
-          </LayoutProvider>
+          <AuthProvider>
+            <LayoutProvider
+              RootLayoutData={rootLayoutData}
+              HomePageLayoutData={homePageLayoutData}
+            >
+              {children}
+            </LayoutProvider>
+          </AuthProvider>
         </StoreProvider>
       </body>
     </html>

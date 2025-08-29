@@ -10,14 +10,15 @@ import ThemesProvider from "./ThemesProvider";
 import { Toaster } from "../ui/shadcn/sonner";
 import { ProductDetails } from "@/types/products";
 import AuthformProvider from "./AuthformProvider";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/libs/store/store";
 import { AnimationProvider } from "./AnimationProvider";
-import { AppDispatch, RootState } from "@/libs/store/store";
 import { HamburgerMenuProvider } from "./HamburgerProvider";
 import { useBreakpoint } from "@/libs/hooks/use-breakpoints";
 import Animate_header from "../ui/animations/Animate_header";
-import { useSessionValidator } from "@/libs/hooks/use-session";
 import { setHomepageProductsData } from "@/libs/store/features/productsSlice";
+import { useAuth } from "./AuthProvider";
+import useAuthorizeSession from "@/libs/hooks/use-auth";
 
 interface LayoutProviderProps {
   headerActive?: boolean;
@@ -34,14 +35,15 @@ const LayoutProvider = ({
   footerActive = true,
   HomePageLayoutData,
 }: LayoutProviderProps) => {
-  const authState = useSelector((state: RootState) => state.auth);
+  // const authState = useSelector((state: RootState) => state.auth);
+  const { isAuthenticated } = useAuth();
   const { isMobile, isTablet, isDesktop } = useBreakpoint();
   const headerRef = useRef<HTMLDivElement>(null);
   const { header, footer } = RootLayoutData ?? {};
   const height = headerRef.current?.offsetHeight;
-
-  useSessionValidator();
   const dispatch = useDispatch<AppDispatch>();
+
+  useAuthorizeSession();
 
   useEffect(() => {
     if (!HomePageLayoutData) return;
@@ -71,7 +73,7 @@ const LayoutProvider = ({
                       isDesktop={isDesktop}
                       refObject={headerRef}
                       headerConfig={header}
-                      isAuthenticated={authState.isAuthenticated}
+                      isAuthenticated={isAuthenticated}
                     />
                   )}
                   {children}

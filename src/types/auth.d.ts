@@ -2,6 +2,17 @@
 
 export type IUserProfileRoleType = "ADMIN" | "USER" | "MODERATOR";
 
+export interface User {
+  id: string;
+  user_id: string;
+  email: string;
+  fullname: string;
+  avatar: string;
+  role: IUserProfileRoleType;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface RegisterPayload {
   email: string;
   password: string;
@@ -23,16 +34,7 @@ export interface ContactFormPayload {
 
 export interface AuthResponse {
   status: "success" | "failed";
-  data?: {
-    id: string;
-    user_id: string;
-    email: string;
-    fullname: string;
-    avatar: string;
-    role: IUserProfileRoleType;
-    created_at: string;
-    updated_at: string;
-  };
+  data?: User;
   message: string;
   error?: unknown;
 }

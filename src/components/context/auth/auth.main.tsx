@@ -2,11 +2,13 @@
 import z from "zod";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { loginAPI, registerAPI } from "@/libs/api/api.auth";
 import AuthForm from "@/libs/forms/form.auth";
 import { Card } from "@/components/ui/shadcn/card";
 import { Button } from "@/components/ui/shadcn/button";
+import { loginAPI, registerAPI } from "@/libs/api/api.auth";
+import { useAuth } from "@/components/providers/AuthProvider";
 import { FormTemplate, InstanceUseAuthForm } from "./auth.form";
+import { useAuthformContext } from "@/components/providers/AuthformProvider";
 
 import {
   loginSchema,
@@ -17,9 +19,6 @@ import {
   forgetPasswordSchema,
   updatePasswordSchema,
 } from "@/libs/schemas/schema.auth";
-import { useAuthformContext } from "@/components/providers/AuthformProvider";
-import { useDispatch } from "react-redux";
-import { login } from "@/libs/store/features/authSlice";
 
 // 🔐 Schema Map
 export const schemaMap = {
@@ -46,7 +45,7 @@ export const LoginForm = () => {
 
   // const referTo = AuthForm.signin.referTo;
   const router = useRouter();
-  const dispatch = useDispatch();
+  const { setUser, setIsAuthenticated } = useAuth();
 
   const onSubmit = async (data: SchemaType<SchemaKey>): Promise<void> => {
     // console.log("Login submitted:", data);
@@ -56,9 +55,10 @@ export const LoginForm = () => {
       if (response?.status === "success") {
         // Optionally redirect to login page and send a toaster message
         if (response?.data) {
-          dispatch(login(response.data));
-          router.push("/");
+          setUser(response.data);
+          setIsAuthenticated(true);
           toast.success(response.message);
+          router.push("/");
         }
       }
     } catch (error) {

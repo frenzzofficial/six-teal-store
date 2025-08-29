@@ -4,8 +4,11 @@ import { z } from "zod";
 // ✅ Load environment variables from .env file
 // ✅ Define schema with defaults and transformations
 const envConfigSchema = z.object({
-  NEXT_PUBLIC_ROOT_LAYOUT_API: z.url().trim().default("http://localhost:3000/api/layout"),
-  HOMEPAGE_PRODUCTS_API: z
+  NEXT_PUBLIC_ROOT_LAYOUT_API: z
+    .url()
+    .trim()
+    .default("http://localhost:3000/api/layout"),
+  NEXT_PUBLIC_HOMEPAGE_PRODUCTS_API: z
     .url()
     .trim()
     .default("http://localhost:3000/api/products"),
@@ -25,7 +28,7 @@ if (!parsed.success) {
 // ✅ Export validated config
 export const envRootLayoutConfig = Object.freeze({
   ROOT_LAYOUT_API: parsed.data.NEXT_PUBLIC_ROOT_LAYOUT_API,
-  HOMEPAGE_PRODUCTS_API: parsed.data.HOMEPAGE_PRODUCTS_API,
+  HOMEPAGE_PRODUCTS_API: parsed.data.NEXT_PUBLIC_HOMEPAGE_PRODUCTS_API,
 });
 
 // ✅ Optional: Export type

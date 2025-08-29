@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { getUserProfileAPI } from "@/libs/api/api.auth";
 import { login, logout } from "../store/features/authSlice";
 
+// validate session on client side while managing state usng redux
 export const useSessionValidator = () => {
   const dispatch = useDispatch();
   useEffect(() => {
