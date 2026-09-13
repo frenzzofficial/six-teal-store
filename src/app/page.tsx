@@ -1,9 +1,5 @@
-import Hero from "@/components/layouts/Hero";
+import HomePage from "@/components/features/home/HomePage";
 
 export default function Home() {
-  return (
-    <section>
-      <Hero />
-    </section>
-  );
+  return <HomePage />;
 }
