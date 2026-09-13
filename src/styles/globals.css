@@ -1,3 +1,4 @@
 @import "tailwindcss";
 @import "./themes/sixteal-theme.css";
 @import "./ui/navigation.css";
+@import "./ui/drawer.css";

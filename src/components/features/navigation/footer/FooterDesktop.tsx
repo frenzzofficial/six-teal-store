@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/components/ui";
 import LucideLibrary from "@/components/ui/icons/LucideLibrary";
 import { navigationConfig } from "@/packages/configs/navigation.config";
 
@@ -77,6 +77,10 @@ const FooterDesktop = () => {
         <div className="nav-footer-desktop__bottom-links">
           <Link href={footer.legal.links[0]?.href ?? "/privacy"}>Privacy</Link>
           <Link href={footer.legal.links[1]?.href ?? "/terms"}>Terms</Link>
+          <Link href={footer.legal.links[2]?.href ?? "/cookies"}>Cookies</Link>
+          <Link href={footer.legal.links[3]?.href ?? "/refund-policy"}>
+            Refund Policy
+          </Link>
         </div>
       </div>
     </div>

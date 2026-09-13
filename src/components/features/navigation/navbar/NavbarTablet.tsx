@@ -7,7 +7,7 @@ import { LucideLibrary, Link as NavLink } from "@/components/ui";
 import { navigationConfig } from "@/packages/configs/navigation.config";
 import { useIsActivePath } from "@/packages/hooks/useIsActivePath";
 import { cn } from "@/packages/utils/cn";
-import { NavSidebar } from "../sidebar/NavSidebar";
+import { NavMenuDrawer } from "../drawer/NavMenuDrawer";
 
 const NAV_KEY = "main";
 
@@ -89,7 +89,7 @@ const NavbarTablet = () => {
         </Link>
       </div>
 
-      <NavSidebar
+      <NavMenuDrawer
         navKey={NAV_KEY}
         open={state.sidebarOpen}
         onClose={closeSidebar}

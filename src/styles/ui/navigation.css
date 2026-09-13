@@ -7,7 +7,7 @@
    ========================================================================== */
 
 :root {
-  --nav-bg: var(--background, #ffffff);
+  --nav-bg: var(--accent, #ecfdf9);
   --nav-fg: var(--foreground, #0f1a1a);
   --nav-border: var(--border, #dce7e6);
   --nav-muted: var(--muted-foreground, #5b6b6a);
@@ -19,8 +19,6 @@
 
   --nav-height-desktop: 4.25rem;
   --nav-height-mobile-top: 3.5rem;
-  --nav-height-mobile-tabbar: 3.75rem;
-  --nav-sidebar-width: min(22rem, 86vw);
   --nav-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -342,101 +340,12 @@
   display: inline-flex;
 }
 
-.nav-mobile__tabbar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 40;
-  height: var(--nav-height-mobile-tabbar);
-  background: color-mix(in srgb, var(--nav-bg) 92%, transparent);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid var(--nav-border);
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding-bottom: env(safe-area-inset-bottom);
-}
-
-.nav-mobile__tab {
-  flex-direction: column;
-  gap: 0.2rem;
-  font-size: 0.68rem;
-  color: var(--nav-muted);
-  padding: 0.25rem 0.5rem;
-}
-
-.nav-mobile__tab::after {
-  display: none;
-}
-
-.nav-mobile__tab .nav-link__icon {
-  width: 1.3rem;
-  height: 1.3rem;
-}
-
-.nav-mobile__tab--active {
-  color: var(--nav-primary);
-}
-
 /* ==========================================================================
-   Right-side sidebar (sheet) — shared by mobile + tablet
+   Nav menu drawer content — shared by mobile + tablet's hamburger menu.
+   Rendered inside the generic Drawer (drawer.css); only content-level
+   classes live here (links, divider, category collapsible, social row).
+   The panel/overlay/header shell itself is Drawer's, not this file's.
    ========================================================================== */
-
-.nav-sidebar-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgb(15 26 26 / 0.45);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--nav-transition);
-  z-index: 49;
-}
-
-.nav-sidebar-overlay--visible {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.nav-sidebar {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: var(--nav-sidebar-width);
-  background: var(--nav-bg);
-  border-left: 1px solid var(--nav-border);
-  box-shadow: -12px 0 32px -16px rgb(15 26 26 / 0.35);
-  z-index: 50;
-  display: flex;
-  flex-direction: column;
-  transform: translateX(100%);
-  transition: transform var(--nav-transition);
-}
-
-.nav-sidebar--open {
-  transform: translateX(0);
-}
-
-.nav-sidebar__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.25rem;
-  border-bottom: 1px solid var(--nav-border);
-}
-
-.nav-sidebar__title {
-  font-weight: 600;
-  font-size: 1rem;
-  color: var(--nav-fg);
-}
-
-.nav-sidebar__body {
-  flex: 1;
-  overflow-y: auto;
-  padding: 1rem 1.25rem;
-}
 
 .nav-sidebar__section {
   display: flex;
@@ -521,11 +430,6 @@
 .nav-sidebar__sublink-icon {
   width: 0.95rem;
   height: 0.95rem;
-}
-
-.nav-sidebar__footer {
-  padding: 1rem 1.25rem;
-  border-top: 1px solid var(--nav-border);
 }
 
 .nav-sidebar__social {
@@ -627,7 +531,7 @@
    ========================================================================== */
 
 .nav-footer-mobile {
-  padding: 2rem 1.25rem calc(2rem + var(--nav-height-mobile-tabbar));
+  padding: 2rem 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -746,10 +650,10 @@
   .nav-hamburger,
   .nav-flyout,
   .nav-search-overlay,
-  .nav-sidebar,
-  .nav-sidebar-overlay,
   .nav-sidebar__chevron,
-  .nav-footer-mobile__chevron {
+  .nav-footer-mobile__chevron,
+  .drawer-backdrop,
+  .drawer-panel {
     transition: none;
     animation: none;
   }

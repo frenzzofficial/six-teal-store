@@ -305,12 +305,12 @@ export const navigationConfig = {
     guest: [
       {
         name: "Sign In",
-        href: "/login",
+        href: "/signin",
         icon: "log-in",
       },
       {
         name: "Create Account",
-        href: "/register",
+        href: "/signup",
         icon: "user-plus",
       },
     ],
