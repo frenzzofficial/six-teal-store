@@ -1,10 +1,12 @@
 "use client";
 
-import { LucideLibrary, Link as NavLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useNavigation } from "@/components/providers/NavigationProvider";
+import { LucideLibrary, Link as NavLink } from "@/components/ui";
 import { navigationConfig } from "@/packages/configs/navigation.config";
+import { useIsActivePath } from "@/packages/hooks/useIsActivePath";
+import { cn } from "@/packages/utils/cn";
 import { NavSidebar } from "../sidebar/NavSidebar";
 
 const NAV_KEY = "main";
@@ -12,6 +14,7 @@ const NAV_KEY = "main";
 const NavbarMobile = () => {
   const { state, toggleSidebar, closeSidebar } = useNavigation(NAV_KEY);
   const { logo, mobile, actions } = navigationConfig;
+  const isActive = useIsActivePath();
 
   return (
     <div className="nav-mobile">
@@ -54,12 +57,15 @@ const NavbarMobile = () => {
           <NavLink
             key={item.href}
             href={item.href}
-            name={item.name}
-            // icon={item.icon}
-            // showIcon
-            className="nav-mobile__tab"
-            // activeClassName="nav-mobile__tab--active"
-          />
+            variant="nav"
+            className={cn(
+              "nav-mobile__tab",
+              isActive(item.href) && "nav-mobile__tab--active",
+            )}
+          >
+            <LucideLibrary name={item.icon} className="nav-link__icon" />
+            <span>{item.name}</span>
+          </NavLink>
         ))}
       </nav>
 

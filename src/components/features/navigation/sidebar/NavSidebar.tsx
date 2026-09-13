@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { useNavigation } from "@/components/providers/NavigationProvider";
 import { LucideLibrary, Link as NavLink } from "@/components/ui";
 import { navigationConfig } from "@/packages/configs/navigation.config";
+import { useIsActivePath } from "@/packages/hooks/useIsActivePath";
 import { cn } from "@/packages/utils/cn";
 
 type NavSidebarProps = {
@@ -17,6 +18,7 @@ export function NavSidebar({ navKey, open, onClose }: NavSidebarProps) {
   const { setActiveMenu, state } = useNavigation(navKey);
   const panelRef = useRef<HTMLDivElement>(null);
   const { navbar, explore, account, social, actions } = navigationConfig;
+  const isActive = useIsActivePath();
 
   // Lock body scroll + close on Escape while the sidebar is open.
   useEffect(() => {
@@ -72,12 +74,16 @@ export function NavSidebar({ navKey, open, onClose }: NavSidebarProps) {
               <NavLink
                 key={item.href}
                 href={item.href}
-                // name={item.name}
-                // icon={item.icon}
-                // showIcon
-                className="nav-sidebar__link"
+                variant="nav"
+                className={cn(
+                  "nav-sidebar__link",
+                  isActive(item.href) && "nav-sidebar__link--active",
+                )}
                 onClick={onClose}
-              />
+              >
+                <LucideLibrary name={item.icon} className="nav-link__icon" />
+                <span>{item.name}</span>
+              </NavLink>
             ))}
           </nav>
 
@@ -85,10 +91,10 @@ export function NavSidebar({ navKey, open, onClose }: NavSidebarProps) {
 
           <details
             className="nav-sidebar__collapsible"
-            open={state.activeMenu === "explore"}
+            open={state.activeMenu === "Explore"}
             onToggle={(e) =>
               setActiveMenu(
-                (e.target as HTMLDetailsElement).open ? "explore" : null,
+                (e.target as HTMLDetailsElement).open ? "Explore" : null,
               )
             }
           >
@@ -124,21 +130,32 @@ export function NavSidebar({ navKey, open, onClose }: NavSidebarProps) {
               <NavLink
                 key={item.href}
                 href={item.href}
-                // name={item.name}
-                // icon={item.icon}
-                // showIcon
-                className="nav-sidebar__link"
+                variant="nav"
+                className={cn(
+                  "nav-sidebar__link",
+                  isActive(item.href) && "nav-sidebar__link--active",
+                )}
                 onClick={onClose}
-              />
+              >
+                <LucideLibrary name={item.icon} className="nav-link__icon" />
+                <span>{item.name}</span>
+              </NavLink>
             ))}
             <NavLink
               href={actions.wishlist.href}
-              // name={actions.wishlist.name}
-              // icon={actions.wishlist.icon}
-              // showIcon
-              className="nav-sidebar__link"
+              variant="nav"
+              className={cn(
+                "nav-sidebar__link",
+                isActive(actions.wishlist.href) && "nav-sidebar__link--active",
+              )}
               onClick={onClose}
-            />
+            >
+              <LucideLibrary
+                name={actions.wishlist.icon}
+                className="nav-link__icon"
+              />
+              <span>{actions.wishlist.name}</span>
+            </NavLink>
           </nav>
         </div>
 

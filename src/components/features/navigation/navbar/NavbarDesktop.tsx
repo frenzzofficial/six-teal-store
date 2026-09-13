@@ -5,19 +5,22 @@ import { useNavigation } from "@/components/providers/NavigationProvider";
 import { Link, LucideLibrary } from "@/components/ui";
 import NavigationLogo from "@/components/ui/image/NavigationLogo";
 import { navigationConfig } from "@/packages/configs/navigation.config";
+import { useIsActivePath } from "@/packages/hooks/useIsActivePath";
 import { cn } from "@/packages/utils/cn";
 
 const NAV_KEY = "main";
 
 const NavbarDesktop = () => {
   const { state, setActiveMenu, toggleSearch } = useNavigation(NAV_KEY);
-  const { logo, navbar, actions } = navigationConfig;
+  const { navbar, actions } = navigationConfig;
+  const isActive = useIsActivePath();
 
   return (
     <div className="nav-desktop">
-      <NextLink href="/" className="nav-desktop__logo" aria-label={logo.alt}>
-        <NavigationLogo />
-      </NextLink>
+      {/* NavigationLogo already renders its own <Link href="/">, so it must
+          NOT be nested inside another NextLink — nested <a> tags are invalid
+          HTML and break hydration for the whole header. */}
+      <NavigationLogo className="nav-desktop__logo" />
 
       <nav className="nav-desktop__links" aria-label="Primary">
         {navbar.map((item) => (
@@ -28,7 +31,16 @@ const NavbarDesktop = () => {
             onMouseEnter={() => setActiveMenu(item.name)}
             onMouseLeave={() => setActiveMenu(null)}
           >
-            <Link href={item.href} key={item.name} />
+            <Link
+              href={item.href}
+              variant="nav"
+              className={cn(
+                "nav-link",
+                isActive(item.href) && "nav-link--active",
+              )}
+            >
+              {item.name}
+            </Link>
             {state.activeMenu === item.name && item.name === "Explore" && (
               <ExploreFlyout />
             )}
@@ -93,18 +105,20 @@ function ExploreFlyout() {
   const { explore } = navigationConfig;
   return (
     <div className="nav-flyout" role="menu">
-      <div className="nav-flyout__grid">
-        {explore.map((item) => (
-          <NextLink
-            key={item.href}
-            href={item.href}
-            className="nav-flyout__item"
-            role="menuitem"
-          >
-            <LucideLibrary name={item.icon} className="nav-flyout__icon" />
-            <span>{item.name}</span>
-          </NextLink>
-        ))}
+      <div className="nav-flyout__panel">
+        <div className="nav-flyout__grid">
+          {explore.map((item) => (
+            <NextLink
+              key={item.href}
+              href={item.href}
+              className="nav-flyout__item"
+              role="menuitem"
+            >
+              <LucideLibrary name={item.icon} className="nav-flyout__icon" />
+              <span>{item.name}</span>
+            </NextLink>
+          ))}
+        </div>
       </div>
     </div>
   );

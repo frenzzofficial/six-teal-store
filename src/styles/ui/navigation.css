@@ -194,11 +194,20 @@
   gap: 0.25rem;
 }
 
+/* Wraps the panel and touches the trigger with zero gap (top: 100%), then
+ * uses padding-top — not margin — to create the visual gap. Padding is
+ * still inside the element's hoverable box, margin is not, so the mouse
+ * never leaves this element while crossing from trigger to panel. Fixes
+ * the flyout closing before you can reach it. */
 .nav-flyout {
   position: absolute;
-  top: calc(100% + 0.75rem);
+  top: 100%;
   left: 50%;
   transform: translateX(-50%);
+  padding-top: 0.75rem;
+}
+
+.nav-flyout__panel {
   background: var(--nav-bg);
   border: 1px solid var(--nav-border);
   border-radius: var(--nav-radius);
@@ -444,8 +453,13 @@
   display: none;
 }
 
-.nav-sidebar__link:hover {
+.nav-sidebar__link:hover,
+.nav-sidebar__link--active {
   background: var(--nav-accent);
+}
+
+.nav-sidebar__link--active {
+  color: var(--nav-primary);
 }
 
 .nav-sidebar__divider {

@@ -106,6 +106,15 @@ const linkVariants = cva(
         ],
 
         muted: ["text-muted-foreground", "hover:text-foreground"],
+
+        // For nav items: `.nav-link`/`.nav-mobile__tab`/`.nav-sidebar__link`
+        // (navigation.css) own color, hover, and the active-state underline
+        // entirely. The "primary" variant's own `text-primary` + `underline`
+        // + animated `after:` underline would double up on top of that
+        // hand-written system — same pseudo-element, two owners, visibly
+        // inconsistent underline behavior. This variant is a deliberate
+        // blank slate for nav contexts.
+        nav: ["text-inherit", "no-underline"],
       },
 
       size: {

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useNavigation } from "@/components/providers/NavigationProvider";
 import { LucideLibrary, Link as NavLink } from "@/components/ui";
 import { navigationConfig } from "@/packages/configs/navigation.config";
+import { useIsActivePath } from "@/packages/hooks/useIsActivePath";
+import { cn } from "@/packages/utils/cn";
 import { NavSidebar } from "../sidebar/NavSidebar";
 
 const NAV_KEY = "main";
@@ -13,6 +15,7 @@ const NavbarTablet = () => {
   const { state, toggleSidebar, closeSidebar, toggleSearch } =
     useNavigation(NAV_KEY);
   const { logo, navbar, actions } = navigationConfig;
+  const isActive = useIsActivePath();
 
   return (
     <div className="nav-tablet">
@@ -41,8 +44,14 @@ const NavbarTablet = () => {
           <NavLink
             key={item.href}
             href={item.href}
-            //  name={item.name}
-          />
+            variant="nav"
+            className={cn(
+              "nav-link",
+              isActive(item.href) && "nav-link--active",
+            )}
+          >
+            {item.name}
+          </NavLink>
         ))}
       </nav>
 
