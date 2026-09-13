@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import NextLink from "next/link";
 import { useNavigation } from "@/components/providers/NavigationProvider";
 import { Link, LucideLibrary } from "@/components/ui";
+import NavigationLogo from "@/components/ui/image/NavigationLogo";
 import { navigationConfig } from "@/packages/configs/navigation.config";
 import { cn } from "@/packages/utils/cn";
 
@@ -16,14 +16,7 @@ const NavbarDesktop = () => {
   return (
     <div className="nav-desktop">
       <NextLink href="/" className="nav-desktop__logo" aria-label={logo.alt}>
-        <Image
-          src={logo.src}
-          alt={logo.alt}
-          width={logo.width}
-          height={logo.height}
-          priority
-          className="nav-desktop__logo-img"
-        />
+        <NavigationLogo />
       </NextLink>
 
       <nav className="nav-desktop__links" aria-label="Primary">

@@ -1,15 +1,17 @@
-"use client";
-
-import { useBreakpoints } from "@/packages/hooks/useBreakpoints";
 import FooterDesktop from "../features/navigation/footer/FooterDesktop";
 import FooterMobile from "../features/navigation/footer/FooterMobile";
 
+// See Header.tsx: CSS-driven visibility avoids the SSR/first-paint flash
+// that JS breakpoint detection causes.
 const Footer = () => {
-  const { isMobile } = useBreakpoints();
-
   return (
     <footer className="nav-footer">
-      {isMobile ? <FooterMobile /> : <FooterDesktop />}
+      <div className="hidden md:block">
+        <FooterDesktop />
+      </div>
+      <div className="block md:hidden">
+        <FooterMobile />
+      </div>
     </footer>
   );
 };

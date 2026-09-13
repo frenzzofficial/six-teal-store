@@ -29,7 +29,16 @@ import {
   X,
 } from "lucide-react";
 
-const iconMap: Record<string, LucideIcon> = {
+import {
+  InstagramBrandIcon,
+  LinkedinBrandIcon,
+  TwitterBrandIcon,
+} from "./BrandIcons";
+
+type IconComponent = LucideIcon | typeof InstagramBrandIcon;
+
+const iconMap: Record<string, IconComponent> = {
+  // Lucide icons
   home: Home,
   compass: Compass,
   "trending-up": TrendingUp,
@@ -53,14 +62,21 @@ const iconMap: Record<string, LucideIcon> = {
   truck: Truck,
   "credit-card": CreditCard,
   "circle-check": CircleCheck,
+
+  // UI icons
   menu: Menu,
   close: X,
   "chevron-down": ChevronDown,
   "chevron-right": ChevronRight,
+
+  // Brand icons
+  instagram: InstagramBrandIcon,
+  twitter: TwitterBrandIcon,
+  linkedin: LinkedinBrandIcon,
 };
 
 type LucideLibraryProps = {
-  /** icon key from navigation.config (e.g. "home", "shopping-cart") */
+  /** Icon key from navigation.config */
   name?: string;
   className?: string;
   size?: number;
@@ -77,12 +93,11 @@ const LucideLibrary = ({
 
   const Icon = iconMap[name];
 
-  // Unknown key: fail quietly instead of breaking layout, but keep it
-  // visible in dev so a typo'd icon key in the config gets noticed.
   if (!Icon) {
     if (process.env.NODE_ENV !== "production") {
-      console.warn(`LucideIcon: no icon mapped for "${name}"`);
+      console.warn(`IconLibrary: no icon mapped for "${name}"`);
     }
+
     return null;
   }
 

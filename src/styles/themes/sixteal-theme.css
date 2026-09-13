@@ -35,9 +35,9 @@
   --sidebar-accent-foreground: oklch(0.254 0.049 172.4351);
   --sidebar-border: oklch(0.8798 0.0244 180.5642);
   --sidebar-ring: oklch(0.556 0.1062 173.594);
-  --font-sans: Noto Sans Cuneiform, ui-sans-serif, sans-serif, system-ui;
+  --font-sans: Inter, ui-sans-serif, sans-serif, system-ui;
   --font-serif: Merriweather, ui-serif, serif;
-  --font-mono: Cousine, ui-monospace, monospace;
+  --font-mono: JetBrains Mono, ui-monospace, monospace;
   --radius: 0.75rem;
   --shadow-x: 0px;
   --shadow-y: 4px;
