@@ -7,6 +7,12 @@
    ========================================================================== */
 
 :root {
+  /* Was `var(--accent, #ecfdf9)` — --accent IS defined globally (a fairly
+   * saturated mint, meant for hover/active states), so that fallback never
+   * activated and the header rendered with a much stronger green tint than
+   * intended. The header should read as the page surface, just barely
+   * distinguished — that's --background, with a translucent color-mix
+   * already applied below in .nav-header. */
   --nav-bg: var(--accent, #ecfdf9);
   --nav-fg: var(--foreground, #0f1a1a);
   --nav-border: var(--border, #dce7e6);
@@ -644,6 +650,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .nav-header,
   .nav-link,
   .nav-icon-btn,

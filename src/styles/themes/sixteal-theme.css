@@ -3,7 +3,11 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(0.99 0.0054 183.0338);
+  /* A deliberately visible pale-teal page background — was
+   * oklch(0.99 0.0054 183.0338) (~#f8fdfc), whose chroma of 0.0054 is so
+   * low it reads as plain white on most displays. --card/--popover stay
+   * closer to white so cards/panels still lift off the page. */
+  --background: oklch(0.975 0.02 183);
   --foreground: oklch(0.1619 0.0326 168.3635);
   --card: oklch(0.9796 0.0075 186.8959);
   --card-foreground: oklch(0.1619 0.0326 168.3635);
