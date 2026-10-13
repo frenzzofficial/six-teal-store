@@ -1,10 +1,9 @@
-import type { Metadata } from "next";
-import NotFoundPage from "@/components/layouts/NotFoundPage";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Page not found — SixTeal",
+import NotFound from "@/components/layouts/NotFound";
+
+const NotFoundPage = () => {
+  return <NotFound />;
 };
 
-export default function NotFound() {
-  return <NotFoundPage />;
-}
+export default NotFoundPage;

@@ -1,10 +1,13 @@
 import { z } from "zod";
+import { STYLES_THEME_NAMES } from "../configs/styles.config";
+import { parseEnv } from "../utils/parse-env";
 
-const publicEnvSchema = z.object({
+// Public Environment Schema
+const parsedEnvSchema = z.object({
   // App
   NEXT_PUBLIC_APP_NAME: z.string().trim().min(1).default("Six Teal Store"),
 
-  NEXT_PUBLIC_APP_VERSION: z.string().trim().default("2.0.0"),
+  NEXT_PUBLIC_APP_VERSION: z.string().trim().min(1).default("2.0.1"),
 
   NEXT_PUBLIC_APP_DESCRIPTION: z
     .string()
@@ -15,7 +18,7 @@ const publicEnvSchema = z.object({
     ),
 
   // Site
-  NEXT_PUBLIC_SITE_URL: z.url().trim().default("http://localhost:3000"),
+  NEXT_PUBLIC_SITE_URL: z.url().default("http://localhost:3000"),
 
   NEXT_PUBLIC_SITE_TITLE: z
     .string()
@@ -23,15 +26,16 @@ const publicEnvSchema = z.object({
     .min(1)
     .default("Six Teal Store - Your Premium Luxury Destination"),
 
-  NEXT_PUBLIC_LOGO_URL: z.string().trim().default("/logo.png"),
+  NEXT_PUBLIC_LOGO_URL: z.string().trim().min(1).default("/logo.png"),
 
   NEXT_PUBLIC_OG_IMAGE_URL: z.string().trim().optional(),
 
   // Theme
+  NEXT_PUBLIC_ACTIVE_STYLE: z.enum(STYLES_THEME_NAMES).default("sixteal-theme"),
 
   NEXT_PUBLIC_ACTIVE_THEME: z
     .enum(["system", "light", "dark"])
-    .default("system"),
+    .default("light"),
 
   // Social
   NEXT_PUBLIC_INSTAGRAM: z
@@ -49,42 +53,53 @@ const publicEnvSchema = z.object({
     .trim()
     .default("https://www.linkedin.com/company/sixtealstore/"),
 
+  // Author
   NEXT_PUBLIC_AUTHOR_NAME: z.string().trim().default("@sixtealstore"),
 
   NEXT_PUBLIC_AUTHOR_EMAIL: z.string().trim().default("contact@sixteal.store"),
+
+  NEXT_PUBLIC_AUTHOR_HANDLE: z.string().trim().min(1).default("@sixtealstore"),
+
+  // Google Verification
+  NEXT_PUBLIC_GOOGLE_VERIFICATION: z
+    .string()
+    .trim()
+    .min(1)
+    .default("google-verification-code"),
 });
 
-const parsedPublicEnv = publicEnvSchema.safeParse(process.env);
+// Validated Public Environment
+const parsedEnv = parseEnv(parsedEnvSchema, "public");
 
-if (!parsedPublicEnv.success) {
-  console.error("❌ Invalid public environment variables:");
-
-  for (const issue of parsedPublicEnv.error.issues) {
-    console.error(`- ${issue.path.join(".")}: ${issue.message}`);
-  }
-
-  throw new Error("Public environment validation failed");
-}
-
+// Public Application Config
 export const envPublicConfig = Object.freeze({
-  APP_NAME: parsedPublicEnv.data.NEXT_PUBLIC_APP_NAME,
-  APP_VERSION: parsedPublicEnv.data.NEXT_PUBLIC_APP_VERSION,
-  APP_DESCRIPTION: parsedPublicEnv.data.NEXT_PUBLIC_APP_DESCRIPTION,
+  // App
+  APP_NAME: parsedEnv.NEXT_PUBLIC_APP_NAME,
+  APP_VERSION: parsedEnv.NEXT_PUBLIC_APP_VERSION,
+  APP_DESCRIPTION: parsedEnv.NEXT_PUBLIC_APP_DESCRIPTION,
 
-  SITE_URL: parsedPublicEnv.data.NEXT_PUBLIC_SITE_URL,
-  SITE_TITLE: parsedPublicEnv.data.NEXT_PUBLIC_SITE_TITLE,
+  // Site
+  SITE_URL: parsedEnv.NEXT_PUBLIC_SITE_URL,
+  SITE_TITLE: parsedEnv.NEXT_PUBLIC_SITE_TITLE,
+  LOGO_URL: parsedEnv.NEXT_PUBLIC_LOGO_URL,
+  OG_IMAGE_URL: parsedEnv.NEXT_PUBLIC_OG_IMAGE_URL,
 
-  LOGO_URL: parsedPublicEnv.data.NEXT_PUBLIC_LOGO_URL,
-  OG_IMAGE_URL: parsedPublicEnv.data.NEXT_PUBLIC_OG_IMAGE_URL,
+  // Theme
+  ACTIVE_STYLE: parsedEnv.NEXT_PUBLIC_ACTIVE_STYLE,
+  ACTIVE_THEME: parsedEnv.NEXT_PUBLIC_ACTIVE_THEME,
 
-  ACTIVE_THEME: parsedPublicEnv.data.NEXT_PUBLIC_ACTIVE_THEME,
+  // Social
+  TWITTER: parsedEnv.NEXT_PUBLIC_TWITTER,
+  LINKEDIN: parsedEnv.NEXT_PUBLIC_LINKEDIN,
+  INSTAGRAM: parsedEnv.NEXT_PUBLIC_INSTAGRAM,
 
-  INSTAGRAM: parsedPublicEnv.data.NEXT_PUBLIC_INSTAGRAM,
-  TWITTER: parsedPublicEnv.data.NEXT_PUBLIC_TWITTER,
-  LINKEDIN: parsedPublicEnv.data.NEXT_PUBLIC_LINKEDIN,
+  // Author
+  AUTHOR_NAME: parsedEnv.NEXT_PUBLIC_AUTHOR_NAME,
+  AUTHOR_HANDLE: parsedEnv.NEXT_PUBLIC_AUTHOR_HANDLE,
+  AUTHOR_EMAIL: parsedEnv.NEXT_PUBLIC_AUTHOR_EMAIL,
 
-  AUTHOR_NAME: parsedPublicEnv.data.NEXT_PUBLIC_AUTHOR_NAME,
-  AUTHOR_EMAIL: parsedPublicEnv.data.NEXT_PUBLIC_AUTHOR_EMAIL,
+  // Google Verification
+  GOOGLE_VERIFICATION: parsedEnv.NEXT_PUBLIC_GOOGLE_VERIFICATION,
 });
 
 export type EnvPublicConfig = typeof envPublicConfig;

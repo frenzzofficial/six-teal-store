@@ -1,0 +1,53 @@
+/* ==========================================================================
+   RatingStars
+   ========================================================================== */
+
+.rating-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.rating-stars__icons {
+  position: relative;
+  display: inline-flex;
+}
+
+.rating-stars__icons-track {
+  display: flex;
+  gap: 0.05rem;
+}
+
+.rating-stars__icons-track--filled {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.rating-stars__star {
+  width: 0.85rem;
+  height: 0.85rem;
+  flex-shrink: 0;
+}
+
+.rating-stars__star--empty {
+  color: var(--border);
+  fill: var(--border);
+}
+
+.rating-stars__star--filled {
+  color: #f5a524;
+  fill: #f5a524;
+}
+
+.rating-stars__value {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.rating-stars__count {
+  font-weight: 400;
+  color: var(--muted-foreground);
+}

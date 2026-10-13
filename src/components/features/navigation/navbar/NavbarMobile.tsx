@@ -1,65 +1,103 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { useNavigation } from "@/components/providers/NavigationProvider";
-import { LucideLibrary } from "@/components/ui";
-import { navigationConfig } from "@/packages/configs/navigation.config";
-import { NavMenuDrawer } from "../drawer/NavMenuDrawer";
+import { usePathname } from "next/navigation";
+import { memo, useCallback } from "react";
+import {
+  useNavigationActions,
+  useNavigationState,
+} from "@/components/providers/NavigationProvider";
+import { AccordionItem } from "@/components/ui";
+import { mainNav } from "@/packages/configs/navigation.config";
+import { cn } from "@/packages/utils/cn";
+import type { NavTab } from "@/types/navigation";
 
-const NAV_KEY = "main";
+type MobileNavSectionProps = {
+  tab: NavTab;
+  isExpanded: boolean;
+  onToggle: (id: string) => void;
+  onLinkClick: () => void;
+};
 
-/**
- * Mobile now shares the same "sidebar design" (hamburger + Drawer menu) as
- * NavbarTablet, instead of the old fixed bottom tab bar — one navigation
- * mechanism per breakpoint rather than two competing ones. See
- * NavMenuDrawer for the actual menu content.
- */
+const MobileNavSection = memo(
+  ({ tab, isExpanded, onToggle, onLinkClick }: MobileNavSectionProps) => {
+    const pathname = usePathname();
+    const handleToggle = useCallback(
+      () => onToggle(tab.id),
+      [onToggle, tab.id],
+    );
+
+    // Plain destination — same row height/typography as an accordion trigger.
+    if (!tab.dropdown?.length) {
+      const isCurrentRoute = tab.href !== undefined && pathname === tab.href;
+
+      return (
+        <div className="accordion-item">
+          <Link
+            href={tab.href ?? "#"}
+            className={cn("mobile-nav-link", isCurrentRoute && "active")}
+            aria-current={isCurrentRoute ? "page" : undefined}
+            onClick={onLinkClick}
+          >
+            <span className="accordion-title">{tab.title}</span>
+          </Link>
+        </div>
+      );
+    }
+
+    return (
+      <AccordionItem
+        title={tab.title}
+        isOpen={isExpanded}
+        onToggle={handleToggle}
+      >
+        {tab.dropdown.map((category) => (
+          <div key={category.category} className="mobile-subcat">
+            <div className="mobile-subcat-title">{category.category}</div>
+            <ul className="mobile-subcat-links">
+              {category.items.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="mobile-sublink"
+                    aria-current={pathname === item.href ? "page" : undefined}
+                    onClick={onLinkClick}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </AccordionItem>
+    );
+  },
+);
+
+MobileNavSection.displayName = "MobileNavSection";
+
 const NavbarMobile = () => {
-  const { state, toggleSidebar, closeSidebar } = useNavigation(NAV_KEY);
-  const { logo, actions } = navigationConfig;
+  const activeMobileCategory = useNavigationState("activeMobileCategory");
+  const { toggleMobileCategory, setMobileMenuOpen } = useNavigationActions();
+
+  const handleLinkClick = useCallback(
+    () => setMobileMenuOpen(false),
+    [setMobileMenuOpen],
+  );
 
   return (
-    <div className="nav-mobile">
-      <div className="nav-mobile__topbar">
-        <button
-          type="button"
-          className="nav-hamburger"
-          onClick={toggleSidebar}
-          aria-label="Open menu"
-          aria-expanded={state.sidebarOpen}
-        >
-          <LucideLibrary name="menu" className="nav-hamburger__icon" />
-        </button>
-
-        <Link href="/" className="nav-mobile__logo" aria-label={logo.alt}>
-          <Image
-            src={logo.src}
-            alt={logo.alt}
-            width={96}
-            height={48}
-            priority
-          />
-        </Link>
-
-        <Link
-          href={actions.cart.href}
-          className="nav-icon-btn nav-icon-btn--cart"
-          aria-label={actions.cart.name}
-        >
-          <LucideLibrary
-            name={actions.cart.icon}
-            className="nav-icon-btn__icon"
-          />
-        </Link>
-      </div>
-
-      <NavMenuDrawer
-        navKey={NAV_KEY}
-        open={state.sidebarOpen}
-        onClose={closeSidebar}
-      />
-    </div>
+    <nav className="mobile-nav" aria-label="Mobile">
+      {mainNav.map((tab: NavTab) => (
+        <MobileNavSection
+          key={tab.id}
+          tab={tab}
+          isExpanded={activeMobileCategory === tab.id}
+          onToggle={toggleMobileCategory}
+          onLinkClick={handleLinkClick}
+        />
+      ))}
+    </nav>
   );
 };
 

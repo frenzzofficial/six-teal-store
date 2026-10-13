@@ -1,27 +1,24 @@
-import "@/styles/globals.css";
 import type { Metadata } from "next";
+import "@/styles/globals.css";
 import AppClientLayout from "@/components/layouts/AppClientLayout";
-import { fontMono, fontSans, fontSerif } from "@/packages/configs/fonts.config";
-import { seo } from "@/packages/seo/seo.index";
-import { cn } from "@/packages/utils/cn";
-
+import appConfig from "@/packages/configs/app.config";
+import seo from "@/packages/seo";
+import { getThemeFontClassName } from "@/packages/utils/fonts";
 export const metadata: Metadata = seo;
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       data-scroll-behavior="smooth"
-      className={cn(
-        "h-full",
-        "antialiased",
-        fontSans.variable,
-        fontSerif.variable,
-        fontMono.variable,
-        "font-sans",
-      )}
+      className={`${getThemeFontClassName(appConfig.site.style)} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body suppressHydrationWarning={true}>
         <AppClientLayout>{children}</AppClientLayout>
       </body>
     </html>

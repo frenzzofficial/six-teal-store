@@ -1,666 +1,553 @@
-/* ==========================================================================
-   Navigation system styles
-   Consumes the app's existing shadcn-style teal CSS variables
-   (--background, --foreground, --card, --border, --primary,
-   --primary-foreground, --muted, --muted-foreground, --accent, --radius).
-   Falls back to sane teal defaults if a variable isn't defined upstream.
-   ========================================================================== */
+/* -----------------------------------------------------------------------------
+   Header, desktop mega-menu, and mobile drawer.
+   Structural state (which dropdown/accordion is open, drawer open/closed)
+   is owned by NavigationProvider (components/providers/NavigationProvider.tsx)
+   and expressed here purely as class toggles — "is-visible", "is-open",
+   "active", "expanded". This file only ever reacts to those classes.
 
+   Breakpoint: 1024px matches BREAKPOINTS.lg in
+   packages/configs/theme.config.ts — desktop nav shows at/above it, the
+   mobile toggle + drawer below it. Keep both in sync if either changes.
+   ----------------------------------------------------------------------------- */
+
+/* Also the offset the mobile drawer starts below (see mobile-menu-root). */
 :root {
-  /* Was `var(--accent, #ecfdf9)` — --accent IS defined globally (a fairly
-   * saturated mint, meant for hover/active states), so that fallback never
-   * activated and the header rendered with a much stronger green tint than
-   * intended. The header should read as the page surface, just barely
-   * distinguished — that's --background, with a translucent color-mix
-   * already applied below in .nav-header. */
-  --nav-bg: var(--accent, #ecfdf9);
-  --nav-fg: var(--foreground, #0f1a1a);
-  --nav-border: var(--border, #dce7e6);
-  --nav-muted: var(--muted-foreground, #5b6b6a);
-  --nav-primary: var(--primary, #0f766e);
-  --nav-primary-foreground: var(--primary-foreground, #f0fdfa);
-  --nav-accent: var(--accent, #ecfdf9);
-  --nav-radius: var(--radius, 0.65rem);
-  --nav-shadow: 0 8px 24px -12px rgb(15 118 110 / 0.18);
-
-  --nav-height-desktop: 4.25rem;
-  --nav-height-mobile-top: 3.5rem;
-  --nav-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --header-height: 4rem;
 }
 
-/* ---------- shell ---------- */
-
-.nav-header {
+.header {
+  position: relative;
+  z-index: 40;
   width: 100%;
+  background-color: color-mix(in oklch, var(--background) 88%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  /* When the menu closes, drop back under the drawer layer only after its
+     slide-out finishes, so the header never flickers beneath the panel. */
+  transition: z-index 0s linear 400ms;
+}
+
+.header-sticky {
   position: sticky;
   top: 0;
-  z-index: 40;
-  background: color-mix(in srgb, var(--nav-bg) 88%, transparent);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--nav-border);
 }
 
-.nav-footer {
-  width: 100%;
-  background: var(--nav-bg);
-  border-top: 1px solid var(--nav-border);
-  color: var(--nav-fg);
+/* Above the drawer layer (10000, drawer.css) so the hamburger/X stays
+   visible and clickable while the menu is open. */
+.header.menu-open {
+  z-index: 10001;
+  transition-delay: 0s;
 }
 
-/* ---------- shared primitives ---------- */
-
-.nav-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--nav-fg);
-  text-decoration: none;
-  padding: 0.5rem 0.15rem;
-  position: relative;
-  transition: color var(--nav-transition);
-}
-
-.nav-link:hover {
-  color: var(--nav-primary);
-}
-
-.nav-link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 100%;
-  bottom: -1px;
-  height: 2px;
-  background: var(--nav-primary);
-  transition: right var(--nav-transition);
-  border-radius: 2px;
-}
-
-.nav-link:hover::after {
-  right: 0;
-}
-
-.nav-link--active {
-  color: var(--nav-primary);
-}
-
-.nav-link--active::after {
-  right: 0;
-}
-
-.nav-link__icon {
-  width: 1rem;
-  height: 1rem;
-  flex-shrink: 0;
-}
-
-.nav-icon-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 999px;
-  color: var(--nav-fg);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition:
-    background var(--nav-transition),
-    color var(--nav-transition);
-}
-
-.nav-icon-btn:hover {
-  background: var(--nav-accent);
-  color: var(--nav-primary);
-}
-
-.nav-icon-btn--active {
-  background: var(--nav-accent);
-  color: var(--nav-primary);
-}
-
-.nav-icon-btn__icon {
-  width: 1.1rem;
-  height: 1.1rem;
-}
-
-.nav-icon-btn--cart {
-  position: relative;
-}
-
-.nav-hamburger {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: var(--nav-radius);
-  border: 1px solid transparent;
-  background: transparent;
-  color: var(--nav-fg);
-  cursor: pointer;
-  transition:
-    background var(--nav-transition),
-    border-color var(--nav-transition);
-}
-
-.nav-hamburger:hover {
-  background: var(--nav-accent);
-  border-color: var(--nav-border);
-}
-
-.nav-hamburger__icon {
-  width: 1.35rem;
-  height: 1.35rem;
-}
-
-/* ==========================================================================
-   Desktop navbar
-   ========================================================================== */
-
-.nav-desktop {
-  position: relative;
-  height: var(--nav-height-desktop);
-  max-width: 84rem;
-  margin: 0 auto;
-  padding: 0 2rem;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 2rem;
-}
-
-.nav-desktop__logo {
-  display: inline-flex;
-}
-
-.nav-desktop__logo-img {
-  height: auto;
-}
-
-.nav-desktop__links {
+.header-main {
   display: flex;
   align-items: center;
-  gap: 2rem;
-  justify-self: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 80rem;
+  height: var(--header-height);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
 }
 
-.nav-desktop__item {
-  position: relative;
+/* ---------- Desktop nav ---------- */
+
+.desktop-nav {
+  display: none;
 }
 
-.nav-desktop__actions {
+@media (min-width: 1024px) {
+  .desktop-nav {
+    display: block;
+  }
+}
+
+.nav-links-list {
   display: flex;
   align-items: center;
   gap: 0.25rem;
+  list-style: none;
 }
 
-/* Wraps the panel and touches the trigger with zero gap (top: 100%), then
- * uses padding-top — not margin — to create the visual gap. Padding is
- * still inside the element's hoverable box, margin is not, so the mouse
- * never leaves this element while crossing from trigger to panel. Fixes
- * the flyout closing before you can reach it. */
-.nav-flyout {
+.nav-item {
+  position: relative;
+}
+
+/* Plain link and dropdown trigger share this — they must look identical.
+   The trigger is a bare <button>, so reset its native chrome. */
+.nav-btn {
+  --nav-easing: cubic-bezier(0.16, 1, 0.3, 1);
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.75rem;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--foreground);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 200ms ease;
+}
+
+.nav-btn:hover,
+.nav-btn.active {
+  color: var(--primary);
+}
+
+.nav-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+/* Underline — sized to the label text only (not the button's padding, not
+   the chevron). Grows in from the left on hover/open/current and leaves
+   out through the right, so it always travels one direction. */
+.nav-label {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 2px;
+}
+
+.nav-label::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 2px;
+  border-radius: 9999px;
+  background: var(--primary);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 380ms var(--nav-easing);
+}
+
+.nav-btn:hover .nav-label::after,
+.nav-btn:focus-visible .nav-label::after,
+.nav-btn.active .nav-label::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Chevron on dropdown triggers — same easing as the underline, flips when open */
+.chevron-arrow {
+  width: 0.4rem;
+  height: 0.4rem;
+  margin-top: -2px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(0) rotate(45deg);
+  transition: transform 380ms var(--nav-easing, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.nav-btn:hover .chevron-arrow {
+  transform: translateY(2px) rotate(45deg);
+}
+
+.nav-btn[aria-expanded="true"] .chevron-arrow {
+  transform: translateY(2px) rotate(-135deg);
+}
+
+/* ---------- Mega dropdown ---------- */
+
+/* The wrapper only shows/hides (and centers) the panel. Its padding-top is
+   the hover bridge between trigger and panel — no dead gap for the pointer
+   to fall through. The entrance animation runs on the inner panel, driven
+   by animation.config ("dropdown" + staggered "fade" columns). */
+.mega-dropdown {
   position: absolute;
   top: 100%;
   left: 50%;
+  z-index: 50;
+  min-width: 10rem;
+  padding-top: 0.5rem;
   transform: translateX(-50%);
-  padding-top: 0.75rem;
-}
 
-.nav-flyout__panel {
-  background: var(--nav-bg);
-  border: 1px solid var(--nav-border);
-  border-radius: var(--nav-radius);
-  box-shadow: var(--nav-shadow);
-  padding: 0.75rem;
-  min-width: 20rem;
-  animation: nav-fade-in var(--nav-transition) ease-out;
-}
-
-.nav-flyout__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.25rem;
-}
-
-.nav-flyout__item {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.55rem 0.65rem;
-  border-radius: calc(var(--nav-radius) - 0.2rem);
-  color: var(--nav-fg);
-  text-decoration: none;
-  font-size: 0.875rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
   transition:
-    background var(--nav-transition),
-    color var(--nav-transition);
+    opacity 150ms ease,
+    visibility 0s linear 150ms;
 }
 
-.nav-flyout__item:hover {
-  background: var(--nav-accent);
-  color: var(--nav-primary);
+.mega-dropdown.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
 }
 
-.nav-flyout__icon {
-  width: 1rem;
-  height: 1rem;
-  color: var(--nav-primary);
-}
-
-.nav-search-overlay {
-  position: absolute;
-  inset: 0 0 auto 0;
-  top: 100%;
-  background: var(--nav-bg);
-  border-bottom: 1px solid var(--nav-border);
-  box-shadow: var(--nav-shadow);
-  padding: 1rem 2rem;
-  animation: nav-fade-in var(--nav-transition) ease-out;
-}
-
-.nav-search-overlay__bar {
-  max-width: 84rem;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  border: 1px solid var(--nav-border);
-  border-radius: var(--nav-radius);
-  padding: 0.6rem 0.9rem;
-}
-
-.nav-search-overlay__icon {
-  width: 1.1rem;
-  height: 1.1rem;
-  color: var(--nav-muted);
-  flex-shrink: 0;
-}
-
-.nav-search-overlay__input {
-  flex: 1;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: 0.95rem;
-  color: var(--nav-fg);
-}
-
-.nav-search-overlay__close {
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  color: var(--nav-muted);
-  display: inline-flex;
-}
-
-/* ==========================================================================
-   Tablet navbar
-   ========================================================================== */
-
-.nav-tablet {
-  height: var(--nav-height-desktop);
-  padding: 0 1.25rem;
+.mega-dropdown-inner {
   display: grid;
-  grid-template-columns: auto auto 1fr auto;
-  align-items: center;
-  gap: 1.25rem;
+  grid-auto-flow: column;
+  gap: 1.5rem;
+  padding: 1.25rem;
+  transform-origin: top center;
+
+  background: var(--popover);
+  color: var(--popover-foreground);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 0.25rem);
+  box-shadow:
+    0 1px 0 color-mix(in oklch, var(--foreground) 4%, transparent),
+    0 18px 40px -12px color-mix(in oklch, var(--foreground) 22%, transparent);
 }
 
-.nav-tablet__logo {
-  display: inline-flex;
-}
-
-.nav-tablet__links {
+.dropdown-column {
   display: flex;
-  align-items: center;
-  gap: 1.25rem;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 11rem;
 }
 
-.nav-tablet__actions {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  justify-self: end;
+.column-heading {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted-foreground);
 }
 
-/* ==========================================================================
-   Mobile navbar
-   ========================================================================== */
-
-.nav-mobile__topbar {
-  height: var(--nav-height-mobile-top);
-  padding: 0 1rem;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.nav-mobile__logo {
-  justify-self: center;
-  display: inline-flex;
-}
-
-/* ==========================================================================
-   Nav menu drawer content — shared by mobile + tablet's hamburger menu.
-   Rendered inside the generic Drawer (drawer.css); only content-level
-   classes live here (links, divider, category collapsible, social row).
-   The panel/overlay/header shell itself is Drawer's, not this file's.
-   ========================================================================== */
-
-.nav-sidebar__section {
+.column-links {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
-}
-
-.nav-sidebar__link {
-  padding: 0.6rem 0.5rem;
-  border-radius: calc(var(--nav-radius) - 0.2rem);
-}
-
-.nav-sidebar__link::after {
-  display: none;
-}
-
-.nav-sidebar__link:hover,
-.nav-sidebar__link--active {
-  background: var(--nav-accent);
-}
-
-.nav-sidebar__link--active {
-  color: var(--nav-primary);
-}
-
-.nav-sidebar__divider {
-  height: 1px;
-  background: var(--nav-border);
-  margin: 0.85rem 0;
-}
-
-.nav-sidebar__collapsible-summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  list-style: none;
-  padding: 0.6rem 0.5rem;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--nav-fg);
-  border-radius: calc(var(--nav-radius) - 0.2rem);
-}
-
-.nav-sidebar__collapsible-summary::-webkit-details-marker {
-  display: none;
-}
-
-.nav-sidebar__collapsible[open] .nav-sidebar__chevron {
-  transform: rotate(180deg);
-}
-
-.nav-sidebar__chevron {
-  width: 1rem;
-  height: 1rem;
-  transition: transform var(--nav-transition);
-  color: var(--nav-muted);
-}
-
-.nav-sidebar__collapsible-body {
-  display: flex;
-  flex-direction: column;
-  padding: 0.25rem 0.5rem 0.5rem 1.25rem;
-}
-
-.nav-sidebar__sublink {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.5rem 0.25rem;
-  font-size: 0.85rem;
-  color: var(--nav-muted);
-  text-decoration: none;
-  border-radius: calc(var(--nav-radius) - 0.3rem);
-}
-
-.nav-sidebar__sublink:hover {
-  color: var(--nav-primary);
-  background: var(--nav-accent);
-}
-
-.nav-sidebar__sublink-icon {
-  width: 0.95rem;
-  height: 0.95rem;
-}
-
-.nav-sidebar__social {
-  display: flex;
-  gap: 0.4rem;
-}
-
-/* ==========================================================================
-   Footer — desktop / tablet
-   ========================================================================== */
-
-.nav-footer-desktop__top {
-  max-width: 84rem;
-  margin: 0 auto;
-  padding: 3.5rem 2rem 2.5rem;
-  display: grid;
-  grid-template-columns: 1.2fr 2fr;
-  gap: 3rem;
-}
-
-.nav-footer-desktop__brand {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.nav-footer-desktop__tagline {
-  color: var(--nav-muted);
-  font-size: 0.875rem;
-  max-width: 22ch;
-}
-
-.nav-footer-desktop__social {
-  display: flex;
-  gap: 0.4rem;
-}
-
-.nav-footer-desktop__columns {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1.5rem;
-}
-
-.nav-footer-desktop__heading {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--nav-fg);
-  margin-bottom: 0.9rem;
-}
-
-.nav-footer-desktop__list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  list-style: none;
+  margin: 0;
   padding: 0;
-  margin: 0;
+  list-style: none;
 }
 
-.nav-footer-desktop__link {
-  font-size: 0.85rem;
-  color: var(--nav-muted);
-  text-decoration: none;
-  transition: color var(--nav-transition);
-}
-
-.nav-footer-desktop__link:hover {
-  color: var(--nav-primary);
-}
-
-.nav-footer-desktop__bottom {
-  border-top: 1px solid var(--nav-border);
-  padding: 1.25rem 2rem;
-  max-width: 84rem;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 0.78rem;
-  color: var(--nav-muted);
-}
-
-.nav-footer-desktop__bottom-links {
-  display: flex;
-  gap: 1.25rem;
-}
-
-.nav-footer-desktop__bottom-links a {
-  color: var(--nav-muted);
-  text-decoration: none;
-}
-
-.nav-footer-desktop__bottom-links a:hover {
-  color: var(--nav-primary);
-}
-
-/* ==========================================================================
-   Footer — mobile
-   ========================================================================== */
-
-.nav-footer-mobile {
-  padding: 2rem 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.nav-footer-mobile__brand {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.nav-footer-mobile__social {
-  display: flex;
-  gap: 0.25rem;
-}
-
-.nav-footer-mobile__accordion {
-  display: flex;
-  flex-direction: column;
-}
-
-.nav-footer-mobile__group {
-  border-bottom: 1px solid var(--nav-border);
-}
-
-.nav-footer-mobile__summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.9rem 0.1rem;
+.dropdown-link-item {
+  display: block;
+  padding: 0.45rem 0.6rem;
+  border-radius: var(--radius);
   font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--nav-fg);
-  cursor: pointer;
-  list-style: none;
+  color: var(--foreground);
+  text-decoration: none;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    padding-left 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.nav-footer-mobile__summary::-webkit-details-marker {
-  display: none;
+.dropdown-link-item:hover,
+.dropdown-link-item:focus-visible,
+.dropdown-link-item[aria-current="page"] {
+  padding-left: 0.85rem;
+  background-color: var(--accent);
+  color: var(--accent-foreground);
 }
 
-.nav-footer-mobile__group[open] .nav-footer-mobile__chevron {
-  transform: rotate(180deg);
+.dropdown-link-item:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
 }
 
-.nav-footer-mobile__chevron {
-  width: 1rem;
-  height: 1rem;
-  color: var(--nav-muted);
-  transition: transform var(--nav-transition);
+/* ---------- Header actions (theme toggle + hamburger) ---------- */
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.nav-footer-mobile__list {
-  list-style: none;
-  padding: 0 0 0.9rem;
-  margin: 0;
+/* ---------- Mobile drawer ----------
+   The drawer itself is the generic <Drawer> (drawer.css); these rules just
+   start it below the header so the hamburger/X stays uncovered. Hamburger
+   styles live in hamburger.css, accordion styles in accordion.css. */
+
+.mobile-menu-root .drawer-backdrop,
+.mobile-menu-root .drawer-panel {
+  top: var(--header-height);
+}
+
+@media (min-width: 1024px) {
+  .mobile-menu-root {
+    display: none;
+  }
+}
+
+.mobile-nav {
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
 }
 
-.nav-footer-mobile__link {
-  font-size: 0.85rem;
-  color: var(--nav-muted);
+/* Plain (non-dropdown) mobile links — same row as an accordion trigger */
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  min-height: 3rem;
+  padding: 0.75rem 0.25rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--foreground);
   text-decoration: none;
+  transition: color 200ms ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.nav-footer-mobile__bottom {
-  text-align: center;
+.mobile-nav-link:hover,
+.mobile-nav-link.active {
+  color: var(--primary);
+}
+
+.mobile-nav-link:focus-visible {
+  outline: none;
+  border-radius: var(--radius);
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+/* Underline for links matches the accordion title underline */
+.mobile-nav-link:hover .accordion-title::after,
+.mobile-nav-link.active .accordion-title::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.mobile-subcat {
+  padding-bottom: 0.5rem;
+}
+
+.mobile-subcat-title {
+  margin-bottom: 0.25rem;
+  padding-inline: 0.5rem;
   font-size: 0.75rem;
-  color: var(--nav-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted-foreground);
 }
 
-/* ==========================================================================
-   Motion + accessibility
-   ========================================================================== */
-
-@keyframes nav-fade-in {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -4px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
+.mobile-subcat-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.nav-search-overlay {
-  animation-name: nav-fade-in-plain;
+.mobile-sublink {
+  display: flex;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: 0.5rem;
+  border-radius: var(--radius);
+  font-size: 0.9375rem;
+  color: var(--foreground);
+  text-decoration: none;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
-@keyframes nav-fade-in-plain {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.mobile-sublink:hover,
+.mobile-sublink:active,
+.mobile-sublink[aria-current="page"] {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
 }
 
-:is(.nav-link, .nav-icon-btn, .nav-hamburger, a, button):focus-visible {
-  outline: 2px solid var(--nav-primary);
-  outline-offset: 2px;
-  border-radius: calc(var(--nav-radius) - 0.2rem);
+.mobile-sublink:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .nav-header,
-  .nav-link,
-  .nav-icon-btn,
-  .nav-hamburger,
-  .nav-flyout,
-  .nav-search-overlay,
-  .nav-sidebar__chevron,
-  .nav-footer-mobile__chevron,
-  .drawer-backdrop,
-  .drawer-panel {
-    transition: none;
-    animation: none;
-  }
+/* ---------- Mobile menu footer (NavigationMobileFooter) ---------- */
+
+/* Keep the pinned footer clear of the iOS home indicator */
+.mobile-menu-root .drawer-footer {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+.mobile-menu-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mobile-menu-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.mobile-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  margin: -0.5rem;
+  border-radius: var(--radius);
+  color: var(--foreground);
+  text-decoration: none;
+  transition: background-color 200ms ease;
+}
+
+.mobile-profile:hover,
+.mobile-profile:focus-visible {
+  background-color: var(--accent);
+}
+
+.mobile-profile:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.mobile-profile-avatar {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: var(--accent);
+  color: var(--accent-foreground);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.mobile-profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mobile-profile-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mobile-profile-name {
+  overflow: hidden;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mobile-profile-email {
+  overflow: hidden;
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  color: var(--muted-foreground);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- Mobile drawer footer (NavigationMobileFooter) ----------
+   Sits in the generic .drawer-footer slot, which already provides the top
+   border and padding. */
+
+.mobile-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.mobile-footer-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 0.5rem;
+  margin: -0.5rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--foreground);
+  transition: background-color 200ms ease;
+}
+
+a.mobile-footer-profile:hover,
+a.mobile-footer-profile:focus-visible {
+  background-color: var(--accent);
+}
+
+a.mobile-footer-profile:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.mobile-footer-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background: color-mix(in oklch, var(--primary) 14%, transparent);
+  color: var(--primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  object-fit: cover;
+}
+
+.mobile-footer-identity {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mobile-footer-name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.mobile-footer-sub {
+  overflow: hidden;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--muted-foreground);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mobile-footer-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.625rem;
+}
+
+.mobile-footer-signout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: transparent;
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--foreground);
+  cursor: pointer;
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease;
+}
+
+.mobile-footer-signout:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.mobile-footer-signout:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
 }

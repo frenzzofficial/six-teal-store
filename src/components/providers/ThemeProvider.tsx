@@ -1,18 +1,23 @@
 "use client";
 
 import { ThemeProvider as NextThemesProvider } from "next-themes";
+import type { ReactNode } from "react";
 import { themeConfig } from "@/packages/configs/theme.config";
 
-type ThemeProviderProps = {
-  children: React.ReactNode;
-};
+interface ThemeProviderProps {
+  children: ReactNode;
+}
 
-/**
- * Thin wrapper around next-themes, configured entirely from
- * theme.config.ts. `next-themes` was already a dependency and this file
- * existed as an empty scaffold — it was never actually wired up, so the
- * app rendered with no theme provider at all. This is that wiring.
- */
-export function ThemeProvider({ children }: ThemeProviderProps) {
-  return <NextThemesProvider {...themeConfig}>{children}</NextThemesProvider>;
+export default function ThemeProvider({ children }: ThemeProviderProps) {
+  return (
+    <NextThemesProvider
+      attribute="class"
+      storageKey={themeConfig.storageKey}
+      defaultTheme={themeConfig.defaultTheme}
+      enableSystem={themeConfig.enableSystem}
+      disableTransitionOnChange
+    >
+      {children}
+    </NextThemesProvider>
+  );
 }

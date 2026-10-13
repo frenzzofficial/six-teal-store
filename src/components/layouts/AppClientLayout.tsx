@@ -1,27 +1,26 @@
 "use client";
-import { NavigationProvider } from "../providers/NavigationProvider";
-import { ThemeProvider } from "../providers/ThemeProvider";
-import { Toaster } from "../ui/shadcn/toast";
-import { TooltipProvider } from "../ui/shadcn/tooltip";
+import { Suspense } from "react";
+import NavigationProvider from "../providers/NavigationProvider";
+import { StyleProvider } from "../providers/StyleProvider";
+import ThemeProvider from "../providers/ThemeProvider";
 import Footer from "./Footer";
 import Header from "./Header";
 
 interface AppClientLayoutProps {
   children: React.ReactNode;
 }
-
-const AppClientLayout = (props: AppClientLayoutProps) => {
-  const { children } = props;
+const AppClientLayout = ({ children }: AppClientLayoutProps) => {
   return (
     <ThemeProvider>
-      <TooltipProvider>
+      <StyleProvider>
         <NavigationProvider>
-          <Header />
-          <main className="min-h-screen w-full">{children}</main>
+          <Suspense fallback={null}>
+            <Header />
+          </Suspense>
+          <main className="main screen-height">{children}</main>
           <Footer />
-          <Toaster />
         </NavigationProvider>
-      </TooltipProvider>
+      </StyleProvider>
     </ThemeProvider>
   );
 };

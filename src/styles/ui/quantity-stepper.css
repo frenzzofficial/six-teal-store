@@ -1,0 +1,50 @@
+/* ==========================================================================
+   QuantityStepper
+   ========================================================================== */
+
+.quantity-stepper {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.quantity-stepper__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  background: var(--card);
+  color: var(--foreground);
+  cursor: pointer;
+}
+
+.quantity-stepper__btn:hover:not(:disabled) {
+  background: var(--accent);
+  color: var(--primary);
+}
+
+.quantity-stepper__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.quantity-stepper__btn svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.quantity-stepper__value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}

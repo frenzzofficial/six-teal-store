@@ -1,0 +1,54 @@
+/* ==========================================================================
+   Newsletter form — reused on Home / Products / Trending
+   ========================================================================== */
+
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 26rem;
+}
+
+.newsletter-form__row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.newsletter-form__field {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.newsletter-form__icon {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  color: var(--muted-foreground);
+  pointer-events: none;
+}
+
+.newsletter-form__input.newsletter-form__input {
+  height: 2.75rem;
+  padding-left: 2.5rem;
+  border-radius: 999px;
+  background: var(--background);
+  border-color: var(--border);
+}
+
+.newsletter-form__hint {
+  font-size: 0.78rem;
+  color: var(--muted-foreground);
+  margin: 0;
+  padding-left: 0.25rem;
+}
+
+.newsletter-form:has(.newsletter-form__input[aria-invalid="true"])
+  .newsletter-form__hint {
+  color: var(--destructive);
+}

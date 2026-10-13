@@ -1,28 +1,31 @@
 import { z } from "zod";
+import { parseEnv } from "../utils/parse-env";
 
-const serverEnvSchema = z.object({
+// Server Environment Schema
+const parsedEnvSchema = z.object({
   NODE_ENV: z
     .enum(["development", "production", "test"])
     .default("development"),
 
-  PORT: z.coerce.number().int().positive().default(3000),
+  PORT: z.coerce
+    .number()
+    .int("PORT must be an integer")
+    .min(1, "PORT must be greater than 0")
+    .max(65535, "PORT must be less than or equal to 65535")
+    .default(3000),
 });
 
-const parsedServerEnv = serverEnvSchema.safeParse(process.env);
+// Validated Server Environment
+const parsedEnv = parseEnv(parsedEnvSchema, "server");
 
-if (!parsedServerEnv.success) {
-  console.error("❌ Invalid server environment variables:");
-
-  for (const issue of parsedServerEnv.error.issues) {
-    console.error(`- ${issue.path.join(".")}: ${issue.message}`);
-  }
-
-  throw new Error("Server environment validation failed");
-}
-
+// Application Environment Config
 export const envAppConfig = Object.freeze({
-  NODE_ENV: parsedServerEnv.data.NODE_ENV,
-  PORT: parsedServerEnv.data.PORT,
+  NODE_ENV: parsedEnv.NODE_ENV,
+  port: parsedEnv.PORT,
+
+  isDevelopment: parsedEnv.NODE_ENV === "development",
+  isProduction: parsedEnv.NODE_ENV === "production",
+  isTest: parsedEnv.NODE_ENV === "test",
 });
 
 export type EnvAppConfig = typeof envAppConfig;

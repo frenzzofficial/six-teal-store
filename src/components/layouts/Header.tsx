@@ -1,30 +1,73 @@
+"use client";
+
+import { useCallback } from "react";
+import {
+  useNavigationActions,
+  useNavigationState,
+} from "@/components/providers/NavigationProvider";
+import appConfig from "@/packages/configs/app.config";
+import { MOBILE_MENU_ID } from "@/packages/configs/navigation.config";
+import { useNavigationAutoClose } from "@/packages/hooks/useNavigationAutoClose";
+import { cn } from "@/packages/utils/cn";
 import NavbarDesktop from "../features/navigation/navbar/NavbarDesktop";
+import NavbarDesktopAction from "../features/navigation/navbar/NavbarDesktopAction";
 import NavbarMobile from "../features/navigation/navbar/NavbarMobile";
-import NavbarTablet from "../features/navigation/navbar/NavbarTablet";
+import Drawer from "../ui/drawer/Drawer";
+import NavigationLogo from "../ui/images/NavigationLogo";
+
+type HeaderProps = {
+  /** Keep the header pinned while scrolling. On by default — the drawer is offset from the header, so it needs to stay in view. */
+  sticky?: boolean;
+};
 
 /**
- * Renders all three nav variants and lets Tailwind's responsive classes
- * decide which is visible. Deciding this in JS (via useBreakpoints, which
- * can't know the viewport during SSR) forced every first paint to fall back
- * to the mobile nav and then "pop" to the right one after mount — a
- * hydration-mismatch-prone flash. CSS media queries apply instantly on
- * first paint, server and client alike, so there's no flash and no
- * mismatch.
+ * Split from `Header` because `useNavigationState`/`useNavigationActions`
+ * need to run *inside* the `NavigationProvider` this file also creates —
+ * a component can't consume a context it renders itself.
  */
-const Header = () => {
+const HeaderContent = ({ sticky = true }: HeaderProps) => {
+  const mobileMenuOpen = useNavigationState("mobileMenuOpen");
+  const { setMobileMenuOpen, closeAll } = useNavigationActions();
+
+  useNavigationAutoClose(closeAll);
+
+  const closeMenu = useCallback(
+    () => setMobileMenuOpen(false),
+    [setMobileMenuOpen],
+  );
+
   return (
-    <header className="nav-header">
-      <div className="hidden lg:block">
+    // `menu-open` lifts the header above the drawer layer, so the hamburger
+    // (which morphs into the X) stays visible and clickable in place.
+    <header
+      className={cn(
+        "header",
+        sticky && "header-sticky",
+        mobileMenuOpen && "menu-open",
+      )}
+    >
+      <div className="header-main">
+        <NavigationLogo src={appConfig.site.logo} />
         <NavbarDesktop />
+        <NavbarDesktopAction />
       </div>
-      <div className="hidden md:block lg:hidden">
-        <NavbarTablet />
-      </div>
-      <div className="block md:hidden">
+
+      <Drawer
+        id={MOBILE_MENU_ID}
+        ariaLabel="Navigation menu"
+        rootClassName="mobile-menu-root"
+        origin="right"
+        isOpen={mobileMenuOpen}
+        onClose={closeMenu}
+        hideCloseButton
+        footer={null}
+      >
         <NavbarMobile />
-      </div>
+      </Drawer>
     </header>
   );
 };
+
+const Header = (props: HeaderProps) => <HeaderContent {...props} />;
 
 export default Header;

@@ -1,3 +1,5 @@
+import type { ImgHTMLAttributes } from "react";
+
 // Extended image metadata for logos, icons, etc.
 export interface ImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   id: string; // required unique identifier
@@ -13,15 +15,12 @@ export interface ImageProps extends ImgHTMLAttributes<HTMLImageElement> {
 }
 
 // Icon metadata for navigation items, buttons, etc.
-export interface IconProps {
-  node?: ReactNode | string;
-  hidden?: boolean;
-  color?: string;
+export type IconProps = {
+  className?: string;
   size?: number;
-  only?: boolean;
-  position?: "left" | "right";
-  spacing?: number;
-}
+  strokeWidth?: number;
+  "aria-hidden"?: boolean;
+};
 export type InputType =
   | "text"
   | "textarea"
@@ -62,8 +61,6 @@ export type Variants =
   | "danger"
   | "success"
   | "link";
-
-export type LinkVariants = "primary" | "secondary" | "neutral" | "button";
 
 export type Position = "top" | "left" | "right" | "bottom";
 

@@ -1,57 +1,96 @@
 import { envAppConfig } from "../env/app.env";
 import { envClientConfig } from "../env/client.env";
 import { envPublicConfig } from "../env/public.env";
+import { themeConfig } from "./theme.config";
 
-const api = `${envClientConfig.CLIENT_ORIGIN}/${envClientConfig.CLIENT_PREFIX}`;
+const apiBaseUrl = `${envClientConfig.clientOrigin}/${envClientConfig.clientPrefix}`;
 
 const appConfig = {
-  // App config
+  // Application
   app: {
-    name: envPublicConfig.APP_NAME,
     version: envPublicConfig.APP_VERSION,
-    description: envPublicConfig.APP_DESCRIPTION,
     environment: envAppConfig.NODE_ENV,
     locale: "en",
     timezone: "UTC",
   },
 
-  // Site config
+  // Website
   site: {
-    url: envPublicConfig.SITE_URL,
+    name: envPublicConfig.APP_NAME,
     title: envPublicConfig.SITE_TITLE,
+    description: envPublicConfig.APP_DESCRIPTION,
+    url: envPublicConfig.SITE_URL,
     logo: envPublicConfig.LOGO_URL,
     ogImage: envPublicConfig.OG_IMAGE_URL,
-    active: envPublicConfig.ACTIVE_THEME,
+    theme: envPublicConfig.ACTIVE_THEME,
+    style: envPublicConfig.ACTIVE_STYLE,
+    titleTemplate: "%s | Six Teal Store",
   },
 
-  social: {
-    instagram: envPublicConfig.INSTAGRAM,
-    twitter: envPublicConfig.TWITTER,
-    linkedin: envPublicConfig.LINKEDIN,
-  },
-
+  // Author
   author: {
     name: envPublicConfig.AUTHOR_NAME,
+    handle: envPublicConfig.AUTHOR_HANDLE,
     email: envPublicConfig.AUTHOR_EMAIL,
   },
 
+  // Social Profiles
+  social: {
+    twitter: {
+      name: "Twitter",
+      handle: envPublicConfig.TWITTER,
+      cardType: "summary_large_image",
+      icon: "",
+    },
+
+    linkedin: {
+      name: "LinkedIn",
+      handle: envPublicConfig.LINKEDIN,
+      cardType: "summary_large_image",
+      icon: "",
+    },
+
+    instagram: {
+      name: "Instagram",
+      handle: envPublicConfig.INSTAGRAM,
+      cardType: "summary_large_image",
+      icon: "",
+    },
+  },
+
+  // Repository / Git
+  repository: {
+    repositoryName: envPublicConfig.AUTHOR_NAME,
+    repositoryUrl: `https://github.com/${envPublicConfig.AUTHOR_HANDLE}/sixtealstore/`,
+    imageUrl: `https://raw.githubusercontent.com/${envPublicConfig.AUTHOR_HANDLE}/sixtealstore/refs/heads/main/public/`,
+  },
+
+  // Search Engine Verification
+  verification: {
+    google: envPublicConfig.GOOGLE_VERIFICATION,
+  },
+
+  // Application Logging
   logging: {
     enabled: envAppConfig.NODE_ENV !== "production",
     stackTrace: envAppConfig.NODE_ENV !== "production",
   },
 
+  // HTTP Headers
   headers: {
     requestId: "X-Request-Id",
     traceId: "X-Trace-Id",
     poweredBy: "X-Powered-By",
   },
 
+  // Pagination
   pagination: {
     defaultPage: 1,
     defaultLimit: 20,
     maxLimit: 100,
   },
 
+  // Responsive Breakpoints
   breakpoints: {
     sm: 640,
     md: 768,
@@ -60,30 +99,65 @@ const appConfig = {
     xxl: 1536,
   },
 
-  motion_duration: {
-    instant: 100,
-    fast: 150,
-    base: 250,
-    slow: 400,
+  // Theme
+  theme: themeConfig,
+
+  // Animation / Motion
+  motion: {
+    duration: {
+      instant: 100,
+      fast: 150,
+      base: 250,
+      slow: 400,
+    },
   },
 
+  // Application Routes
   routes: {
+    // Primary Pages
     home: "/",
     about: "/about",
-
-    robots: "/robots.txt",
-    sitemap: "/sitemap.xml",
-    favicon: "/favicon.ico",
-    logo: "/logo.png",
-
-    contact: "/contact",
-    privacy: "/privacy",
-    terms: "/terms",
     notFound: "/404",
+
+    // Other Routes
+    navigations: {
+      explore: "/explore",
+      trending: "/trending",
+      products: "/products",
+    },
+
+    actions: {
+      search: "/search",
+      wishlist: "/wishlist",
+      account: "/account",
+      cart: "/cart",
+    },
+
+    // Legal Company
+    legal: {
+      contact: "/contact",
+      privacy: "/privacy",
+      terms: "/terms",
+    },
+
+    // System // SEO Assets
+    system: {
+      favicon: "/favicon.ico",
+      logo: "/logo.png",
+      robots: "/robots.txt",
+      sitemap: "/sitemap.xml",
+    },
+
+    auth: {
+      signIn: "/auth/signin",
+      signUp: "/auth/signup",
+      profile: "/dashboard",
+    },
   },
 
+  // API
   api: {
-    base: api,
+    baseUrl: apiBaseUrl,
   },
 } as const;
 

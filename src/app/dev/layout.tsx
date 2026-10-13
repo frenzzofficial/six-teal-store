@@ -1,21 +1,34 @@
-import { notFound } from "next/navigation";
+import "./dev.css";
+import type { ReactNode } from "react";
+import { DevProvider } from "./DevProvider";
+import DevSidebarNav from "./DevSidebarNav";
 
-interface DevLayoutPageProps {
-  children: React.ReactNode;
-}
-
-const DevLayoutPage = ({ children }: DevLayoutPageProps) => {
-  if (process.env.NODE_ENV === "production") {
-    notFound();
-  }
+/**
+ * /dev — internal design-system reference. Not linked from the live
+ * site's navigation; exists so the actual component library and design
+ * tokens are documented as first-class artifacts instead of only living
+ * implicitly in the source. Disabled entirely in production.
+ *
+ * Everything under /dev is one route now (see DevProvider.tsx) —
+ * switching sections is a state change, not a navigation, so
+ * DevProvider wraps both the sidebar and page.tsx's content here,
+ * letting them share one `activeSection` value.
+ */
+const DevLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
+  // disable in production for real apps
+  if (process.env.NODE_ENV === "production") return null;
 
   return (
-    <div className="w-full min-h-screen">
-      <div className="flex flex-col justify-center items-center gap-20 ">
-        {children}
+    <DevProvider>
+      <div className="dev-shell">
+        <DevSidebarNav />
+
+        <div>
+          <main className="dev-content">{children}</main>
+        </div>
       </div>
-    </div>
+    </DevProvider>
   );
 };
 
-export default DevLayoutPage;
+export default DevLayout;

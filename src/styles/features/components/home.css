@@ -1,0 +1,518 @@
+/* ==========================================================================
+   Full-bleed section helper
+   --------------------------------------------------------------
+   For sections whose background should span the true viewport edge to
+   edge (hero, wellness banner, newsletter band) — the color goes on the
+   section itself with no width constraint; `&__inner` centers the actual
+   content at the usual 80rem reading width. Sections with no distinct
+   background (product rails, testimonials, category grid) don't need
+   this — there's no color to bleed, so a plain max-width container is
+   enough.
+   ========================================================================== */
+
+.section-bleed__inner {
+  max-width: 80rem;
+  margin-inline: auto;
+  width: 100%;
+}
+
+/* ==========================================================================
+   Shared section scaffolding
+   ========================================================================== */
+
+.home-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-section,
+.home-rail {
+  max-width: 80rem;
+  margin-inline: auto;
+  width: 100%;
+  padding: 3rem 1.25rem;
+}
+
+.home-section__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.home-section__subtitle {
+  color: var(--muted-foreground);
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+}
+
+.home-rail__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.home-rail__view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.home-rail__view-all svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.home-rail__view-all:hover {
+  text-decoration: underline;
+}
+
+.home-rail__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .home-rail__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-rail__grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+
+.home-hero {
+  background: var(--accent);
+}
+
+.home-hero__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding: 2.5rem 1.25rem;
+}
+
+@media (min-width: 1024px) {
+  .home-hero__inner {
+    grid-template-columns: 1.1fr 1fr;
+    align-items: center;
+    padding: 4rem 2rem;
+  }
+}
+
+.home-hero__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.9rem;
+}
+
+.home-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin: 0;
+}
+
+.home-hero__eyebrow svg {
+  width: 0.85rem;
+  height: 0.85rem;
+}
+
+.home-hero__title {
+  font-size: clamp(2.25rem, 5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.home-hero__description {
+  max-width: 32rem;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.home-hero__stats {
+  display: flex;
+  gap: 1.75rem;
+  margin: 1.25rem 0 0;
+  flex-wrap: wrap;
+}
+
+.home-hero__stat {
+  margin: 0;
+}
+
+.home-hero__stat-value {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.home-hero__stat-label {
+  margin: 0.1rem 0 0;
+  font-size: 0.78rem;
+  color: var(--muted-foreground);
+}
+
+.home-hero__tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+/* ==========================================================================
+   CategoryTile — shared by the hero grid and Explore by Category
+   ========================================================================== */
+
+.category-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.15rem;
+  padding: 0.9rem;
+  border-radius: var(--radius-lg);
+  background: var(--tile-bg);
+  color: var(--tile-fg);
+  text-decoration: none;
+  min-height: 6rem;
+  transition: transform 200ms ease;
+}
+
+.category-tile:hover {
+  transform: translateY(-3px);
+}
+
+.category-tile__icon {
+  width: 1.4rem;
+  height: 1.4rem;
+  margin-bottom: 0.35rem;
+}
+
+.category-tile__name {
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.category-tile__tagline {
+  font-size: 0.72rem;
+  opacity: 0.8;
+}
+
+.category-tile--lg {
+  min-height: 9rem;
+  padding: 1.25rem;
+}
+
+.category-tile--lg .category-tile__icon {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.category-tile--lg .category-tile__name {
+  font-size: 1rem;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .category-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ==========================================================================
+   Wellness banner
+   ========================================================================== */
+
+.wellness-banner {
+  background: linear-gradient(135deg, #0f2a28 0%, #134e4a 100%);
+  color: #eafff9;
+}
+
+.wellness-banner__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 3rem 1.25rem;
+}
+
+@media (min-width: 1024px) {
+  .wellness-banner__inner {
+    grid-template-columns: 1fr 1fr;
+    padding: 4rem 2rem;
+  }
+}
+
+.wellness-banner__eyebrow {
+  text-transform: none;
+  font-size: 0.8rem;
+  color: #6ee7d0;
+  margin: 0 0 0.4rem;
+  font-weight: 600;
+}
+
+.wellness-banner__title {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 800;
+  margin: 0 0 0.6rem;
+}
+
+.wellness-banner__description {
+  color: #b9e6dc;
+  max-width: 28rem;
+  margin: 0 0 1.25rem;
+  line-height: 1.6;
+}
+
+.wellness-banner__points {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-self: end;
+}
+
+.wellness-banner__point {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 600;
+}
+
+.wellness-banner__point svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  color: #6ee7d0;
+}
+
+/* ==========================================================================
+   Testimonials
+   ========================================================================== */
+
+.testimonials {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .testimonials {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.testimonial-card {
+  margin: 0;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--card);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.testimonial-card__quote {
+  margin: 0;
+  color: var(--foreground);
+  line-height: 1.55;
+  font-size: 0.92rem;
+}
+
+.testimonial-card__author {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--foreground);
+}
+
+.testimonial-card__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   App promo
+   ========================================================================== */
+
+.app-promo {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: center;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding: 3rem 1.25rem;
+}
+
+@media (min-width: 1024px) {
+  .app-promo {
+    grid-template-columns: 1fr 1fr;
+    padding: 4rem 2rem;
+  }
+}
+
+.app-promo__media {
+  display: flex;
+  justify-content: center;
+}
+
+.app-promo__image {
+  width: 100%;
+  max-width: 26rem;
+  height: auto;
+}
+
+.app-promo__eyebrow {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin: 0 0 0.4rem;
+}
+
+.app-promo__title {
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 800;
+  color: var(--foreground);
+  margin: 0 0 0.6rem;
+}
+
+.app-promo__description {
+  color: var(--muted-foreground);
+  margin: 0 0 1.25rem;
+}
+
+.app-promo__features {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.app-promo__feature {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.app-promo__feature svg {
+  width: 1rem;
+  height: 1rem;
+  color: var(--primary);
+}
+
+.app-promo__store-links {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.app-promo__store-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1rem;
+  border-radius: var(--radius-lg);
+  background: var(--foreground);
+  color: var(--background);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.app-promo__store-badge svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* ==========================================================================
+   Newsletter band
+   ========================================================================== */
+
+.home-newsletter {
+  background: var(--accent);
+  margin-bottom: 3rem;
+}
+
+.home-newsletter__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: flex-start;
+  padding: 2.5rem 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .home-newsletter__inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2.5rem 2rem;
+  }
+}
+
+.home-newsletter__eyebrow {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin: 0 0 0.3rem;
+}
+
+.home-newsletter__title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--foreground);
+  margin: 0 0 0.3rem;
+}
+
+.home-newsletter__description {
+  color: var(--muted-foreground);
+  margin: 0;
+  max-width: 24rem;
+}
+
+.home-newsletter__form {
+  flex-shrink: 0;
+}

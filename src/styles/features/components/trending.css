@@ -1,0 +1,360 @@
+/* ==========================================================================
+   Trending hero
+   ========================================================================== */
+
+.trending-hero {
+  background: var(--accent);
+}
+
+.trending-hero__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding: 2.5rem 1.25rem;
+}
+
+@media (min-width: 1024px) {
+  .trending-hero__inner {
+    grid-template-columns: 1.1fr 1fr;
+    align-items: center;
+    padding: 3.5rem 2rem;
+  }
+}
+
+.trending-hero__eyebrow {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin: 0 0 0.4rem;
+}
+
+.trending-hero__title {
+  font-size: clamp(2rem, 4.5vw, 2.75rem);
+  font-weight: 800;
+  color: var(--foreground);
+  margin: 0 0 0.6rem;
+  line-height: 1.1;
+}
+
+.trending-hero__title span {
+  color: var(--primary);
+}
+
+.trending-hero__description {
+  color: var(--muted-foreground);
+  max-width: 28rem;
+  margin: 0 0 1.25rem;
+  line-height: 1.6;
+}
+
+.trending-hero__stats {
+  display: flex;
+  gap: 1.75rem;
+  margin: 1.5rem 0 0;
+  flex-wrap: wrap;
+}
+
+.trending-hero__stat {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.trending-hero__stat svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  color: var(--primary);
+  margin-top: 0.15rem;
+}
+
+.trending-hero__stat-value {
+  margin: 0;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.trending-hero__stat-label {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  max-width: 9rem;
+}
+
+.trending-hero__media {
+  display: flex;
+  justify-content: center;
+}
+
+.trending-hero__image {
+  width: 100%;
+  max-width: 26rem;
+  height: auto;
+  border-radius: var(--radius-lg);
+}
+
+/* ==========================================================================
+   The Teal Edit banner
+   ========================================================================== */
+
+.teal-edit {
+  background: linear-gradient(135deg, #0f2a28 0%, #134e4a 100%);
+  color: #eafff9;
+}
+
+.teal-edit__inner {
+  padding: 3rem 1.25rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .teal-edit__inner {
+    padding: 4rem 2rem;
+  }
+}
+
+.teal-edit__icons {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.teal-edit__icons svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #6ee7d0;
+}
+
+.teal-edit__label {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6ee7d0;
+}
+
+.teal-edit__title {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 800;
+  margin: 0.3rem 0;
+}
+
+.teal-edit__subtitle {
+  margin: 0 0 0.5rem;
+  color: #b9e6dc;
+  font-size: 1rem;
+}
+
+.teal-edit__description {
+  margin: 0 0 1.5rem;
+  color: #b9e6dc;
+  max-width: 28rem;
+}
+
+.teal-edit__social-proof {
+  margin: 1rem 0 0;
+  font-size: 0.8rem;
+  color: #6ee7d0;
+}
+
+/* ==========================================================================
+   Rising Fast
+   ========================================================================== */
+
+.rising-fast {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .rising-fast {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .rising-fast {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.rising-fast__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--card);
+  text-decoration: none;
+  position: relative;
+}
+
+.rising-fast__media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: calc(var(--radius-lg) - 0.25rem);
+  background: linear-gradient(160deg, var(--accent) 0%, var(--muted) 100%);
+  color: var(--primary);
+  opacity: 0.7;
+}
+
+.rising-fast__media svg {
+  width: 2rem;
+  height: 2rem;
+}
+
+.rising-fast__delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  align-self: flex-start;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #15803d;
+  background: #dcfce7;
+  padding: 0.15rem 0.45rem;
+  border-radius: 999px;
+}
+
+.rising-fast__delta svg {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.rising-fast__name {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.rising-fast__price {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+/* ==========================================================================
+   Social proof banner
+   ========================================================================== */
+
+.social-proof {
+  background: #0f2a28;
+  color: #eafff9;
+}
+
+.social-proof__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding: 3rem 1.25rem;
+}
+
+@media (min-width: 1024px) {
+  .social-proof__inner {
+    grid-template-columns: 1fr 1.4fr;
+    padding: 3.5rem 2rem;
+    align-items: center;
+  }
+}
+
+.social-proof__title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin: 0 0 0.3rem;
+}
+
+.social-proof__subtitle {
+  margin: 0 0 1.25rem;
+  color: #b9e6dc;
+}
+
+.social-proof__stats {
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+.social-proof__stat {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.social-proof__stat svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  color: #6ee7d0;
+}
+
+.social-proof__stat-value {
+  margin: 0;
+  font-weight: 700;
+}
+
+.social-proof__stat-label {
+  margin: 0;
+  font-size: 0.72rem;
+  color: #b9e6dc;
+}
+
+.social-proof__posts {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .social-proof__posts {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.social-proof__post {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+}
+
+.social-proof__post-quote {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #eafff9;
+}
+
+.social-proof__post-handle {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #6ee7d0;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Trending by category — compact row (reuses .category-tile)
+   ========================================================================== */
+
+.trending-category-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .trending-category-row {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
