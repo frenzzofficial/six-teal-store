@@ -5,6 +5,7 @@ export { default as Drawer } from "./drawer/Drawer";
 export { default as Hamburger } from "./hamburger/Hamburger";
 export { default as Icon, type IconName } from "./icon/IconsLibrary";
 export { default as Image } from "./images/ImageComponent";
+export { default as ImageGroup } from "./images/ImageGroup";
 export { default as NavigationLogo } from "./images/NavigationLogo";
 export { default as Checkbox } from "./inputs/Checkbox";
 export { default as Input } from "./inputs/Input";

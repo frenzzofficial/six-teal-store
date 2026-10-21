@@ -1,5 +1,11 @@
+import { useMemo } from "react";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import {
+  FLAT_SHIPPING_FEE,
+  FREE_SHIPPING_THRESHOLD,
+  TAX_RATE,
+} from "@/packages/configs/commerce.config";
 import {
   type Coupon,
   couponDiscountAmount,
@@ -36,14 +42,33 @@ function clamp(quantity: number, max?: number): number {
   return max !== undefined ? Math.min(quantity, max) : quantity;
 }
 
-/** Free above this subtotal, flat fee below it — matches the "Free
- * Shipping on orders above ₹999" trust badge shown on the Products/Cart
- * Figma screens. */
-const FREE_SHIPPING_THRESHOLD = 999;
-const FLAT_SHIPPING_FEE = 79;
-/** Simplified flat-rate GST stand-in — a real integration would vary
- * this by product category/HSN code. */
-const TAX_RATE = 0.05;
+function computeTotals(items: CartItem[], coupon: Coupon | null): CartTotals {
+  const itemCount = items.reduce((sum, i) => sum + i.quantity, 0);
+  const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  const discount = items.reduce((sum, i) => {
+    if (!i.compareAtPrice) return sum;
+    return sum + (i.compareAtPrice - i.price) * i.quantity;
+  }, 0);
+  const couponDiscount = coupon ? couponDiscountAmount(coupon, subtotal) : 0;
+  const taxable = Math.max(0, subtotal - couponDiscount);
+  const tax = items.length > 0 ? Math.round(taxable * TAX_RATE) : 0;
+  const shipping =
+    items.length === 0
+      ? 0
+      : subtotal >= FREE_SHIPPING_THRESHOLD
+        ? 0
+        : FLAT_SHIPPING_FEE;
+  return {
+    itemCount,
+    subtotal,
+    discount,
+    couponDiscount,
+    couponCode: coupon?.code,
+    tax,
+    shipping,
+    total: subtotal - couponDiscount + tax + shipping,
+  };
+}
 
 interface CartState {
   items: CartItem[];
@@ -136,38 +161,28 @@ export const useCartStore = create<CartState>()(
 
       totals: () => {
         const { items, coupon } = get();
-        const itemCount = items.reduce((sum, i) => sum + i.quantity, 0);
-        const subtotal = items.reduce(
-          (sum, i) => sum + i.price * i.quantity,
-          0,
-        );
-        const discount = items.reduce((sum, i) => {
-          if (!i.compareAtPrice) return sum;
-          return sum + (i.compareAtPrice - i.price) * i.quantity;
-        }, 0);
-        const couponDiscount = coupon
-          ? couponDiscountAmount(coupon, subtotal)
-          : 0;
-        const taxable = Math.max(0, subtotal - couponDiscount);
-        const tax = items.length > 0 ? Math.round(taxable * TAX_RATE) : 0;
-        const shipping =
-          items.length === 0
-            ? 0
-            : subtotal >= FREE_SHIPPING_THRESHOLD
-              ? 0
-              : FLAT_SHIPPING_FEE;
-        return {
-          itemCount,
-          subtotal,
-          discount,
-          couponDiscount,
-          couponCode: coupon?.code,
-          tax,
-          shipping,
-          total: subtotal - couponDiscount + tax + shipping,
-        };
+        return computeTotals(items, coupon);
       },
     }),
     { name: "sixteal-cart" },
   ),
 );
+
+/**
+ * Reactive totals for components.
+ *
+ * Do NOT subscribe with `useCartStore((s) => s.totals())` — that selector
+ * builds a brand-new object on every call, and Zustand v5 treats an
+ * unstable snapshot as a change on every render, which loops forever
+ * ("Maximum update depth exceeded") and crashed /cart and checkout.
+ * Subscribing to the two stable inputs and memoizing the result is safe.
+ */
+export function useCartTotals(): CartTotals {
+  const items = useCartStore((s) => s.items);
+  const coupon = useCartStore((s) => s.coupon);
+  return useMemo(() => computeTotals(items, coupon), [items, coupon]);
+}
+
+/** Total units in the cart — a primitive, so it's safe as a selector. */
+export const selectCartCount = (s: CartState): number =>
+  s.items.reduce((sum, i) => sum + i.quantity, 0);

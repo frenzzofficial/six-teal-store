@@ -1,10 +1,13 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
-import { Button, Icon, type IconName } from "@/components/ui";
+import { Button, Icon, type IconName, ImageGroup } from "@/components/ui";
 import { QuantityStepper } from "@/components/ui/custom/QuantityStepper";
 import { RatingStars } from "@/components/ui/rating/RatingStars";
+import {
+  FREE_SHIPPING_THRESHOLD,
+  RETURN_WINDOW_DAYS,
+} from "@/packages/configs/commerce.config";
 import { useCartStore } from "@/packages/store/cart.store";
 import { useWishlistStore } from "@/packages/store/wishlist.store";
 import { cn } from "@/packages/utils/cn";
@@ -68,10 +71,8 @@ export function ProductDetailInteractive({
     <div className="pdp__layout">
       <div className="pdp__gallery">
         {product.image ? (
-          <Image
-            src={product.image}
-            alt={product.name}
-            fill
+          <ImageGroup
+            images={product.image}
             sizes="(min-width: 1024px) 40vw, 90vw"
             className="pdp__image"
             priority
@@ -113,6 +114,11 @@ export function ProductDetailInteractive({
             </>
           )}
         </div>
+        {product.compareAtPrice != null && (
+          <p className="pdp__savings">
+            You save {formatPrice(product.compareAtPrice - product.price)}
+          </p>
+        )}
 
         <p className="pdp__description">{product.description}</p>
 
@@ -201,6 +207,25 @@ export function ProductDetailInteractive({
               : "In stock, ready to ship"
             : "Currently out of stock"}
         </p>
+
+        <ul className="pdp__assurances">
+          <li>
+            <Icon name="truck" size={18} />
+            <span>
+              {product.price >= FREE_SHIPPING_THRESHOLD
+                ? "Free shipping on this order"
+                : `Free shipping above ${formatPrice(FREE_SHIPPING_THRESHOLD)}`}
+            </span>
+          </li>
+          <li>
+            <Icon name="rotate-ccw" size={18} />
+            <span>{RETURN_WINDOW_DAYS}-day easy returns</span>
+          </li>
+          <li>
+            <Icon name="lock" size={18} />
+            <span>Secure checkout</span>
+          </li>
+        </ul>
       </div>
     </div>
   );

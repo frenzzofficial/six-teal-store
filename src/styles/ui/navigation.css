@@ -251,12 +251,119 @@
   box-shadow: 0 0 0 2px var(--ring);
 }
 
-/* ---------- Header actions (theme toggle + hamburger) ---------- */
+/* ---------- Announcement bar ---------- */
+
+.announcement-bar {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.3;
+}
+
+.announcement-bar__text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.6rem;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0.45rem 1.5rem;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  text-align: center;
+}
+
+.announcement-bar__text strong {
+  color: inherit;
+  font-weight: 700;
+}
+
+.announcement-bar__icon {
+  flex-shrink: 0;
+}
+
+.announcement-bar__divider {
+  width: 1px;
+  height: 0.9rem;
+  background: currentColor;
+  opacity: 0.35;
+}
+
+/* Secondary message is the first thing to go on narrow screens. */
+.announcement-bar__secondary {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .announcement-bar__secondary {
+    display: inline;
+  }
+}
+
+@media (max-width: 639px) {
+  .announcement-bar__divider {
+    display: none;
+  }
+}
+
+/* ---------- Header actions (search, wishlist, cart + hamburger) ---------- */
 
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
+}
+
+.header-action {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radius);
+  color: var(--foreground);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    transform 150ms ease;
+}
+
+.header-action:hover {
+  background: var(--accent);
+  color: var(--primary);
+}
+
+.header-action:active {
+  transform: scale(0.94);
+}
+
+.header-action:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.header-action.is-current {
+  color: var(--primary);
+}
+
+/* The badge sits on the icon's corner, not the 44px hit area's. */
+.header-action .count-badge {
+  top: 0.15rem;
+  right: 0.15rem;
+}
+
+/* Below desktop the drawer takes over, so keep the header uncluttered:
+   hide search (reachable from the drawer/footer) on the narrowest phones. */
+@media (max-width: 380px) {
+  .header-action[href="/search"] {
+    display: none;
+  }
 }
 
 /* ---------- Mobile drawer ----------

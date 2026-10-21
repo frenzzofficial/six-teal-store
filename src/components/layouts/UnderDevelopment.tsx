@@ -14,7 +14,9 @@ const UnderDevelopment = () => {
       <p className="max-w-md text-balance text-sm text-muted-foreground md:text-base">
         We&apos;re working on something great here. Check back soon.
       </p>
-      <Link href="/">Back to home</Link>
+      <Link href="/" variant="primary-button">
+        Back to home
+      </Link>
     </div>
   );
 };

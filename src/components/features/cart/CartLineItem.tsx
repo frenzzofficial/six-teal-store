@@ -1,6 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
-import { Icon, type IconName } from "@/components/ui";
+import { Icon, type IconName, ImageGroup } from "@/components/ui";
 import { QuantityStepper } from "@/components/ui/custom/QuantityStepper";
 import { discountPercent, formatPrice } from "@/packages/utils/format";
 import type { CartItem } from "@/types/cart";
@@ -34,7 +33,7 @@ export function CartLineItem({
     <li className="cart-line">
       <Link href={`/products/${item.slug}`} className="cart-line__media">
         {item.image ? (
-          <Image src={item.image} alt={item.name} fill sizes="6rem" />
+          <ImageGroup images={item.image} sizes="6rem" />
         ) : (
           <span className="cart-line__placeholder" aria-hidden="true">
             <Icon

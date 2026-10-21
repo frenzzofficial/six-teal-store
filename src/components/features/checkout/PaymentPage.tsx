@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { OrderSummaryCard } from "@/components/features/cart/OrderSummaryCard";
 import { CheckoutStepper } from "@/components/features/checkout/CheckoutStepper";
+import PageSkeleton from "@/components/layouts/PageSkeleton";
 import { Button, Icon, type IconName } from "@/components/ui";
 import { createOrder, PAYMENT_METHODS } from "@/packages/data/orders";
-import { useCartStore } from "@/packages/store/cart.store";
+import { useMounted } from "@/packages/hooks/useMounted";
+import { useCartStore, useCartTotals } from "@/packages/store/cart.store";
 import { useCheckoutStore } from "@/packages/store/checkout.store";
 import { useOrdersStore } from "@/packages/store/orders.store";
 import { cn } from "@/packages/utils/cn";
@@ -16,7 +18,7 @@ import type { PaymentMethodId } from "@/types/order";
 export function PaymentPage() {
   const router = useRouter();
   const items = useCartStore((s) => s.items);
-  const totals = useCartStore((s) => s.totals());
+  const totals = useCartTotals();
   const clearCart = useCartStore((s) => s.clear);
 
   const shippingAddress = useCheckoutStore((s) => s.shippingAddress);
@@ -35,13 +37,17 @@ export function PaymentPage() {
   // against the navigation to confirmation.
   const orderPlaced = useRef(false);
 
+  // Persisted stores report their initial (empty) state on the first client
+  // render; only act on them once mounted (see ShippingPage).
+  const mounted = useMounted();
+
   // Can't pay for an empty cart, and can't skip straight to payment
   // without an address on file.
   useEffect(() => {
-    if (orderPlaced.current) return;
+    if (!mounted || orderPlaced.current) return;
     if (items.length === 0) router.replace("/cart");
     else if (!shippingAddress) router.replace("/checkout/shipping");
-  }, [items.length, shippingAddress, router]);
+  }, [mounted, items.length, shippingAddress, router]);
 
   const selectedMethod = PAYMENT_METHODS.find((m) => m.id === selected);
 
@@ -69,6 +75,7 @@ export function PaymentPage() {
   // shippingAddress is only ever cleared by reset() on the confirmation
   // page, never here — checking it alone (unconditionally) lets
   // TypeScript narrow it to non-null for the rest of this component.
+  if (!mounted) return <PageSkeleton />;
   if (!shippingAddress) return null;
   if (items.length === 0 && !orderPlaced.current) return null;
 

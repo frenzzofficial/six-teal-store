@@ -1,10 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { Icon } from "@/components/ui";
+import PageSkeleton from "@/components/layouts/PageSkeleton";
+import { Icon, Link } from "@/components/ui";
 import { PAYMENT_METHODS } from "@/packages/data/orders";
+import { useMounted } from "@/packages/hooks/useMounted";
 import { useCheckoutStore } from "@/packages/store/checkout.store";
 import { formatPrice } from "@/packages/utils/format";
 
@@ -23,10 +24,12 @@ export function ConfirmationPage() {
 
   // No order in the store means someone landed here directly, not via
   // checkout — nothing to confirm, send them somewhere useful instead.
+  const mounted = useMounted();
   useEffect(() => {
-    if (!order) router.replace("/products");
-  }, [order, router]);
+    if (mounted && !order) router.replace("/products");
+  }, [mounted, order, router]);
 
+  if (!mounted) return <PageSkeleton withSidebar={false} />;
   if (!order) return null;
 
   const paymentLabel = PAYMENT_METHODS.find(
@@ -85,11 +88,17 @@ export function ConfirmationPage() {
         </ul>
 
         <div className="confirmation-page__actions">
-          <Link href="/products" onClick={() => reset()}>
+          <Link
+            href="/products"
+            variant="primary-button"
+            onClick={() => reset()}
+          >
             Continue Shopping
-            <Icon name="arrow-right" />
+            <Icon name="arrow-right" size={18} />
           </Link>
-          <Link href="/account/orders">View Order History</Link>
+          <Link href="/account/orders" variant="secondary-button">
+            View Order History
+          </Link>
         </div>
       </div>
     </div>

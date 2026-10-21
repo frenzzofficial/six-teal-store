@@ -53,6 +53,9 @@ export function FilterSidebar({ categories, brands }: FilterSidebarProps) {
     router.push(`/products${withParams(searchParams, updates)}`);
   };
 
+  // Phones: filters collapse behind a toggle so products come first.
+  const [open, setOpen] = useState(false);
+
   const hasActiveFilters =
     activeCategory ||
     activeBrands.length > 0 ||
@@ -63,9 +66,25 @@ export function FilterSidebar({ categories, brands }: FilterSidebarProps) {
     searchParams.get("maxPrice");
 
   return (
-    <aside className="filter-sidebar">
+    <aside className={cn("filter-sidebar", open && "is-open")}>
       <div className="filter-sidebar__header">
         <h2 className="filter-sidebar__title">Filters</h2>
+        <button
+          type="button"
+          className="filter-sidebar__toggle"
+          aria-expanded={open}
+          onClick={() => setOpen((v) => !v)}
+        >
+          <Icon name="sliders" size={16} />
+          {open ? "Hide filters" : "Show filters"}
+          {hasActiveFilters && !open && (
+            <span
+              className="filter-sidebar__dot"
+              role="img"
+              aria-label="Filters active"
+            />
+          )}
+        </button>
         {hasActiveFilters && (
           <button
             type="button"

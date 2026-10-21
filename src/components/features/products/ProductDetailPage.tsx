@@ -39,6 +39,9 @@ export function ProductDetailPage({
       {related.length > 0 && (
         <section className="pdp-related">
           <h2 className="home-section__title">You Might Also Like</h2>
+          <p className="home-section__subtitle">
+            More picks from the Six Teal collection.
+          </p>
           <div className="pdp-related__grid">
             {related.map((p) => (
               <ProductCard key={p.id} product={p} />

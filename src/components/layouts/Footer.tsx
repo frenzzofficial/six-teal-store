@@ -2,6 +2,7 @@ import appConfig from "@/packages/configs/app.config";
 import FooterNavbar from "../features/navigation/footer/FooterNavbar";
 import NavigationLogo from "../ui/images/NavigationLogo";
 import DateDisplay from "./Date";
+import SocialLinks from "./SocialLinks";
 
 const Footer = () => {
   return (
@@ -11,7 +12,7 @@ const Footer = () => {
           <div className="site-footer-brand">
             <NavigationLogo src={appConfig.site.logo} />
             <p className="site-footer-tagline">{appConfig.site.description}</p>
-            {/* <SocialLinks /> */}
+            <SocialLinks />
           </div>
           <FooterNavbar />
         </div>
@@ -20,6 +21,9 @@ const Footer = () => {
           <p className="site-footer-copyright">
             &copy; <DateDisplay type="year" /> {appConfig.site.name}. All rights
             reserved.
+          </p>
+          <p className="site-footer-note">
+            Prices in INR &middot; Inclusive of applicable taxes
           </p>
         </div>
       </div>

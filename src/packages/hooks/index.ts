@@ -2,6 +2,7 @@ export { useAccordion } from "./useAccordion";
 export { useBreakpoints } from "./useBreakpoints";
 export { useCopyToClipboard } from "./useCopyToClipboard";
 export { useHoverDropdown } from "./useHoverDropdown";
+export { useHydratedStore } from "./useHydratedStore";
 export { useImageFromGit } from "./useImageFromGit";
 export { useMounted } from "./useMounted";
 export { useNavigationAutoClose } from "./useNavigationAutoClose";

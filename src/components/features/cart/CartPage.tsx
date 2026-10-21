@@ -1,13 +1,14 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import { CartHero } from "@/components/features/cart/CartHero";
 import { CartLineItem } from "@/components/features/cart/CartLineItem";
 import { OrderSummaryCard } from "@/components/features/cart/OrderSummaryCard";
 import { ProductCard } from "@/components/features/product/ProductCard";
-import { Icon } from "@/components/ui";
-import { useCartStore } from "@/packages/store/cart.store";
+import PageSkeleton from "@/components/layouts/PageSkeleton";
+import { Icon, Link } from "@/components/ui";
+import { useMounted } from "@/packages/hooks/useMounted";
+import { useCartStore, useCartTotals } from "@/packages/store/cart.store";
 import type { Product } from "@/types/product";
 
 type CartPageProps = {
@@ -19,8 +20,13 @@ const CartPage = ({ suggestions }: CartPageProps) => {
   const setQuantity = useCartStore((s) => s.setQuantity);
   const removeItem = useCartStore((s) => s.removeItem);
   const clear = useCartStore((s) => s.clear);
-  const totals = useCartStore((s) => s.totals());
+  const totals = useCartTotals();
   const [note, setNote] = useState("");
+  const mounted = useMounted();
+
+  // Persisted cart isn't readable until mounted; show a skeleton rather
+  // than flashing "Your cart is empty" at someone who has items.
+  if (!mounted) return <PageSkeleton />;
 
   return (
     <div className="cart-page">
@@ -35,9 +41,9 @@ const CartPage = ({ suggestions }: CartPageProps) => {
               Looks like you haven't added anything yet — go find something
               you'll love.
             </p>
-            <Link href="/products">
+            <Link href="/products" variant="primary-button">
               Browse Products
-              <Icon name="arrow-right" />
+              <Icon name="arrow-right" size={18} />
             </Link>
           </div>
         ) : (

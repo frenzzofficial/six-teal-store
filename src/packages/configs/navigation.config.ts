@@ -11,17 +11,17 @@ export const mainNav: NavTab[] = [
   { id: "home", title: "Home", href: appConfig.routes.home },
   {
     id: "explore",
-    title: "explore",
+    title: "Explore",
     href: appConfig.routes.navigations.explore,
   },
   {
     id: "trending",
-    title: "trending",
+    title: "Trending",
     href: appConfig.routes.navigations.trending,
   },
   {
     id: "products",
-    title: "products",
+    title: "Products",
     href: appConfig.routes.navigations.products,
   },
 ];
@@ -39,29 +39,29 @@ export const navActions: NavTab[] = [
 
 export const footerNav: NavSection[] = [
   {
-    title: "Explore",
-    items: [{ label: "Home", href: appConfig.routes.home }],
-  },
-  {
-    title: "categories",
+    title: "Shop",
     items: [
-      {
-        label: "explore",
-        href: appConfig.routes.navigations.explore,
-      },
-      { label: "products", href: appConfig.routes.navigations.products },
-      {
-        label: "trending",
-        href: appConfig.routes.navigations.trending,
-      },
+      { label: "All Products", href: appConfig.routes.navigations.products },
+      { label: "Explore", href: appConfig.routes.navigations.explore },
+      { label: "Trending", href: appConfig.routes.navigations.trending },
+      { label: "Wishlist", href: appConfig.routes.actions.wishlist },
+      { label: "Cart", href: appConfig.routes.actions.cart },
     ],
   },
   {
-    title: "Connect",
+    title: "Company",
     items: [
+      { label: "About Us", href: appConfig.routes.about },
+      { label: "Careers", href: "/careers" },
       { label: "Contact", href: appConfig.routes.legal.contact },
-      { label: "Privacy", href: appConfig.routes.legal.privacy },
-      { label: "Terms", href: appConfig.routes.legal.terms },
+    ],
+  },
+  {
+    title: "Support",
+    items: [
+      { label: "My Orders", href: "/account/orders" },
+      { label: "Privacy Policy", href: appConfig.routes.legal.privacy },
+      { label: "Terms of Service", href: appConfig.routes.legal.terms },
     ],
   },
 ];

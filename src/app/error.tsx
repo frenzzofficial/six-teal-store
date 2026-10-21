@@ -37,7 +37,9 @@ export default function GlobalError({
         <Button type="button" onClick={reset}>
           Try Again
         </Button>
-        <Link href="/">Back to Home</Link>
+        <Link href="/" variant="secondary-button">
+          Back to Home
+        </Link>
       </div>
     </div>
   );

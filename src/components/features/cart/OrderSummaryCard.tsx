@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
-import { Icon } from "@/components/ui";
+import { Icon, Link } from "@/components/ui";
 import { useCartStore } from "@/packages/store/cart.store";
 import { cn } from "@/packages/utils/cn";
 import { formatPrice } from "@/packages/utils/format";
@@ -141,11 +140,16 @@ export function OrderSummaryCard({
         <>
           <Link
             href={checkoutHref}
-            className={cn("order-summary__checkout-btn")}
+            variant="primary-button"
+            className={cn(
+              "order-summary__checkout-btn",
+              totals.itemCount === 0 && "pointer-events-none opacity-50",
+            )}
             aria-disabled={totals.itemCount === 0}
+            tabIndex={totals.itemCount === 0 ? -1 : undefined}
           >
             Proceed to Checkout
-            <Icon name="arrow-right" />
+            <Icon name="arrow-right" size={18} />
           </Link>
 
           <p className="order-summary__or">or continue with</p>

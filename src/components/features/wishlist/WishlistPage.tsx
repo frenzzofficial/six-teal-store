@@ -37,9 +37,9 @@ export function WishlistPage() {
           <p className="cart-page__empty-description">
             Tap the heart on any product to save it here for later.
           </p>
-          <Link href="/products">
+          <Link href="/products" variant="primary-button">
             Browse Products
-            <Icon name="arrow-right" />
+            <Icon name="arrow-right" size={18} />
           </Link>
         </div>
       ) : (

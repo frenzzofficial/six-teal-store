@@ -228,6 +228,24 @@
   min-width: 12rem;
 }
 
+/* Phones: stepper + Add to Cart + heart stay on ONE row (the heart used to
+   wrap onto its own line under the button). */
+@media (max-width: 639px) {
+  .pdp__actions {
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+  }
+
+  .pdp__add-to-cart {
+    min-width: 0;
+    padding-inline: 0.75rem;
+  }
+
+  .pdp__actions .quantity-stepper__btn {
+    width: 2.25rem;
+  }
+}
+
 .pdp__wishlist-btn {
   display: inline-flex;
   align-items: center;

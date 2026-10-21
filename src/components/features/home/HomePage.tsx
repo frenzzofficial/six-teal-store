@@ -12,11 +12,18 @@ import {
 import Hero from "./Hero";
 
 const HomePage = async () => {
-  const [categories, featured, trending] = await Promise.all([
+  const [categories, featured, trendingPool] = await Promise.all([
     getCategories(),
     getFeatured(6),
-    getTrending(6),
+    getTrending(12),
   ]);
+
+  // Don't show the same products twice on one page: Trending skips anything
+  // already in Featured.
+  const featuredIds = new Set(featured.map((p) => p.id));
+  const trending = trendingPool
+    .filter((p) => !featuredIds.has(p.id))
+    .slice(0, 6);
 
   return (
     <div className="home-page">

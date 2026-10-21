@@ -68,8 +68,34 @@ const parsedEnvSchema = z.object({
     .default("google-verification-code"),
 });
 
+/**
+ * Every NEXT_PUBLIC_* variable must be referenced as a literal
+ * `process.env.NEXT_PUBLIC_X` for Next.js to inline it into the browser
+ * bundle. Passing the whole `process.env` object works on the server but
+ * is empty in the browser, so the client silently fell back to the schema
+ * defaults and disagreed with the server-rendered HTML (hydration error).
+ */
+const publicEnvSource = {
+  NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
+  NEXT_PUBLIC_APP_VERSION: process.env.NEXT_PUBLIC_APP_VERSION,
+  NEXT_PUBLIC_APP_DESCRIPTION: process.env.NEXT_PUBLIC_APP_DESCRIPTION,
+  NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+  NEXT_PUBLIC_SITE_TITLE: process.env.NEXT_PUBLIC_SITE_TITLE,
+  NEXT_PUBLIC_LOGO_URL: process.env.NEXT_PUBLIC_LOGO_URL,
+  NEXT_PUBLIC_OG_IMAGE_URL: process.env.NEXT_PUBLIC_OG_IMAGE_URL,
+  NEXT_PUBLIC_ACTIVE_STYLE: process.env.NEXT_PUBLIC_ACTIVE_STYLE,
+  NEXT_PUBLIC_ACTIVE_THEME: process.env.NEXT_PUBLIC_ACTIVE_THEME,
+  NEXT_PUBLIC_INSTAGRAM: process.env.NEXT_PUBLIC_INSTAGRAM,
+  NEXT_PUBLIC_TWITTER: process.env.NEXT_PUBLIC_TWITTER,
+  NEXT_PUBLIC_LINKEDIN: process.env.NEXT_PUBLIC_LINKEDIN,
+  NEXT_PUBLIC_AUTHOR_NAME: process.env.NEXT_PUBLIC_AUTHOR_NAME,
+  NEXT_PUBLIC_AUTHOR_EMAIL: process.env.NEXT_PUBLIC_AUTHOR_EMAIL,
+  NEXT_PUBLIC_AUTHOR_HANDLE: process.env.NEXT_PUBLIC_AUTHOR_HANDLE,
+  NEXT_PUBLIC_GOOGLE_VERIFICATION: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION,
+};
+
 // Validated Public Environment
-const parsedEnv = parseEnv(parsedEnvSchema, "public");
+const parsedEnv = parseEnv(parsedEnvSchema, "public", publicEnvSource);
 
 // Public Application Config
 export const envPublicConfig = Object.freeze({

@@ -8,9 +8,11 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { OrderSummaryCard } from "@/components/features/cart/OrderSummaryCard";
 import { CheckoutStepper } from "@/components/features/checkout/CheckoutStepper";
+import PageSkeleton from "@/components/layouts/PageSkeleton";
 import { Button, Icon } from "@/components/ui";
 import { Input } from "@/components/ui/shadcn/input";
-import { useCartStore } from "@/packages/store/cart.store";
+import { useMounted } from "@/packages/hooks/useMounted";
+import { useCartStore, useCartTotals } from "@/packages/store/cart.store";
 import { useCheckoutStore } from "@/packages/store/checkout.store";
 import type { ShippingAddress } from "@/types/order";
 
@@ -45,15 +47,20 @@ const FIELDS: {
 export function ShippingPage() {
   const router = useRouter();
   const items = useCartStore((s) => s.items);
-  const totals = useCartStore((s) => s.totals());
+  const totals = useCartTotals();
   const savedAddress = useCheckoutStore((s) => s.shippingAddress);
   const setShippingAddress = useCheckoutStore((s) => s.setShippingAddress);
+
+  // Persisted stores report their *initial* (empty) state on the first
+  // client render so it matches the server HTML. Only trust `items` once
+  // mounted, otherwise a reload would see an empty cart and bounce away.
+  const mounted = useMounted();
 
   // Can't ship an empty cart — send people back rather than showing a
   // checkout flow with nothing in it.
   useEffect(() => {
-    if (items.length === 0) router.replace("/cart");
-  }, [items.length, router]);
+    if (mounted && items.length === 0) router.replace("/cart");
+  }, [mounted, items.length, router]);
 
   const {
     register,
@@ -69,6 +76,7 @@ export function ShippingPage() {
     router.push("/checkout/payment");
   };
 
+  if (!mounted) return <PageSkeleton />;
   if (items.length === 0) return null;
 
   return (

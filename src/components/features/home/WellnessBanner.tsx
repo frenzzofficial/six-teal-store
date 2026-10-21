@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { Icon, type IconName } from "@/components/ui";
+import { Icon, type IconName, Link } from "@/components/ui";
 
 const POINTS = [
   { icon: "sparkles", label: "Better Mind" },
@@ -17,9 +16,9 @@ export function WellnessBanner() {
           <p className="wellness-banner__description">
             Curated essentials for a healthier, happier, and more inspired you.
           </p>
-          <Link href="/products?category=wellness">
+          <Link href="/products?category=wellness" variant="primary-button">
             Shop Wellness
-            <Icon name="arrow-right" />
+            <Icon name="arrow-right" size={18} />
           </Link>
         </div>
         <ul className="wellness-banner__points">

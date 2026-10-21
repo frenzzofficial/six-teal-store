@@ -7,6 +7,8 @@
  * needs updating.
  */
 
+import { ImageProps } from "./app";
+
 /** Matches navigationConfig.explore's category slugs exactly (query param
  * values like `/products?category=fashion`), so nav links, filters, and
  * product data all speak the same category identifiers. */
@@ -64,7 +66,7 @@ export interface Product {
    * Optional — ProductCard falls back to a category placeholder when a
    * product has no dedicated photo yet (most of the mock catalog doesn't,
    * see products.mock.ts). */
-  image?: string;
+  image?: ImageProps | Array<ImageProps>;
   variants?: ProductVariantOption[];
   inStock: boolean;
   /** Units actually available — when set, cart quantity is capped to it

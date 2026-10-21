@@ -50,9 +50,16 @@
 
   background: var(--card);
   color: var(--card-foreground);
-  box-shadow: 0 0 40px color-mix(in oklch, var(--foreground) 15%, transparent);
+  /* Shadow only while open: parked just off-screen, a permanent shadow
+     bled a faint band onto the edge of every page. `visibility` also takes
+     the closed panel's links out of the tab order and accessibility tree. */
+  box-shadow: none;
+  visibility: hidden;
 
-  transition: transform 400ms ease;
+  transition:
+    transform 400ms ease,
+    box-shadow 400ms ease,
+    visibility 0s linear 400ms;
 }
 
 .drawer-panel-right {
@@ -67,6 +74,12 @@
 
 .drawer-root.is-open .drawer-panel {
   transform: translateX(0);
+  visibility: visible;
+  box-shadow: 0 0 40px color-mix(in oklch, var(--foreground) 15%, transparent);
+  transition:
+    transform 400ms ease,
+    box-shadow 400ms ease,
+    visibility 0s;
 }
 
 .drawer-panel:focus-visible {

@@ -37,10 +37,15 @@ const Hero = ({ categories }: HeroProps) => {
             personality. From fashion to wellness, technology to literature —
             express yourself authentically.
           </p>
-          <Link href="/products">
-            Explore Collections
-            <IconsLibrary name="arrow-right" />
-          </Link>
+          <div className="home-hero__actions">
+            <Link href="/products" variant="primary-button">
+              Explore Collections
+              <IconsLibrary name="arrow-right" size={18} />
+            </Link>
+            <Link href="/trending" variant="secondary-button">
+              See What's Trending
+            </Link>
+          </div>
 
           <dl className="home-hero__stats">
             {STATS.map((stat) => (

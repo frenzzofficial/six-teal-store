@@ -1,7 +1,16 @@
 import { Icon, type IconName } from "@/components/ui";
+import {
+  FREE_SHIPPING_THRESHOLD,
+  RETURN_WINDOW_DAYS,
+} from "@/packages/configs/commerce.config";
+import { formatPrice } from "@/packages/utils/format";
 
 const BADGES = [
-  { icon: "truck", title: "Free Shipping", subtitle: "On orders above ₹999" },
+  {
+    icon: "truck",
+    title: "Free Shipping",
+    subtitle: `On orders above ${formatPrice(FREE_SHIPPING_THRESHOLD)}`,
+  },
   {
     icon: "lock",
     title: "Secure Payments",
@@ -10,7 +19,7 @@ const BADGES = [
   {
     icon: "rotate-ccw",
     title: "Easy Returns",
-    subtitle: "7-day return policy",
+    subtitle: `${RETURN_WINDOW_DAYS}-day return policy`,
   },
   {
     icon: "headset",

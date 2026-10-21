@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { Icon, type IconName } from "@/components/ui";
+import { Icon, type IconName, ImageGroup } from "@/components/ui";
 import { RatingStars } from "@/components/ui/rating/RatingStars";
 import { useCartStore } from "@/packages/store/cart.store";
 import { useWishlistStore } from "@/packages/store/wishlist.store";
@@ -50,10 +49,8 @@ export function ProductCard({ product, className }: ProductCardProps) {
     <article className={cn("product-card", className)}>
       <Link href={`/products/${product.slug}`} className="product-card__media">
         {product.image ? (
-          <Image
-            src={product.image}
-            alt={product.name}
-            fill
+          <ImageGroup
+            images={product.image}
             sizes="(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 50vw"
             className="product-card__image"
           />

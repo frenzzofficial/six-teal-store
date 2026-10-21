@@ -140,7 +140,14 @@ export async function getRelated(
 ): Promise<Product[]> {
   const current = products.find((p) => p.id === productId);
   if (!current) return products.slice(0, limit);
-  return products
-    .filter((p) => p.id !== productId && p.category === current.category)
-    .slice(0, limit);
+  const sameCategory = products.filter(
+    (p) => p.id !== productId && p.category === current.category,
+  );
+  if (sameCategory.length >= limit) return sameCategory.slice(0, limit);
+  // A category with few products would leave the row short and lopsided —
+  // top it up with the best-rated products from elsewhere.
+  const fillers = products
+    .filter((p) => p.id !== productId && p.category !== current.category)
+    .sort((a, b) => b.rating.average - a.rating.average);
+  return [...sameCategory, ...fillers].slice(0, limit);
 }

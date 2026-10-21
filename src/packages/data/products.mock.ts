@@ -1,5 +1,6 @@
+import { imagesConfig } from "@/packages/configs/images.config";
+import type { ImageProps } from "@/types/app";
 import type { Category, Product } from "@/types/product";
-
 /**
  * products.mock.ts
  * --------------------------------------------------------------
@@ -24,6 +25,15 @@ export const categories: Category[] = [
   { slug: "wellness", name: "Wellness", icon: "heart-pulse" },
 ];
 
+const productImages =
+  imagesConfig.productImages as unknown as Array<ImageProps>;
+
+const getImage = (ids: string | string[]): ImageProps[] => {
+  const imageIds = Array.isArray(ids) ? ids : [ids];
+
+  return productImages.filter((image) => imageIds.includes(image.id));
+};
+
 export const products: Product[] = [
   // ---- Fashion ----
   {
@@ -45,6 +55,7 @@ export const products: Product[] = [
       { name: "Size", values: ["S", "M", "L", "XL"] },
       { name: "Color", values: ["White", "Black"] },
     ],
+    image: getImage("productImage000"),
   },
   {
     id: "p-urban-sneakers",
@@ -60,6 +71,7 @@ export const products: Product[] = [
     inStock: false,
     stockCount: 0,
     variants: [{ name: "Size", values: ["7", "8", "9", "10", "11"] }],
+    image: getImage("productImage007"),
   },
   {
     id: "p-comfort-hoodie",
@@ -77,6 +89,7 @@ export const products: Product[] = [
       { name: "Size", values: ["S", "M", "L", "XL"] },
       { name: "Color", values: ["Black", "Teal"] },
     ],
+    image: getImage("productImage000"),
   },
   {
     id: "p-linen-trousers",
@@ -91,6 +104,7 @@ export const products: Product[] = [
     inStock: true,
     stockCount: 25,
     variants: [{ name: "Size", values: ["28", "30", "32", "34", "36"] }],
+    image: getImage("productImage000"),
   },
 
   // ---- Tech ----
@@ -109,6 +123,7 @@ export const products: Product[] = [
     stockCount: 3,
     onSale: true,
     variants: [{ name: "Color", values: ["Black", "White"] }],
+    image: getImage("productImage016"),
   },
   {
     id: "p-nova-smartwatch",
@@ -124,6 +139,7 @@ export const products: Product[] = [
     inStock: true,
     stockCount: 40,
     variants: [{ name: "Color", values: ["Midnight", "Starlight"] }],
+    image: getImage("productImage019"),
   },
   {
     id: "p-mechanical-keyboard",
@@ -138,6 +154,7 @@ export const products: Product[] = [
       "Hot-swappable mechanical keyboard with per-key RGB — built for people who notice the difference in a keystroke.",
     inStock: true,
     stockCount: 15,
+    image: getImage("productImage017"),
   },
   {
     id: "p-usbc-charger",
@@ -151,6 +168,7 @@ export const products: Product[] = [
       "A compact 65W charger that tops up a phone and laptop from the same port — one brick, one bag.",
     inStock: true,
     stockCount: 8,
+    image: getImage("productImage000"),
   },
 
   // ---- Literature ----
@@ -167,6 +185,7 @@ export const products: Product[] = [
       "James Clear's bestseller on building good habits and breaking bad ones, one small change at a time.",
     inStock: true,
     stockCount: 30,
+    image: getImage("productImage000"),
   },
   {
     id: "p-gratitude-journal",
@@ -180,6 +199,7 @@ export const products: Product[] = [
       "A guided daily journal for reflection and gratitude — simple prompts, no blank-page anxiety.",
     inStock: true,
     stockCount: 6,
+    image: getImage("productImage012"),
   },
   {
     id: "p-deep-work",
@@ -193,6 +213,7 @@ export const products: Product[] = [
       "Cal Newport's case for focused, distraction-free work in a world that keeps interrupting it.",
     inStock: true,
     stockCount: 18,
+    image: getImage("productImage013"),
   },
   {
     id: "p-almanack-naval",
@@ -206,6 +227,7 @@ export const products: Product[] = [
       "A compiled guide to wealth and happiness, drawn from Naval Ravikant's essays and interviews.",
     inStock: true,
     stockCount: 2,
+    image: getImage("productImage013"),
   },
 
   // ---- Fragrance ----
@@ -223,6 +245,7 @@ export const products: Product[] = [
     inStock: true,
     stockCount: 22,
     variants: [{ name: "Size", values: ["50ml", "100ml"] }],
+    image: getImage("productImage011"),
   },
   {
     id: "p-aroma-diffuser",
@@ -237,6 +260,7 @@ export const products: Product[] = [
       "An ultrasonic diffuser with a soft ambient light — fills a room quietly, no smoke, no flame.",
     inStock: true,
     stockCount: 9,
+    image: getImage("productImage009"),
   },
   {
     id: "p-teal-woods-edp",
@@ -251,6 +275,7 @@ export const products: Product[] = [
     inStock: true,
     stockCount: 14,
     variants: [{ name: "Size", values: ["50ml", "100ml"] }],
+    image: getImage("productImage008"),
   },
   {
     id: "p-citrus-bloom-cologne",
@@ -264,6 +289,7 @@ export const products: Product[] = [
       "A bright, light-wearing citrus cologne for daytime — bergamot and neroli over clean musk.",
     inStock: true,
     stockCount: 7,
+    image: getImage("productImage000"),
   },
 
   // ---- Accessories ----
@@ -281,6 +307,7 @@ export const products: Product[] = [
     inStock: true,
     stockCount: 11,
     variants: [{ name: "Color", values: ["Brown", "Black"] }],
+    image: getImage("productImage002"),
   },
   {
     id: "p-aviator-sunglasses",
@@ -294,6 +321,7 @@ export const products: Product[] = [
       "The classic aviator silhouette with polarized lenses — UV protection that doesn't look like protection.",
     inStock: true,
     stockCount: 26,
+    image: getImage("productImage001"),
   },
   {
     id: "p-minimal-desk-lamp",
@@ -307,6 +335,7 @@ export const products: Product[] = [
       "A dimmable LED desk lamp with a slim aluminum arm — warm-to-cool color temperature, USB-C powered.",
     inStock: true,
     stockCount: 5,
+    image: getImage("productImage000"),
   },
   {
     id: "p-woven-leather-belt",
@@ -321,6 +350,7 @@ export const products: Product[] = [
     inStock: true,
     stockCount: 19,
     variants: [{ name: "Size", values: ["S", "M", "L", "XL"] }],
+    image: getImage("productImage000"),
   },
 
   // ---- Wellness ----
@@ -339,6 +369,7 @@ export const products: Product[] = [
     stockCount: 10,
     onSale: true,
     variants: [{ name: "Color", values: ["Teal", "Charcoal"] }],
+    image: getImage("productImage024"),
   },
   {
     id: "p-adjustable-dumbbells",
@@ -352,6 +383,7 @@ export const products: Product[] = [
       "A single pair of dumbbells that dial from 2.5kg to 24kg each — a full rack's range without the rack.",
     inStock: true,
     stockCount: 3,
+    image: getImage("productImage021"),
   },
   {
     id: "p-indoor-plant",
@@ -365,6 +397,7 @@ export const products: Product[] = [
       "A low-maintenance potted plant in a ceramic pot — brings some green into a room without asking much back.",
     inStock: true,
     stockCount: 16,
+    image: getImage("productImage000"),
   },
   {
     id: "p-bamboo-yoga-mat",
@@ -378,5 +411,6 @@ export const products: Product[] = [
       "A natural bamboo-fiber mat with a cork base — better grip the sweatier it gets, not less.",
     inStock: true,
     stockCount: 20,
+    image: getImage("productImage022"),
   },
 ];

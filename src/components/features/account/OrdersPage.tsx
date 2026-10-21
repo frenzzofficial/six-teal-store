@@ -45,12 +45,9 @@ export function OrdersPage() {
           <p className="cart-page__empty-description">
             Orders you place will show up here.
           </p>
-          <Link
-            href="/products"
-            // className={buttonVariants({ variant: "primary", size: "lg" })}
-          >
+          <Link href="/products" variant="primary-button">
             Browse Products
-            <Icon name="arrow-right" />
+            <Icon name="arrow-right" size={18} />
           </Link>
         </div>
       ) : (
