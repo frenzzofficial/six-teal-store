@@ -1,6 +1,9 @@
 import { CategoryTile } from "@/components/features/product/CategoryTile";
 import { Link } from "@/components/ui";
+import { AnimatedText } from "@/components/ui/animations/AnimatedText";
 import IconsLibrary from "@/components/ui/icon/IconsLibrary";
+import { imagesConfig } from "@/packages/configs/images.config";
+import type { ImageProps } from "@/types/app";
 import type { Category } from "@/types/product";
 
 const HERO_TAGLINES: Record<string, string> = {
@@ -31,7 +34,11 @@ const Hero = ({ categories }: HeroProps) => {
             <IconsLibrary name="sparkles" />
             Six Teal Collection
           </p>
-          <h1 className="home-hero__title">Define Your Style</h1>
+          <h1 className="home-hero__title">
+            <AnimatedText preset="waveRipple" className="home-hero__title-line">
+              Define Your Style
+            </AnimatedText>{" "}
+          </h1>
           <p className="home-hero__description">
             Discover curated collections that speak to every facet of your
             personality. From fashion to wellness, technology to literature —
@@ -58,11 +65,14 @@ const Hero = ({ categories }: HeroProps) => {
         </div>
 
         <div className="home-hero__tiles">
-          {categories.map((category) => (
+          {categories.map((category, index) => (
             <CategoryTile
               key={category.slug}
               category={category}
               tagline={HERO_TAGLINES[category.slug]}
+              image={
+                imagesConfig.categoryImages[index] as unknown as ImageProps
+              }
               size="sm"
             />
           ))}

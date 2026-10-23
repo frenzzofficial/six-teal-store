@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/components/providers/AuthProvider";
 import {
   useNavigationActions,
   useNavigationState,
@@ -54,6 +55,7 @@ const NavbarDesktopAction = () => {
   const mobileMenuOpen = useNavigationState("mobileMenuOpen");
   const { toggleMobileMenu } = useNavigationActions();
 
+  const { isAuthenticated } = useAuth();
   const cartCount = useHydratedStore(useCartStore, selectCartCount, 0);
   const wishlistCount = useHydratedStore(
     useWishlistStore,
@@ -73,6 +75,11 @@ const NavbarDesktopAction = () => {
         icon="heart"
         label="Wishlist"
         count={wishlistCount}
+      />
+      <ActionLink
+        href={isAuthenticated ? appConfig.routes.actions.account : "/signin"}
+        icon="user"
+        label={isAuthenticated ? "Account" : "Sign in"}
       />
       <ActionLink
         href={appConfig.routes.actions.cart}

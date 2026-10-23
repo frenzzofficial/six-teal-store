@@ -1,3 +1,9 @@
+import categoryAccessoriesCover from "@/assets/images/categories/categories-accessories.jpg";
+import categoryFashionCover from "@/assets/images/categories/categories-fashion.jpg";
+import categoryFragranceCover from "@/assets/images/categories/categories-fragrance.jpg";
+import categoryMindfullCover from "@/assets/images/categories/categories-mindfull.jpg";
+import categoryTechCover from "@/assets/images/categories/categories-tech.jpg";
+import categoryWellnessCover from "@/assets/images/categories/categories-wellness.jpg";
 import notFoundAside from "@/assets/images/hero/not-found-aside.png";
 import sixtealCart from "@/assets/images/hero/sixteal-cart.png";
 import sixtealLeavesSide from "@/assets/images/hero/sixteal-leaves-side.png";
@@ -243,6 +249,51 @@ export const imagesConfig = {
       alt: "Yoga essentials kit",
       height: "1254",
       width: "1254",
+    },
+  ],
+
+  categoryImages: [
+    {
+      id: "categoryImages01",
+      src: categoryFashionCover.src,
+      alt: "Category Cover Fashion",
+      height: "1280",
+      width: "720",
+    },
+    {
+      id: "categoryImages02",
+      src: categoryTechCover.src,
+      alt: "Category Cover Tech",
+      height: "1280",
+      width: "720",
+    },
+    {
+      id: "categoryImages03",
+      src: categoryFragranceCover.src,
+      alt: "Category Cover Fragrance",
+      height: "1280",
+      width: "720",
+    },
+    {
+      id: "categoryImages04",
+      src: categoryMindfullCover.src,
+      alt: "Category Cover Mindfull",
+      height: "1280",
+      width: "720",
+    },
+    {
+      id: "categoryImages05",
+      src: categoryAccessoriesCover.src,
+      alt: "Category Cover Accessories",
+      height: "1280",
+      width: "720",
+    },
+    {
+      id: "categoryImages06",
+      src: categoryWellnessCover.src,
+      alt: "Category Cover Wellness",
+      height: "1280",
+      width: "720",
     },
   ],
 };
