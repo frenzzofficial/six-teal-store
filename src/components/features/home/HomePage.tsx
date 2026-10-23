@@ -4,6 +4,7 @@ import { ProductRail } from "@/components/features/home/ProductRail";
 import { Testimonials } from "@/components/features/home/Testimonials";
 import { WellnessBanner } from "@/components/features/home/WellnessBanner";
 import { NewsletterForm } from "@/components/features/newsletter/NewsletterForm";
+import { Reveal } from "@/components/ui";
 import {
   getCategories,
   getFeatured,
@@ -27,29 +28,42 @@ const HomePage = async () => {
 
   return (
     <div className="home-page">
-      <Hero categories={categories} />
+      <Reveal>
+        <Hero categories={categories} />
+      </Reveal>
 
-      <ProductRail
-        title="Featured Collections"
-        subtitle="Handpicked collections for a modern lifestyle"
-        products={featured}
-        viewAllHref="/products"
-      />
+      <Reveal>
+        <ProductRail
+          title="Featured Collections"
+          subtitle="Handpicked collections for a modern lifestyle"
+          products={featured}
+          viewAllHref="/products"
+        />
+      </Reveal>
 
-      <WellnessBanner />
+      <Reveal>
+        <WellnessBanner />
+      </Reveal>
 
-      <ProductRail
-        title="Trending Now"
-        subtitle="Popular choices, loved by our community"
-        products={trending}
-        viewAllHref="/trending"
-      />
+      <Reveal>
+        <ProductRail
+          title="Trending Now"
+          subtitle="Popular choices, loved by our community"
+          products={trending}
+          viewAllHref="/trending"
+        />
+      </Reveal>
 
-      <CategoryGrid categories={categories} />
+      <Reveal>
+        <CategoryGrid categories={categories} />
+      </Reveal>
+      <Reveal>
+        <Testimonials />
+      </Reveal>
 
-      <Testimonials />
-
-      <AppPromo />
+      <Reveal>
+        <AppPromo />
+      </Reveal>
 
       <section className="home-newsletter">
         <div className="home-newsletter__inner section-bleed__inner">

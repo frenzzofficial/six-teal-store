@@ -1,4 +1,5 @@
 export { default as AccordionItem } from "./accordion/AccordionItem";
+export { Reveal } from "./animations/Reveal";
 export { Button, type ButtonSize, type ButtonVariant } from "./buttons/Button";
 export { type CardVariant, default as Card } from "./cards/Card";
 export { default as Drawer } from "./drawer/Drawer";
