@@ -13,10 +13,16 @@ type CategoryTileProps = {
   category: Category;
   tagline?: string;
   size?: "sm" | "lg";
+  /** A photo behind the glass. Without one the tile paints the category's theme colors. */
   image?: ImageProps;
   className?: string;
 };
 
+/**
+ * A category card: a photo (or the category's color wash) with a frosted-glass panel floating
+ * on top. The glass only looks like glass when there is something behind it to blur, so the
+ * no-image variant draws its own soft color orbs from the theme.
+ */
 export function CategoryTile({
   category,
   tagline,
@@ -30,44 +36,51 @@ export function CategoryTile({
     <Link
       href={`/products?category=${category.slug}`}
       className={cn(
-        "category-tile",
+        "category-tile group",
         `category-tile--${size}`,
-        image && "category-tile--image",
+        image ? "category-tile--has-image" : "category-tile--plain",
         className,
       )}
       style={
         {
-          "--tile-bg": theme.bg,
-          "--tile-fg": theme.fg,
+          "--tile-bg": theme?.bg,
+          "--tile-fg": theme?.fg,
         } as CSSProperties
       }
     >
-      {/* Background image */}
       {image && (
-        <Image
-          src={image.src}
-          alt={image.alt}
-          width={Number(image.width)}
-          height={Number(image.height)}
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="category-tile__image"
-        />
+        <div className="category-tile__image-wrapper">
+          <Image
+            src={image.src}
+            alt=""
+            width={Number(image.width) || 800}
+            height={Number(image.height) || 600}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="category-tile__image"
+          />
+        </div>
       )}
 
-      {/* Overlay keeps text readable */}
-      {image && <span className="category-tile__overlay" aria-hidden="true" />}
+      {/* Light vignette so white text on the glass stays readable over any photo. */}
+      <span className="category-tile__scrim" aria-hidden="true" />
 
-      {/* Content */}
-      <span className="category-tile__content">
-        <Icon
-          name={category.icon as IconName}
-          className="category-tile__icon"
-        />
+      <div className="category-tile__glass-panel">
+        <span className="category-tile__icon-badge">
+          <Icon
+            name={category.icon as IconName}
+            className="category-tile__icon"
+          />
+        </span>
 
-        <span className="category-tile__name">{category.name}</span>
+        <span className="category-tile__details">
+          <span className="category-tile__name">{category.name}</span>
+          {tagline && <span className="category-tile__tagline">{tagline}</span>}
+        </span>
 
-        {tagline && <span className="category-tile__tagline">{tagline}</span>}
-      </span>
+        <span className="category-tile__cta" aria-hidden="true">
+          <Icon name="arrow-right" className="category-tile__cta-icon" />
+        </span>
+      </div>
     </Link>
   );
 }

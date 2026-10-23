@@ -1,4 +1,5 @@
 import { Icon, type IconName, Link } from "@/components/ui";
+import { AnimatedText } from "@/components/ui/animations/AnimatedText";
 
 const POINTS = [
   { icon: "sparkles", label: "Better Mind" },
@@ -12,7 +13,11 @@ export function WellnessBanner() {
       <div className="wellness-banner__inner section-bleed__inner">
         <div className="wellness-banner__content">
           <p className="wellness-banner__eyebrow">A more mindful tomorrow</p>
-          <h2 className="wellness-banner__title">Live Better Every Day</h2>
+          <h2 className="wellness-banner__title">
+            <AnimatedText preset={"scaleBounceWords"}>
+              Live Better Every Day
+            </AnimatedText>
+          </h2>
           <p className="wellness-banner__description">
             Curated essentials for a healthier, happier, and more inspired you.
           </p>
