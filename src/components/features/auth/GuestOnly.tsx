@@ -3,7 +3,6 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useAuth } from "@/components/providers/AuthProvider";
-import { canAccessDashboard } from "@/packages/configs/dashboard.config";
 import { safeRedirectPath } from "@/packages/utils/safe-redirect";
 
 interface GuestOnlyProps {
@@ -19,19 +18,14 @@ interface GuestOnlyProps {
 const GuestOnly = ({ children }: GuestOnlyProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { user, isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      const next = searchParams.get("next");
-      // Shop team members land on the dashboard unless a page was asked for.
-      router.replace(
-        !next && canAccessDashboard(user?.role)
-          ? "/dashboard"
-          : safeRedirectPath(next),
-      );
+      // Everyone lands on /account unless a specific page was asked for via ?next=.
+      router.replace(safeRedirectPath(searchParams.get("next")));
     }
-  }, [isLoading, isAuthenticated, user, router, searchParams]);
+  }, [isLoading, isAuthenticated, router, searchParams]);
 
   // Show the form while the session is still being checked (most visitors are signed out and
   // should not wait), but never to someone who is signed in.
