@@ -8,14 +8,6 @@ import SignInForm from "./SignInForm";
 
 export const metadata: Metadata = { title: "Sign in" };
 
-/**
- * The dev shortcut skips the real backend, so it is opt-in: off in production builds and off
- * unless NEXT_PUBLIC_DEV_SIGNIN=true. Everyone else signs in against the auth API.
- */
-const SHOW_DEV_SIGNIN =
-  process.env.NODE_ENV !== "production" &&
-  process.env.NEXT_PUBLIC_DEV_SIGNIN === "true";
-
 const SignInPage = () => (
   <AuthShell
     title="Welcome back"
@@ -32,7 +24,7 @@ const SignInPage = () => (
     <Suspense fallback={null}>
       <GuestOnly>
         <SignInForm />
-        {SHOW_DEV_SIGNIN ? <DevSignIn /> : null}
+        <DevSignIn />
       </GuestOnly>
     </Suspense>
   </AuthShell>

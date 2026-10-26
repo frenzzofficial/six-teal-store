@@ -85,13 +85,18 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const signIn = useCallback(async (credentials: SigninRequestBody) => {
     const res = await authServices.signIn(credentials);
+    // A real session replaces any dev persona, or the next page load would show the persona.
+    clearDevSession();
     setUser(res.user);
     return res.user;
   }, []);
 
   const signUp = useCallback(async (credentials: SignupRequestBody) => {
     const res = await authServices.signUp(credentials);
-    if (!res.requiresVerification) setUser(res.user);
+    if (!res.requiresVerification) {
+      clearDevSession();
+      setUser(res.user);
+    }
     return res;
   }, []);
 
