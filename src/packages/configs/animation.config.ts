@@ -15,7 +15,7 @@ export type AnimationType =
   (typeof ANIMATION_TYPE)[keyof typeof ANIMATION_TYPE];
 
 // Direction
-export const ANIMATION_DIRECTION = {
+const ANIMATION_DIRECTION = {
   LEFT: "left",
   RIGHT: "right",
   TOP: "top",

@@ -27,5 +27,3 @@ export const envAppConfig = Object.freeze({
   isProduction: parsedEnv.NODE_ENV === "production",
   isTest: parsedEnv.NODE_ENV === "test",
 });
-
-export type EnvAppConfig = typeof envAppConfig;

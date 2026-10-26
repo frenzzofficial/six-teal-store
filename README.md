@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Six Teal Store
 
-## Getting Started
+Storefront frontend for Six Teal Store, built with Next.js (App Router), React and Tailwind CSS 4.
 
-First, run the development server:
+Authentication, accounts and orders are served by a separate backend API. This repo is the web client only.
+
+## Stack
+
+- Next.js 16 · React 19 · TypeScript
+- Tailwind CSS 4 with generated colour themes (`src/styles/themes`)
+- Zustand (cart, wishlist, checkout, orders) · React Hook Form + Zod (forms)
+- Axios client with CSRF and silent session refresh (`src/packages/api`)
+- Bun · Biome · Husky + lint-staged + commitlint
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
+bun install
+cp .env.example .env.local
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+All variables are validated with Zod in `src/packages/env/`. See `.env.example` for the full list.
+By default the browser calls this app's own `/api/*` and `next.config.ts` proxies it to
+`API_PROXY_TARGET`, so session cookies stay first-party.
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
+| Command             | What it does                                   |
+| ------------------- | ---------------------------------------------- |
+| `bun dev`           | Start the dev server (builds themes first)     |
+| `bun run build`     | Production build                               |
+| `bun run verify`    | Lint, format, Biome check and typecheck        |
+| `bun run typecheck` | `tsc --noEmit`                                 |
+| `bun run knip`      | Report unused files, exports and dependencies  |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project layout
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/app/                 Routes: (public), (auth), (protected), cart, checkout, products...
+src/components/features/ Feature UI: home, products, cart, checkout, account, auth...
+src/components/ui/       Reusable UI primitives
+src/packages/            Configs, env, API client, services, stores, schemas, hooks, utils
+src/styles/              Global, UI and feature CSS, plus theme sources
+```
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Note: Google Fonts are fetched at build time (`next/font/google`), so the build needs network access
+to `fonts.googleapis.com`.

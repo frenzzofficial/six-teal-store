@@ -127,5 +127,3 @@ export const envPublicConfig = Object.freeze({
   // Google Verification
   GOOGLE_VERIFICATION: parsedEnv.NEXT_PUBLIC_GOOGLE_VERIFICATION,
 });
-
-export type EnvPublicConfig = typeof envPublicConfig;

@@ -7,7 +7,7 @@
  * JS), but the shape callers use (validateCoupon(code) -> result) stays
  * the same either way.
  */
-export type CouponType = "percent" | "flat";
+type CouponType = "percent" | "flat";
 
 export interface Coupon {
   code: string;

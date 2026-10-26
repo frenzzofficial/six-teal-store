@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import AuthShell from "@/components/features/auth/AuthShell";
-import DevSignIn from "@/components/features/auth/DevSignIn";
 import GuestOnly from "@/components/features/auth/GuestOnly";
 import { Link } from "@/components/ui";
 import SignInForm from "./SignInForm";
@@ -24,7 +23,6 @@ const SignInPage = () => (
     <Suspense fallback={null}>
       <GuestOnly>
         <SignInForm />
-        <DevSignIn />
       </GuestOnly>
     </Suspense>
   </AuthShell>

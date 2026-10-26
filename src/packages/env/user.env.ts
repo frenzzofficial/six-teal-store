@@ -40,4 +40,3 @@ export const envDefaultUserConfig = Object.freeze({
 });
 
 // ✅ Optional: Type-safe config
-export type EnvDefaultUserConfig = typeof envDefaultUserConfig;

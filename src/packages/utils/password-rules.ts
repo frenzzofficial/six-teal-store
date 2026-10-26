@@ -5,7 +5,7 @@
  * the backend remains the authority and its answer is what the form finally shows.
  */
 
-export const PASSWORD_MAX_LENGTH = 128;
+const PASSWORD_MAX_LENGTH = 128;
 
 export interface PasswordRule {
   id: string;
@@ -44,10 +44,7 @@ export const PASSWORD_RULES: readonly PasswordRule[] = [
   },
 ];
 
-export const unmetPasswordRules = (value: string): PasswordRule[] =>
-  PASSWORD_RULES.filter((rule) => !rule.test(value));
-
-export type StrengthLevel = 0 | 1 | 2 | 3 | 4;
+type StrengthLevel = 0 | 1 | 2 | 3 | 4;
 
 export interface PasswordStrength {
   /** How many of the 5 meter segments to fill. */

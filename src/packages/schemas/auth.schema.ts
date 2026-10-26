@@ -3,7 +3,6 @@ import {
   emailRules,
   fullnameRules,
   passwordRules,
-  phoneRules,
   termsAcceptedRules,
   withPasswordConfirmation,
 } from "../configs/schema.config";
@@ -43,27 +42,4 @@ export const resetPasswordSchema = withPasswordConfirmation(
   }),
 );
 
-export const updatePasswordSchema = withPasswordConfirmation(
-  z.object({
-    password: passwordRules,
-    confirmPassword: passwordRules,
-  }),
-);
-
-export const updateProfileSchema = z.object({
-  fullname: fullnameRules,
-  email: emailRules,
-  phone: z.union([phoneRules, z.literal("")]).optional(),
-});
-
-export const contactSchema = z.object({
-  fullname: fullnameRules,
-  email: emailRules,
-  topic: z.string().trim().min(5, "Topic is required"),
-  message: z.string().trim().min(5, "Message is required"),
-  newsletter: z.boolean().optional(),
-});
-
 // SCHEMA OUTPUT
-export type SignupSchemaInput = z.infer<typeof signupSchema>;
-export type SignupSchemaOutput = z.output<typeof signupSchema>;

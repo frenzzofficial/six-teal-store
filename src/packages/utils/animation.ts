@@ -7,7 +7,7 @@ import {
   type AnimationType,
 } from "../configs/animation.config";
 
-export const FindAnimation = (
+const FindAnimation = (
   type: AnimationType,
   direction: AnimationDirection = "none",
 ): AnimationName => {

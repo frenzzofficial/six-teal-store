@@ -4,7 +4,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { Link } from "@/components/ui";
-import { clearDevSession } from "@/packages/utils/dev-session";
 import { safeRedirectPath } from "@/packages/utils/safe-redirect";
 import AuthStatusCard from "./AuthStatusCard";
 
@@ -53,7 +52,6 @@ const OAuthCallback = () => {
     }
 
     (async () => {
-      clearDevSession();
       await refreshUser();
       router.replace(safeRedirectPath(searchParams.get("redirect")));
     })();

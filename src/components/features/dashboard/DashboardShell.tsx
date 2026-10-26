@@ -9,7 +9,6 @@ import {
   DASHBOARD_NAV,
 } from "@/packages/configs/dashboard.config";
 import { getInitials } from "@/packages/utils/format";
-import DevModeStrip from "./shared/DevModeStrip";
 
 const ROLE_LABELS = {
   ADMIN: "Owner",
@@ -18,7 +17,7 @@ const ROLE_LABELS = {
 } as const;
 
 /**
- * The frame around every /dashboard page: dev strip, sidebar and content area. It also
+ * The frame around every /dashboard page: sidebar and content area. It also
  * enforces who may be here: (protected)/layout.tsx has already made sure someone is signed
  * in, this checks that their role is allowed into the dashboard at all.
  */
@@ -30,7 +29,6 @@ const DashboardShell = ({ children }: { children: React.ReactNode }) => {
   if (!canAccessDashboard(user?.role)) {
     return (
       <div className="dash-root">
-        <DevModeStrip />
         <div className="dash-denied">
           <Icon name="lock" size={32} />
           <h1>This area is for the shop team</h1>
@@ -53,7 +51,6 @@ const DashboardShell = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="dash-root">
-      <DevModeStrip />
       <div className="dash-layout">
         <aside className="dash-sidebar">
           <NextLink href="/dashboard" className="dash-brand">

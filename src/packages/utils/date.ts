@@ -12,27 +12,12 @@ type DateInput = Date | string | number;
 const toDate = (input: DateInput): Date =>
   input instanceof Date ? input : new Date(input);
 
-/** e.g. "Jul 13, 2026" */
-export const formatDate = (input: DateInput, locale = "en-US"): string =>
-  new Intl.DateTimeFormat(locale, {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  }).format(toDate(input));
-
 /** e.g. "Jul 13, 2026, 4:05 PM" */
 export const formatDateTime = (input: DateInput, locale = "en-US"): string =>
   new Intl.DateTimeFormat(locale, {
     year: "numeric",
     month: "short",
     day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-  }).format(toDate(input));
-
-/** e.g. "4:05 PM" */
-export const formatTime = (input: DateInput, locale = "en-US"): string =>
-  new Intl.DateTimeFormat(locale, {
     hour: "numeric",
     minute: "2-digit",
   }).format(toDate(input));
@@ -71,24 +56,4 @@ export const formatRelativeTime = (
   }
 
   return rtf.format(0, "second");
-};
-
-/** Type guard: `true` for a `Date` (or date-like string/number) that parses to a real date. */
-export const isValidDate = (input: unknown): boolean => {
-  if (input instanceof Date) return !Number.isNaN(input.getTime());
-  if (typeof input === "string" || typeof input === "number") {
-    return !Number.isNaN(new Date(input).getTime());
-  }
-  return false;
-};
-
-/** Whether `input` falls on today's calendar date, in the local timezone. */
-export const isToday = (input: DateInput): boolean => {
-  const date = toDate(input);
-  const now = new Date();
-  return (
-    date.getFullYear() === now.getFullYear() &&
-    date.getMonth() === now.getMonth() &&
-    date.getDate() === now.getDate()
-  );
 };

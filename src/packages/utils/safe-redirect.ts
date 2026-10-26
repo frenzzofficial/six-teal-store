@@ -1,4 +1,4 @@
-export const DEFAULT_REDIRECT = "/account";
+const DEFAULT_REDIRECT = "/account";
 
 /**
  * Only same-site paths are allowed as a post-sign-in destination: `//host` and `/\host`

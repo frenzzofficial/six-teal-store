@@ -8,18 +8,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import {
-  DEV_AUTH_ENABLED,
-  DEV_PERSONAS,
-  type DevPersona,
-  type DevPersonaId,
-} from "@/packages/configs/dev-auth.config";
 import * as authServices from "@/packages/services/auth.services";
-import {
-  clearDevSession,
-  readDevSession,
-  writeDevSession,
-} from "@/packages/utils/dev-session";
 import { onSessionExpired } from "@/packages/utils/session-events";
 import type {
   AuthResponse,
@@ -42,11 +31,6 @@ interface AuthContextValue {
   signOut: () => Promise<void>;
   /** Re-fetches the current user (after a provider sign-in or a profile update). */
   refreshUser: () => Promise<void>;
-  /**
-   * Development only: signs in as a sample owner, staff member or customer without a backend.
-   * `null` whenever dev auth is off, which is always the case in a production build.
-   */
-  devSignInAs: ((id: DevPersonaId) => DevPersona) | null;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -69,8 +53,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     let cancelled = false;
 
     (async () => {
-      const devSession = readDevSession();
-      const me = devSession ? devSession.user : await authServices.getMe();
+      const me = await authServices.getMe();
       if (cancelled) return;
       setUser(me);
       setIsLoading(false);
@@ -85,43 +68,26 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const signIn = useCallback(async (credentials: SigninRequestBody) => {
     const res = await authServices.signIn(credentials);
-    // A real session replaces any dev persona, or the next page load would show the persona.
-    clearDevSession();
     setUser(res.user);
     return res.user;
   }, []);
 
   const signUp = useCallback(async (credentials: SignupRequestBody) => {
     const res = await authServices.signUp(credentials);
-    if (!res.requiresVerification) {
-      clearDevSession();
-      setUser(res.user);
-    }
+    if (!res.requiresVerification) setUser(res.user);
     return res;
   }, []);
 
   const signOut = useCallback(async () => {
     try {
-      if (readDevSession()) clearDevSession();
-      else await authServices.signOut();
+      await authServices.signOut();
     } finally {
       setUser(null);
     }
   }, []);
 
   const refreshUser = useCallback(async () => {
-    const devSession = readDevSession();
-    setUser(devSession ? devSession.user : await authServices.getMe());
-  }, []);
-
-  const devSignInAs = useMemo(() => {
-    if (!DEV_AUTH_ENABLED) return null;
-    return (id: DevPersonaId): DevPersona => {
-      const persona = DEV_PERSONAS.find((p) => p.id === id) ?? DEV_PERSONAS[0];
-      writeDevSession(persona);
-      setUser(persona.user);
-      return persona;
-    };
+    setUser(await authServices.getMe());
   }, []);
 
   const value = useMemo<AuthContextValue>(
@@ -133,9 +99,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       signUp,
       signOut,
       refreshUser,
-      devSignInAs,
     }),
-    [user, isLoading, signIn, signUp, signOut, refreshUser, devSignInAs],
+    [user, isLoading, signIn, signUp, signOut, refreshUser],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -2,7 +2,7 @@ import type { IconName } from "@/components/ui";
 import { type UserRole, UserRoles } from "@/packages/configs/roles.config";
 
 /** Who may open /dashboard. Owner = ADMIN, staff = MODERATOR; customers (USER) may not. */
-export const DASHBOARD_ROLES: readonly UserRole[] = [
+const DASHBOARD_ROLES: readonly UserRole[] = [
   UserRoles.ADMIN,
   UserRoles.MODERATOR,
 ];

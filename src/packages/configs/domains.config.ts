@@ -22,7 +22,7 @@
 // set of providers or a company domain (internal tools, gated beta,
 // enterprise clients). Edit per project — this is intentionally not
 // exhaustive.
-export const allowedMailDomains: string[] = [
+const _allowedMailDomains: string[] = [
   "gmail.com",
   "outlook.com",
   "yahoo.com",
@@ -35,7 +35,7 @@ export const allowedMailDomains: string[] = [
 // which email schema a project uses. Extend as new providers surface —
 // this list can never be fully exhaustive, treat it as a first line
 // of defense, not the only one.
-export const blacklistedMailDomains: string[] = [
+const blacklistedMailDomains: string[] = [
   "mailinator.com",
   "guerrillamail.com",
   "10minutemail.com",
@@ -57,7 +57,7 @@ export const blacklistedMailDomains: string[] = [
 // Specific addresses banned regardless of domain — populate from your
 // own abuse reports, chargebacks, or manually flagged accounts.
 // Comparisons are case-insensitive, so store lowercase for clarity.
-export const blacklistedEmails: string[] = [
+const blacklistedEmails: string[] = [
   // "known-abuser@gmail.com",
 ];
 
@@ -67,9 +67,6 @@ const normalize = (value: string): string => value.trim().toLowerCase();
 
 export const getEmailDomain = (email: string): string =>
   normalize(email).split("@")[1] ?? "";
-
-export const isDomainAllowed = (domain: string): boolean =>
-  allowedMailDomains.includes(normalize(domain));
 
 export const isDomainBlacklisted = (domain: string): boolean =>
   blacklistedMailDomains.includes(normalize(domain));

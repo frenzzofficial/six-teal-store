@@ -49,42 +49,6 @@
   white-space: nowrap;
 }
 
-/* ── Dev strip ───────────────────────────────────────────── */
-.dash-devstrip {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem 1rem;
-  padding: 0.5rem var(--dash-pad);
-  background: var(--color-foreground);
-  color: var(--color-background);
-  font-size: 0.8125rem;
-}
-
-.dash-devstrip__switch {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.dash-devstrip__switch button {
-  padding: 0.125rem 0.75rem;
-  border: 1px solid
-    color-mix(in oklab, var(--color-background) 40%, transparent);
-  border-radius: 999px;
-  background: transparent;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-}
-
-.dash-devstrip__switch button[aria-pressed="true"] {
-  background: var(--color-background);
-  color: var(--color-foreground);
-  font-weight: 600;
-}
-
 /* ── Layout ──────────────────────────────────────────────── */
 .dash-layout {
   flex: 1;

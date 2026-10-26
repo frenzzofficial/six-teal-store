@@ -3,7 +3,7 @@
 import { type RefObject, useRef } from "react";
 import { gsap, ScrollTrigger, useGSAP } from "@/packages/utils/gsap";
 
-export type RevealFrom = "up" | "down" | "left" | "right" | "scale" | "fade";
+type RevealFrom = "up" | "down" | "left" | "right" | "scale" | "fade";
 
 export interface RevealOptions {
   /**

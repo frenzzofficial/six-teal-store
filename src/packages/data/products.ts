@@ -1,6 +1,5 @@
 import type {
   Category,
-  CategorySlug,
   Product,
   ProductFilters,
   ProductListResult,
@@ -33,12 +32,6 @@ export async function getCategories(): Promise<Category[]> {
  * could drift from the actual data. */
 export async function getBrands(): Promise<string[]> {
   return Array.from(new Set(products.map((p) => p.brand))).sort();
-}
-
-export async function getCategory(
-  slug: CategorySlug,
-): Promise<Category | undefined> {
-  return categories.find((c) => c.slug === slug);
 }
 
 export async function getProductBySlug(

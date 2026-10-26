@@ -56,5 +56,3 @@ export const apiEnvConfig = Object.freeze({
       ? new URL(parsed.NEXT_PUBLIC_API_URL).origin
       : "",
 });
-
-export type ApiEnvConfig = typeof apiEnvConfig;

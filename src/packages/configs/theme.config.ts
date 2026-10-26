@@ -1,4 +1,4 @@
-export const THEME_STORAGE_KEY = "sixtealstore-theme";
+const THEME_STORAGE_KEY = "sixtealstore-theme";
 
 export const themeConfig = {
   attribute: "class",

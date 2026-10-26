@@ -23,5 +23,3 @@ export const envClientConfig = Object.freeze({
   clientOrigin: parsedEnv.NEXT_PUBLIC_CLIENT_ORIGIN,
   clientPrefix: parsedEnv.NEXT_PUBLIC_CLIENT_PREFIX,
 });
-
-export type EnvClientConfig = typeof envClientConfig;

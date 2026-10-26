@@ -26,17 +26,6 @@ export const mainNav: NavTab[] = [
   },
 ];
 
-export const navActions: NavTab[] = [
-  { id: "search", title: "search", href: appConfig.routes.actions.search },
-  {
-    id: "wishlist",
-    title: "wishlist",
-    href: appConfig.routes.actions.wishlist,
-  },
-  { id: "account", title: "account", href: appConfig.routes.actions.account },
-  { id: "cart", title: "cart", href: appConfig.routes.actions.cart },
-];
-
 export const footerNav: NavSection[] = [
   {
     title: "Shop",

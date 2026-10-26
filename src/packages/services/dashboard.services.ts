@@ -85,9 +85,6 @@ export const listOrders = async (
   return paginate(matches, page, limit);
 };
 
-export const getOrder = async (id: string): Promise<DashboardOrder | null> =>
-  orderStore.find((order) => order.id === id) ?? null;
-
 /** Moves orders to a new status. Cash-on-delivery orders count as paid once delivered. */
 export const updateOrderStatus = async (
   ids: string[],

@@ -27,7 +27,7 @@ export interface TextAnimationOptions {
 
 export type ResolvedTextAnimationOptions = Required<TextAnimationOptions>;
 
-export const DEFAULT_TEXT_ANIMATION_OPTIONS: ResolvedTextAnimationOptions = {
+const DEFAULT_TEXT_ANIMATION_OPTIONS: ResolvedTextAnimationOptions = {
   speed: 1,
   autoPlay: true,
   repeat: 0,

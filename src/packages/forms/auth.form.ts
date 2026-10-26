@@ -1,19 +1,12 @@
-import type z from "zod";
 import {
   forgetPasswordSchema,
   resetPasswordSchema,
   signinSchema,
   signupSchema,
 } from "@/packages/schemas/auth.schema";
-import { createFormRegistry } from "@/packages/utils/create-form-registry";
 import type { FormListType } from "@/types/form";
 
-export type {
-  FormInputType,
-  FormListType,
-  ReferToType,
-  SubmitType,
-} from "@/types/form";
+export type { FormListType } from "@/types/form";
 
 //  CONFIG (OBJECT MAP ✅)
 export const authFormConfig: Record<keyof typeof authSchemaMap, FormListType> =
@@ -197,8 +190,6 @@ export const authFormConfig: Record<keyof typeof authSchemaMap, FormListType> =
 
 //  TYPESAFE KEY
 
-export type AuthFormKey = keyof typeof authFormConfig;
-
 export const authSchemaMap = {
   SIGNIN: signinSchema,
   SIGNUP: signupSchema,
@@ -206,10 +197,6 @@ export const authSchemaMap = {
   RESET_PASSWORD: resetPasswordSchema,
 } as const;
 
-export type AuthSchemaMap = typeof authSchemaMap;
+type AuthSchemaMap = typeof authSchemaMap;
 
 export type AuthSchemaKey = keyof AuthSchemaMap;
-
-export type AuthSchemaType<K extends AuthSchemaKey> = z.infer<AuthSchemaMap[K]>;
-
-export const authForms = createFormRegistry(authFormConfig, authSchemaMap);
