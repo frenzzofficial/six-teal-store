@@ -11,7 +11,7 @@ import {
   useWatch,
 } from "react-hook-form";
 import type { z } from "zod";
-import { Button } from "@/components/ui";
+import { Button, type ButtonSize } from "@/components/ui";
 import InputFactory, {
   type InputFactoryProps,
 } from "@/components/ui/inputs/InputFactory";
@@ -31,6 +31,11 @@ export interface DynamicFormProps {
   onSubmit?: (data: unknown, helpers: FormHelpers) => void | Promise<void>;
   isLoading?: boolean;
   className?: string;
+  /** Layout of the field list, e.g. a two-column grid. Defaults to one column. */
+  fieldsClassName?: string;
+  /** Classes for the submit button. Defaults to a full-width button (the auth pages). */
+  submitClassName?: string;
+  submitSize?: ButtonSize;
   /** Starting values, e.g. the signed-in user's profile. */
   initialValues?: Record<string, unknown>;
   /** Prefill fullname/email with the demo values from formsConfig (development builds only). */
@@ -103,6 +108,9 @@ const DynamicForm = ({
   onSubmit: externalSubmit,
   isLoading = false,
   className,
+  fieldsClassName,
+  submitClassName = "auth-submit",
+  submitSize = "lg",
   initialValues,
   presetDefaults = false,
   hiddenFields,
@@ -125,6 +133,7 @@ const DynamicForm = ({
     control,
     handleSubmit,
     watch,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<Record<string, unknown>>({
     resolver,
@@ -136,6 +145,7 @@ const DynamicForm = ({
   });
 
   const [formError, setFormError] = useState<string | null>(null);
+  const [formSuccess, setFormSuccess] = useState<string | null>(null);
   // Server messages live in our own state: react-hook-form mutates its errors object in place,
   // which React (and the React Compiler) would not see as a change.
   const [serverErrors, setServerErrors] = useState<Record<string, string>>({});
@@ -144,13 +154,19 @@ const DynamicForm = ({
     setFieldError: (fieldId, message) =>
       setServerErrors((prev) => ({ ...prev, [fieldId]: message })),
     setFormError,
-    reset: () => undefined,
+    setFormSuccess,
+    reset: (values) => {
+      reset(values ? { ...defaultValues, ...values } : defaultValues);
+      setServerErrors({});
+    },
   };
 
-  // A server message belongs to the value that was sent: editing that field removes it.
+  // A server message belongs to the value that was sent: editing that field removes it, and
+  // any edit makes a "saved" confirmation stale.
   useEffect(() => {
     const subscription = watch((_values, { name }) => {
       if (!name) return;
+      setFormSuccess(null);
       setServerErrors((prev) => {
         if (!(name in prev)) return prev;
         const { [name]: _removed, ...rest } = prev;
@@ -162,6 +178,7 @@ const DynamicForm = ({
 
   const onSubmit: SubmitHandler<Record<string, unknown>> = async (data) => {
     setFormError(null);
+    setFormSuccess(null);
     setServerErrors({});
     await externalSubmit?.(data, helpers);
   };
@@ -180,7 +197,7 @@ const DynamicForm = ({
           <input key={key} type="hidden" {...register(key)} />
         ))}
 
-      <div className="auth-form__fields">
+      <div className={cn("auth-form__fields", fieldsClassName)}>
         {form.formInputs.map((input: FormInputType) => {
           const renderer = InputFactory[input.type];
           const message =
@@ -228,11 +245,13 @@ const DynamicForm = ({
         </p>
       )}
 
+      {formSuccess && <output className="auth-notice">{formSuccess}</output>}
+
       {form.submit && (
         <Button
           type="submit"
-          size="lg"
-          className="auth-submit"
+          size={submitSize}
+          className={submitClassName}
           disabled={pending}
         >
           {pending ? form.submit.onSubmitLabel : form.submit.label}

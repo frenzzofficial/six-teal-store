@@ -16,9 +16,16 @@ export const AUTH_ENDPOINTS = {
   forgotPassword: `${EMAIL}/forgot-password`,
   resetPassword: `${EMAIL}/reset-password`,
   changePassword: `${EMAIL}/change-password`,
+  sessions: `${EMAIL}/sessions`,
+  revokeOtherSessions: `${EMAIL}/sessions/revoke-others`,
+  activity: `${EMAIL}/activity`,
   changeEmail: `${EMAIL}/change-email`,
   confirmEmailChange: `${EMAIL}/confirm-email-change`,
   profile: `${V1}/account/profile`,
   deleteAccount: `${V1}/account/delete`,
   preferences: `${V1}/account/preferences`,
 } as const;
+
+/** DELETE signs one device out (the backend answers with its own session id's result). */
+export const sessionEndpoint = (id: string): string =>
+  `${AUTH_ENDPOINTS.sessions}/${encodeURIComponent(id)}`;

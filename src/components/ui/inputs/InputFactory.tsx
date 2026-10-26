@@ -8,6 +8,7 @@ import Input from "./Input";
 import InputDate from "./InputDate";
 import InputPassword from "./InputPassword";
 import InputPhone from "./InputPhone";
+import Textarea from "./Textarea";
 
 export interface InputFactoryProps {
   id: string;
@@ -54,6 +55,26 @@ const InputFactory: Record<
       id={props.id}
       placeholder={props.placeholder}
       autoComplete={props.autoComplete}
+      error={props.error?.message}
+      {...props.register(props.id)}
+    />
+  ),
+
+  url: (props: InputFactoryProps) => (
+    <Input
+      type="url"
+      id={props.id}
+      placeholder={props.placeholder}
+      autoComplete={props.autoComplete ?? "url"}
+      error={props.error?.message}
+      {...props.register(props.id)}
+    />
+  ),
+
+  textarea: (props: InputFactoryProps) => (
+    <Textarea
+      id={props.id}
+      placeholder={props.placeholder}
       error={props.error?.message}
       {...props.register(props.id)}
     />

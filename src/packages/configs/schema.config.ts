@@ -51,7 +51,7 @@ export const schemaMessages = {
   // PASSWORD
   passwordRequired: "Password is required",
   passwordTooShort: "Password must be at least 8 characters long",
-  passwordTooLong: "Password must not exceed 32 characters",
+  passwordTooLong: "Password must not exceed 128 characters",
   passwordUpper: "Password must contain at least one uppercase letter",
   passwordLower: "Password must contain at least one lowercase letter",
   passwordNumber: "Password must contain at least one number",
@@ -80,6 +80,9 @@ export const schemaMessages = {
 
   // PHONE
   phoneInvalid: "Invalid phone number format",
+
+  // GENDER
+  genderInvalid: "Choose one of the listed options",
 
   // IDENTIFIERS
   uuidInvalid: "Invalid UUID",
@@ -167,7 +170,7 @@ export const usernameRules = trimString()
 // PASSWORD rules
 export const passwordRules = trimString()
   .min(8, schemaMessages.passwordTooShort)
-  .max(32, schemaMessages.passwordTooLong)
+  .max(128, schemaMessages.passwordTooLong)
   .regex(/[A-Z]/, schemaMessages.passwordUpper)
   .regex(/[a-z]/, schemaMessages.passwordLower)
   .regex(/[0-9]/, schemaMessages.passwordNumber)
@@ -194,11 +197,36 @@ export const withPasswordConfirmation = <
   T extends { password: string; confirmPassword: string },
 >(
   schema: z.ZodType<T>,
+) => withFieldsMatch(schema, "password", "confirmPassword");
+
+/**
+ * Same check for any pair of fields, for forms whose password field is not called `password`
+ * (change password: `newPassword` + `confirmPassword`). The error lands on the confirm field.
+ */
+export const withFieldsMatch = <
+  F extends string,
+  C extends string,
+  T extends Record<F | C, string>,
+>(
+  schema: z.ZodType<T>,
+  field: F,
+  confirmField: C,
+  message: string = schemaMessages.passwordMismatch,
 ) =>
-  schema.refine((data) => data.password === data.confirmPassword, {
-    message: schemaMessages.passwordMismatch,
-    path: ["confirmPassword"],
-  });
+  schema.refine(
+    (data) => {
+      const values: Record<string, string> = data;
+      return values[field] === values[confirmField];
+    },
+    { message, path: [confirmField] },
+  );
+
+/**
+ * A field the user may leave blank. Forms send "" for an empty input, so "" must be valid
+ * (it means "nothing" / "clear this"), while anything typed still has to satisfy `rules`.
+ */
+export const optionalRules = <T extends z.ZodType>(rules: T) =>
+  z.union([rules, z.literal("")]).optional();
 
 // TERMS and conditions rules
 export const termsAcceptedRules = z
@@ -316,6 +344,27 @@ export const dateRules = z.coerce
 export const dateStringRules = z.iso
   .date(schemaMessages.dateStringInvalid)
   .describe("ISO date (YYYY-MM-DD)");
+
+/**
+ * Birth date as a form sends it: a "YYYY-MM-DD" string that is not in the future. It stays a
+ * string, which is what a date input and the API both use.
+ */
+export const birthDateStringRules = dateStringRules
+  .refine((value) => value <= new Date().toISOString().slice(0, 10), {
+    message: schemaMessages.birthdateFuture,
+  })
+  .describe("Birth date (YYYY-MM-DD, not in the future)");
+
+// GENDER rules (the values the API stores)
+export const GENDER_VALUES = [
+  "MALE",
+  "FEMALE",
+  "OTHER",
+  "PREFER_NOT_TO_SAY",
+] as const;
+export const genderRules = z
+  .enum(GENDER_VALUES, { message: schemaMessages.genderInvalid })
+  .describe("Gender");
 
 /**
  * Birthdate schema factory — rejects future dates and enforces a

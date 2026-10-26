@@ -20,11 +20,9 @@ function formatDate(iso: string): string {
 }
 
 /**
- * No auth system exists (deliberately not built yet), so there's no
- * concept of "this user's orders" vs. "everyone's orders" — this simply
- * lists every order placed from this browser, read from the persisted
- * orders.store.ts. Once real accounts exist, this becomes a per-user
- * server query instead; the page itself barely changes.
+ * Lists every order placed from this browser, read from the persisted orders.store.ts. The page
+ * is behind sign-in now, but orders are not tied to an account yet: that needs a server-side
+ * orders API, and once it exists this becomes a per-user query while the page barely changes.
  */
 export function OrdersPage() {
   const orders = useOrdersStore((s) => s.orders);

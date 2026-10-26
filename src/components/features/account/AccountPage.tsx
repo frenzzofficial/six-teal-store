@@ -20,6 +20,18 @@ const SHORTCUTS: {
     text: "Track and review what you've bought.",
   },
   {
+    href: "/account/profile",
+    icon: "user",
+    title: "Profile",
+    text: "Your details and email preferences.",
+  },
+  {
+    href: "/account/security",
+    icon: "shield",
+    title: "Security",
+    text: "Password, devices and activity.",
+  },
+  {
     href: "/wishlist",
     icon: "heart",
     title: "Wishlist",

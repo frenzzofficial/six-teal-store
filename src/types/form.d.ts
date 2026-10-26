@@ -39,10 +39,15 @@ export type FormOverrides = Partial<
 export interface FormHelpers {
   /** Show a server-side message under one field; it clears when the user edits that field. */
   setFieldError: (fieldId: string, message: string) => void;
-  /** Show a message above the buttons (null clears it). Cleared on every new submit. */
+  /** Show an error above the buttons (null clears it). Cleared on every new submit. */
   setFormError: (message: string | null) => void;
-  /** Back to the starting values. */
-  reset: () => void;
+  /** Show a confirmation above the buttons (null clears it). Cleared on submit and on edit. */
+  setFormSuccess: (message: string | null) => void;
+  /**
+   * Back to the starting values, or to `values` when given (e.g. what was just saved, so the
+   * form counts as unchanged). Fields not in `values` go back to their starting value.
+   */
+  reset: (values?: Record<string, unknown>) => void;
 }
 
 export interface ReferToType {
